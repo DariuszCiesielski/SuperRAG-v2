@@ -264,7 +264,18 @@ export const useChatMessages = (notebookId?: string) => {
     }) => {
       if (!user) throw new Error('User not authenticated');
 
-      // Call the n8n webhook
+      // Get the current session to ensure we have a valid token
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+
+      if (sessionError || !session) {
+        console.error('Session error:', sessionError);
+        throw new Error('Unable to get authentication session');
+      }
+
+      console.log('Session found, token expires at:', new Date(session.expires_at! * 1000).toISOString());
+      console.log('Token starts with:', session.access_token.substring(0, 20) + '...');
+
+      // Call the n8n webhook - let Supabase handle auth automatically
       const webhookResponse = await supabase.functions.invoke('send-chat-message', {
         body: {
           session_id: messageData.notebookId,
@@ -274,6 +285,18 @@ export const useChatMessages = (notebookId?: string) => {
       });
 
       if (webhookResponse.error) {
+        console.error('Edge function error:', webhookResponse.error);
+        // Try to get more details from the error
+        const errorContext = webhookResponse.error.context;
+        if (errorContext) {
+          try {
+            const errorBody = await errorContext.json();
+            console.error('Error body:', errorBody);
+          } catch {
+            const errorText = await errorContext.text();
+            console.error('Error text:', errorText);
+          }
+        }
         throw new Error(`Webhook error: ${webhookResponse.error.message}`);
       }
 
