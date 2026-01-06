@@ -1,5 +1,5 @@
 
-project_id = ""
+project_id = "sfqsuysimebkdeayxmmi"
 
 [auth]
 enabled = true
@@ -26,7 +26,6 @@ max_client_conn = 100
 
 [realtime]
 enabled = true
-ip_version = "IPv4"
 
 [studio]
 enabled = true
@@ -45,19 +44,18 @@ file_size_limit = "50MiB"
 
 [edge_runtime]
 enabled = true
-ip_version = "IPv4"
 
 [analytics]
 enabled = false
 
 [functions.generate-notebook-content]
-verify_jwt = true
+verify_jwt = false
 
 [functions.send-chat-message]
 verify_jwt = true
 
 [functions.process-document]
-verify_jwt = true
+verify_jwt = false
 
 [functions.process-document-callback]
 verify_jwt = false

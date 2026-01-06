@@ -26,11 +26,11 @@ serve(async (req) => {
 
     // Get environment variables
     const webhookUrl = Deno.env.get('DOCUMENT_PROCESSING_WEBHOOK_URL')
-    const authHeader = Deno.env.get('NOTEBOOK_GENERATION_AUTH')
+    const webhookAuth = Deno.env.get('NOTEBOOK_GENERATION_AUTH')
 
     if (!webhookUrl) {
       console.error('Missing DOCUMENT_PROCESSING_WEBHOOK_URL environment variable')
-      
+
       // Initialize Supabase client to update status
       const supabaseClient = createClient(
         Deno.env.get('SUPABASE_URL') ?? '',
@@ -70,8 +70,8 @@ serve(async (req) => {
       'Content-Type': 'application/json',
     }
 
-    if (authHeader) {
-      headers['Authorization'] = authHeader
+    if (webhookAuth) {
+      headers['Authorization'] = webhookAuth
     }
 
     const response = await fetch(webhookUrl, {
@@ -83,7 +83,7 @@ serve(async (req) => {
     if (!response.ok) {
       const errorText = await response.text();
       console.error('Webhook call failed:', response.status, errorText);
-      
+
       // Initialize Supabase client to update status
       const supabaseClient = createClient(
         Deno.env.get('SUPABASE_URL') ?? '',

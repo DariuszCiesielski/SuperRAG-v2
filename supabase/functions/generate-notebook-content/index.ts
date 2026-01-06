@@ -26,14 +26,14 @@ serve(async (req) => {
 
     // Get environment variables
     const webServiceUrl = Deno.env.get('NOTEBOOK_GENERATION_URL')
-    const authHeader = Deno.env.get('NOTEBOOK_GENERATION_AUTH')
+    const webServiceAuth = Deno.env.get('NOTEBOOK_GENERATION_AUTH')
 
-    if (!webServiceUrl || !authHeader) {
+    if (!webServiceUrl || !webServiceAuth) {
       console.error('Missing environment variables:', {
         hasUrl: !!webServiceUrl,
-        hasAuth: !!authHeader
+        hasAuth: !!webServiceAuth
       })
-      
+
       return new Response(
         JSON.stringify({ error: 'Web service configuration missing' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -69,7 +69,7 @@ serve(async (req) => {
         .select('content')
         .eq('notebook_id', notebookId)
         .single();
-      
+
       if (source?.content) {
         payload.content = source.content.substring(0, 5000); // Limit content size
       }
@@ -82,7 +82,7 @@ serve(async (req) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': authHeader,
+        'Authorization': webServiceAuth,
       },
       body: JSON.stringify(payload)
     })
@@ -91,7 +91,7 @@ serve(async (req) => {
       console.error('Web service error:', response.status, response.statusText)
       const errorText = await response.text();
       console.error('Error response:', errorText);
-      
+
       // Update status to failed
       await supabaseClient
         .from('notebooks')
@@ -119,7 +119,7 @@ serve(async (req) => {
       exampleQuestions = output.example_questions || [];
     } else {
       console.error('Unexpected response format:', generatedData)
-      
+
       await supabaseClient
         .from('notebooks')
         .update({ generation_status: 'failed' })
@@ -133,7 +133,7 @@ serve(async (req) => {
 
     if (!title) {
       console.error('No title returned from web service')
-      
+
       await supabaseClient
         .from('notebooks')
         .update({ generation_status: 'failed' })
@@ -146,7 +146,7 @@ serve(async (req) => {
     }
 
     // Update notebook with generated content including icon, color, and example questions
-    const { error: notebookError } = await supabaseClient
+    const { error: updateError } = await supabaseClient
       .from('notebooks')
       .update({
         title: title,
@@ -158,8 +158,8 @@ serve(async (req) => {
       })
       .eq('id', notebookId)
 
-    if (notebookError) {
-      console.error('Notebook update error:', notebookError)
+    if (updateError) {
+      console.error('Notebook update error:', updateError)
       return new Response(
         JSON.stringify({ error: 'Failed to update notebook' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
