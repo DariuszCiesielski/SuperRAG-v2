@@ -24,6 +24,54 @@ const AuthForm = () => {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
 
+  // Handle email confirmation and password reset from URL hash
+  useEffect(() => {
+    const handleAuthCallback = async () => {
+      const hashParams = new URLSearchParams(window.location.hash.substring(1));
+      const accessToken = hashParams.get('access_token');
+      const type = hashParams.get('type');
+
+      if (accessToken && type) {
+        console.log('Auth callback detected:', type);
+
+        try {
+          const { data, error } = await supabase.auth.setSession({
+            access_token: accessToken,
+            refresh_token: hashParams.get('refresh_token') || '',
+          });
+
+          if (error) throw error;
+
+          console.log('Session set successfully');
+
+          // Clear hash from URL
+          window.history.replaceState({}, document.title, window.location.pathname);
+
+          toast({
+            title: type === 'signup' ? 'Email Confirmed!' : 'Password Reset Success!',
+            description: type === 'signup'
+              ? 'Your account has been verified. Welcome!'
+              : 'You can now sign in with your new password.',
+          });
+
+          // Navigate to dashboard if signup, stay on auth page if password reset
+          if (type === 'signup') {
+            navigate('/', { replace: true });
+          }
+        } catch (error: any) {
+          console.error('Error setting session:', error);
+          toast({
+            title: 'Authentication Error',
+            description: error.message || 'Failed to complete authentication',
+            variant: 'destructive',
+          });
+        }
+      }
+    };
+
+    handleAuthCallback();
+  }, [navigate, toast]);
+
   // Redirect to dashboard if already authenticated
   useEffect(() => {
     if (isAuthenticated) {
