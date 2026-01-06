@@ -8,6 +8,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import Dashboard from "./pages/Dashboard";
 import Notebook from "./pages/Notebook";
+import Profile from "./pages/Profile";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 
@@ -16,29 +17,45 @@ const queryClient = new QueryClient();
 const AppContent = () => {
   return (
     <Routes>
-      <Route 
-        path="/" 
+      <Route
+        path="/"
         element={
           <ProtectedRoute fallback={<Auth />}>
             <Dashboard />
           </ProtectedRoute>
-        } 
+        }
       />
-      <Route 
-        path="/notebook" 
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute fallback={<Auth />}>
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute fallback={<Auth />}>
+            <Profile />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/notebook"
         element={
           <ProtectedRoute fallback={<Auth />}>
             <Notebook />
           </ProtectedRoute>
-        } 
+        }
       />
-      <Route 
-        path="/notebook/:id" 
+      <Route
+        path="/notebook/:id"
         element={
           <ProtectedRoute fallback={<Auth />}>
             <Notebook />
           </ProtectedRoute>
-        } 
+        }
       />
       <Route path="/auth" element={<Auth />} />
       <Route path="*" element={<NotFound />} />

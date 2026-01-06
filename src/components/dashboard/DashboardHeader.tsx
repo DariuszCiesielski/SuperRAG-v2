@@ -1,8 +1,9 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { User, LogOut } from 'lucide-react';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { User, LogOut, Settings } from 'lucide-react';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { useLogout } from '@/services/authService';
 import Logo from '@/components/ui/Logo';
 
@@ -11,6 +12,7 @@ interface DashboardHeaderProps {
 }
 
 const DashboardHeader = ({ userEmail }: DashboardHeaderProps) => {
+  const navigate = useNavigate();
   const { logout } = useLogout();
 
   return (
@@ -20,7 +22,7 @@ const DashboardHeader = ({ userEmail }: DashboardHeaderProps) => {
           <Logo />
           <h1 className="text-xl font-medium text-gray-900">SuperRAG</h1>
         </div>
-        
+
         <div className="flex items-center space-x-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -31,6 +33,11 @@ const DashboardHeader = ({ userEmail }: DashboardHeaderProps) => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuItem onClick={() => navigate('/profile')} className="cursor-pointer">
+                <Settings className="h-4 w-4 mr-2" />
+                Profile Settings
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
               <DropdownMenuItem onClick={logout} className="cursor-pointer">
                 <LogOut className="h-4 w-4 mr-2" />
                 Sign Out
