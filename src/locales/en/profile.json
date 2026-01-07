@@ -55,6 +55,7 @@
       },
       "confirmText": "Type DELETE to confirm",
       "confirmPlaceholder": "DELETE",
+      "confirmLabel": "Type {{text}} to confirm",
       "deleteButton": "Delete My Account",
       "deletingButton": "Deleting...",
       "cancelButton": "Cancel",

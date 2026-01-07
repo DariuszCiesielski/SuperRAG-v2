@@ -55,6 +55,7 @@
       },
       "confirmText": "Wpisz USUŃ, aby potwierdzić",
       "confirmPlaceholder": "USUŃ",
+      "confirmLabel": "Wpisz {{text}}, aby potwierdzić",
       "deleteButton": "Usuń moje konto",
       "deletingButton": "Usuwanie...",
       "cancelButton": "Anuluj",

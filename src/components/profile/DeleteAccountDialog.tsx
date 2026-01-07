@@ -23,7 +23,7 @@ export const DeleteAccountDialog = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { deleteAccount, isDeleting } = useAccountDelete();
 
-  const CONFIRMATION_TEXT = t('dangerZone.deleteAccount.confirmText');
+  const CONFIRMATION_TEXT = t('dangerZone.deleteAccount.confirmPlaceholder');
 
   const handleDelete = () => {
     deleteAccount();
