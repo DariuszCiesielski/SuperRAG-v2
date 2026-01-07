@@ -40,11 +40,31 @@
   "addSources": {
     "title": "Dodaj źródła",
     "description": "Dodaj dokumenty, strony internetowe lub filmy z YouTube do swojego notesu",
+    "examples": "Przykłady: PDF-y, artykuły, prace badawcze, notatki ze spotkań",
     "tabs": {
       "upload": "Prześlij pliki",
       "website": "Strona WWW",
       "youtube": "YouTube",
       "text": "Wklej tekst"
+    },
+    "uploadArea": {
+      "title": "Prześlij pliki, aby rozpocząć",
+      "processing": "Przetwarzanie plików...",
+      "processingDesc": "Proszę czekać, przetwarzamy Twoje pliki",
+      "dragDrop": "Przeciągnij i upuść lub",
+      "chooseFile": "wybierz plik",
+      "toUpload": "do przesłania",
+      "supportedTypes": "Obsługuje pliki PDF, TXT, MD, MP3, WAV, M4A"
+    },
+    "integrations": {
+      "website": {
+        "title": "Dodaj stronę WWW",
+        "description": "Zaimportuj treść z dowolnej strony"
+      },
+      "text": {
+        "title": "Wklej tekst",
+        "description": "Dodaj treść tekstową bezpośrednio"
+      }
     },
     "upload": {
       "dragDrop": "Przeciągnij i upuść pliki tutaj lub kliknij, aby przeglądać",
@@ -78,21 +98,30 @@
       "filesAddedDesc": "Pomyślnie dodano {{count}} plik(ów)",
       "websiteAdded": "Strona dodana",
       "websiteAddedDesc": "Strona jest przetwarzana",
+      "websitesAdded": "Strony dodane",
+      "websitesAddedDesc": "Pomyślnie dodano {{count}} stron(ę)",
       "youtubeAdded": "Film YouTube dodany",
       "youtubeAddedDesc": "Film jest przetwarzany",
       "textAdded": "Tekst dodany",
       "textAddedDesc": "Twój tekst został dodany"
     },
     "errors": {
+      "error": "Błąd",
+      "noNotebook": "Nie wybrano notesu",
       "noFiles": "Wybierz co najmniej jeden plik",
       "fileTooLarge": "Plik {{filename}} jest za duży (maks. 10MB)",
       "invalidFormat": "Nieprawidłowy format pliku: {{filename}}",
       "uploadFailed": "Nie udało się przesłać plików",
+      "failedToAdd": "Nie udało się dodać źródeł",
       "websiteFailed": "Nie udało się dodać strony",
+      "failedToAddWebsites": "Nie udało się dodać stron",
       "youtubeFailed": "Nie udało się dodać filmu YouTube",
       "textFailed": "Nie udało się dodać tekstu",
+      "failedToAddText": "Nie udało się dodać tekstu",
       "noUrl": "Wprowadź adres URL",
-      "noText": "Wprowadź jakiś tekst"
+      "noText": "Wprowadź jakiś tekst",
+      "processingIssues": "Problemy z przetwarzaniem",
+      "processingIssuesDesc": "Nie udało się przetworzyć {{count}} plik(ów)"
     }
   },
   "renameSource": {

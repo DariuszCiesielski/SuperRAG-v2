@@ -40,11 +40,31 @@
   "addSources": {
     "title": "Add Sources",
     "description": "Add documents, websites, or YouTube videos to your notebook",
+    "examples": "Examples: PDFs, articles, research papers, meeting notes",
     "tabs": {
       "upload": "Upload Files",
       "website": "Website",
       "youtube": "YouTube",
       "text": "Paste Text"
+    },
+    "uploadArea": {
+      "title": "Upload files to get started",
+      "processing": "Processing files...",
+      "processingDesc": "Please wait while we process your files",
+      "dragDrop": "Drag and drop or",
+      "chooseFile": "choose file",
+      "toUpload": "to upload",
+      "supportedTypes": "Supports PDF, TXT, MD, MP3, WAV, M4A files"
+    },
+    "integrations": {
+      "website": {
+        "title": "Add Website",
+        "description": "Import content from any website"
+      },
+      "text": {
+        "title": "Paste Text",
+        "description": "Add text content directly"
+      }
     },
     "upload": {
       "dragDrop": "Drag and drop files here, or click to browse",
@@ -78,21 +98,30 @@
       "filesAddedDesc": "{{count}} file(s) added successfully",
       "websiteAdded": "Website added",
       "websiteAddedDesc": "Website is being processed",
+      "websitesAdded": "Websites added",
+      "websitesAddedDesc": "{{count}} website(s) added successfully",
       "youtubeAdded": "YouTube video added",
       "youtubeAddedDesc": "Video is being processed",
       "textAdded": "Text added",
       "textAddedDesc": "Your text has been added"
     },
     "errors": {
+      "error": "Error",
+      "noNotebook": "No notebook selected",
       "noFiles": "Please select at least one file",
       "fileTooLarge": "File {{filename}} is too large (max 10MB)",
       "invalidFormat": "Invalid file format: {{filename}}",
       "uploadFailed": "Failed to upload files",
+      "failedToAdd": "Failed to add sources",
       "websiteFailed": "Failed to add website",
+      "failedToAddWebsites": "Failed to add websites",
       "youtubeFailed": "Failed to add YouTube video",
       "textFailed": "Failed to add text",
+      "failedToAddText": "Failed to add text",
       "noUrl": "Please enter a URL",
-      "noText": "Please enter some text"
+      "noText": "Please enter some text",
+      "processingIssues": "Processing issues",
+      "processingIssuesDesc": "{{count}} file(s) failed to process"
     }
   },
   "renameSource": {
