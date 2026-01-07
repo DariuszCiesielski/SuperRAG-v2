@@ -20,6 +20,7 @@ const AuthForm = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
@@ -83,6 +84,7 @@ const AuthForm = () => {
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError(null);
 
     try {
       console.log('Attempting sign in for:', email);
@@ -95,7 +97,8 @@ const AuthForm = () => {
       if (error) {
         console.error('Sign in error:', error);
         if (error.message.includes('Invalid login credentials')) {
-          throw new Error('No account found with these credentials. Please create a new account or check your email and password.');
+          setError('account_not_found');
+          return;
         } else if (error.message.includes('Email not confirmed')) {
           throw new Error('Please check your email and click the confirmation link before signing in.');
         } else {
@@ -312,7 +315,10 @@ const AuthForm = () => {
               id="email"
               type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                if (error) setError(null);
+              }}
               required
               placeholder="Enter your email"
               disabled={emailSent}
@@ -326,7 +332,10 @@ const AuthForm = () => {
                 id="password"
                 type="password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  if (error) setError(null);
+                }}
                 required
                 placeholder="Enter your password"
                 minLength={6}
@@ -351,6 +360,29 @@ const AuthForm = () => {
             </div>
           )}
 
+          {error === 'account_not_found' && mode === 'sign-in' && (
+            <Alert className="border-blue-200 bg-blue-50">
+              <AlertDescription>
+                <p className="text-sm text-gray-700">
+                  No account found with these credentials.{' '}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMode('sign-up');
+                      setError(null);
+                      setPassword('');
+                      setConfirmPassword('');
+                    }}
+                    className="font-medium text-blue-600 hover:text-blue-800 underline"
+                  >
+                    Create a new account
+                  </button>
+                  {' '}or check your email and password.
+                </p>
+              </AlertDescription>
+            </Alert>
+          )}
+
           <Button type="submit" className="w-full" disabled={loading || emailSent}>
             {getButtonText()}
           </Button>
@@ -365,6 +397,7 @@ const AuthForm = () => {
                   onClick={() => {
                     setMode('sign-up');
                     setEmailSent(false);
+                    setError(null);
                     setPassword('');
                     setConfirmPassword('');
                   }}
@@ -378,6 +411,7 @@ const AuthForm = () => {
                   onClick={() => {
                     setMode('reset-password');
                     setEmailSent(false);
+                    setError(null);
                     setPassword('');
                   }}
                 >
@@ -394,6 +428,7 @@ const AuthForm = () => {
                 onClick={() => {
                   setMode('sign-in');
                   setEmailSent(false);
+                  setError(null);
                   setPassword('');
                   setConfirmPassword('');
                 }}
