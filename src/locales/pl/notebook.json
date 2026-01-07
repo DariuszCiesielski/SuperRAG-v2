@@ -180,11 +180,11 @@
       }
     },
     "saveToNote": {
-      "button": "Zapisz do notatek",
-      "saving": "Zapisywanie...",
-      "success": "Zapisano do notatek",
-      "successDesc": "Wiadomość zapisana w notatkach",
-      "error": "Nie udało się zapisać do notatek"
+      "button": "Dodaj do notatek",
+      "saving": "Dodawanie...",
+      "success": "Dodano do notatek",
+      "successDesc": "Wiadomość dodana do notatek",
+      "error": "Nie udało się dodać do notatek"
     }
   },
   "copiedText": {

@@ -30,3 +30,22 @@ export interface EnhancedChatMessage {
     invalid_tool_calls?: any[];
   };
 }
+
+export interface RawCitationMatch {
+  match: string;
+  startIndex: number;
+  endIndex: number;
+}
+
+export interface ParsedRawCitation {
+  chunk_index: number;
+  chunk_source_id: string;
+  chunk_lines_from: number;
+  chunk_lines_to: number;
+}
+
+export interface CleanedTextResult {
+  cleanedText: string;
+  extractedCitations: Citation[];
+  nextCitationId: number;
+}

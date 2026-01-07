@@ -293,9 +293,9 @@ const StudioSidebar = ({
 
           </div>
 
-          <Button variant="outline" size="sm" className="w-full mb-4" onClick={handleCreateNote}>
+          <Button variant="default" size="sm" className="w-full mb-4 bg-slate-900 hover:bg-slate-800 text-white" onClick={handleCreateNote}>
             <Plus className="h-4 w-4 mr-2" />
-            {t('studio.notes.addNote')}
+            {t('studio.notes.newNote')}
           </Button>
         </div>
       </div>

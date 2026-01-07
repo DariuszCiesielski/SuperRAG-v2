@@ -3,6 +3,7 @@ import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
 // Import all translation files
+// Updated: 2026-01-07 - Changed saveToNote button text
 import commonEN from '@/locales/en/common.json';
 import authEN from '@/locales/en/auth.json';
 import dashboardEN from '@/locales/en/dashboard.json';

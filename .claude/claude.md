@@ -142,3 +142,52 @@ supabase/
 - Backend: Edge Functions `generate-audio-overview`, `audio-generation-callback`, `refresh-audio-url` + N8N workflow `InsightsLM___Podcast_Generation`
 - Jak włączyć: Zmień `ENABLE_AUDIO_OVERVIEW` na `true` w `StudioSidebar.tsx`
 - Planowane uruchomienie: Kolejne wersje aplikacji
+
+## Ostatnie zmiany i poprawki (2026-01-07)
+
+### Naprawienie wykrywania surowych cytowań w czacie
+
+**Problem:** AI czasami nie przestrzegał Structured Output i zwracał surowy JSON z chunk info w tekście odpowiedzi zamiast właściwej struktury cytowań.
+
+**Rozwiązanie zaimplementowane w `src/hooks/useChatMessages.tsx`:**
+
+1. **Nowe funkcje narzędziowe** (linie 43-168):
+   - `detectRawCitations()` - wykrywa surowy JSON w tekście (formaty `{...}` i `[...]`)
+   - `parseRawCitation()` - parsuje JSON z fallback na regex dla malformed JSON
+   - `cleanAndExtractCitations()` - czyści tekst i tworzy Citation objects
+
+2. **Modyfikacje `transformMessage()`**:
+   - **Blok success (linie 197-236)**: Merge'uje explicit i extracted citations
+   - **Blok catch/fallback (linie 260-291)**: Próbuje wyciągnąć citations przed plain text
+
+3. **Nowe typy w `src/types/message.ts`** (linie 33-50):
+   - `RawCitationMatch` - do wykrywania
+   - `ParsedRawCitation` - do przechowywania danych
+   - `CleanedTextResult` - do zwracania wyniku
+
+**Efekt:**
+- Surowy JSON typu `{"chunk_index":2, ...}` jest automatycznie konwertowany na klikalne przyciski cytowań [1], [2], [3]
+- Backward compatible - stare wiadomości działają bez zmian
+- Obsługa malformed JSON przez regex fallback
+
+### Zmiana stylu przycisku "Dodaj do notatek"
+
+**Zmiany w `src/components/notebook/SaveToNoteButton.tsx` (linia 70-75):**
+- Zmiana wariantu z `ghost` na `outline`
+- Dodanie obramowania: `border-gray-300`
+- Styl hover: `hover:bg-gray-50 hover:border-gray-400`
+
+**Zmiany w tłumaczeniach:**
+- PL (`src/locales/pl/notebook.json`): "Dodaj do notatek" (zamiast "Zapisz do notatek")
+- EN (`src/locales/en/notebook.json`): "Add to notes" (zamiast "Save to Note")
+
+### Znane problemy
+
+**Problem z cache'owaniem tłumaczeń i18next:**
+- Tłumaczenia są importowane **statycznie** w `src/i18n/config.ts` (linie 6-20)
+- Vite HMR nie odświeża automatycznie zmienionych plików JSON
+- **Workaround**:
+  - Dodanie komentarza do `config.ts` wymusza rebuild (linia 6)
+  - Alternatywnie: `rm -rf node_modules/.vite && npm run dev`
+  - Lub hard refresh przeglądarki: `Ctrl + Shift + R`
+  - localStorage może cache'ować tłumaczenia (klucz `i18nextLng`)

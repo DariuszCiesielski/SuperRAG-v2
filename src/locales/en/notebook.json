@@ -180,11 +180,11 @@
       }
     },
     "saveToNote": {
-      "button": "Save to Note",
-      "saving": "Saving...",
-      "success": "Saved to notes",
-      "successDesc": "Message saved to your notes",
-      "error": "Failed to save to notes"
+      "button": "Add to notes",
+      "saving": "Adding...",
+      "success": "Added to notes",
+      "successDesc": "Message added to your notes",
+      "error": "Failed to add to notes"
     }
   },
   "copiedText": {

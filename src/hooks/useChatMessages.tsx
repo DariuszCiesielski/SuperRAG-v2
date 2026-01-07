@@ -2,7 +2,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
-import { EnhancedChatMessage, Citation, MessageSegment } from '@/types/message';
+import { EnhancedChatMessage, Citation, MessageSegment, RawCitationMatch, ParsedRawCitation, CleanedTextResult } from '@/types/message';
 import { useToast } from '@/hooks/use-toast';
 import { useEffect } from 'react';
 
@@ -40,6 +40,154 @@ interface N8nAiResponseContent {
   }>;
 }
 
+// Utility function to detect raw citation JSON in text
+const detectRawCitations = (text: string): RawCitationMatch[] => {
+  try {
+    // Detect both object {chunk_index...} and array ["chunk_index"...] formats
+    const regexObject = /\{["\s]*chunk_index["\s]*:\s*\d+[^}]*\}/g;
+    const regexArray = /\[["\s]*chunk_index["\s]*:\s*\d+[^\]]*\]/g;
+    const matches: RawCitationMatch[] = [];
+    let match;
+
+    // Find object format citations
+    while ((match = regexObject.exec(text)) !== null) {
+      matches.push({
+        match: match[0],
+        startIndex: match.index,
+        endIndex: match.index + match[0].length
+      });
+    }
+
+    // Find array format citations
+    while ((match = regexArray.exec(text)) !== null) {
+      matches.push({
+        match: match[0],
+        startIndex: match.index,
+        endIndex: match.index + match[0].length
+      });
+    }
+
+    if (matches.length > 0) {
+      console.log(`Detected ${matches.length} raw citation(s) in text:`, matches);
+    }
+
+    return matches;
+  } catch (error) {
+    console.warn('Error detecting raw citations:', error);
+    return [];
+  }
+};
+
+// Utility function to parse a raw citation JSON string
+const parseRawCitation = (jsonString: string): ParsedRawCitation | null => {
+  try {
+    // Try JSON.parse first
+    const parsed = JSON.parse(jsonString);
+    if (parsed.chunk_index !== undefined && parsed.chunk_source_id) {
+      console.log('Parsed citation with JSON.parse:', parsed);
+      return {
+        chunk_index: parsed.chunk_index,
+        chunk_source_id: parsed.chunk_source_id,
+        chunk_lines_from: parsed.chunk_lines_from || 0,
+        chunk_lines_to: parsed.chunk_lines_to || 0
+      };
+    }
+  } catch (parseError) {
+    // Fallback: use regex extraction for malformed JSON (including array format)
+    try {
+      const chunkIndexMatch = jsonString.match(/chunk_index["\s]*:\s*(\d+)/);
+      const chunkSourceIdMatch = jsonString.match(/chunk_source_id["\s]*:\s*["']([^"']+)["']/);
+      const chunkLinesFromMatch = jsonString.match(/chunk_lines_from["\s]*:\s*(\d+)/);
+      const chunkLinesToMatch = jsonString.match(/chunk_lines_to["\s]*:\s*(\d+)/);
+
+      if (chunkIndexMatch && chunkSourceIdMatch) {
+        const parsed = {
+          chunk_index: parseInt(chunkIndexMatch[1]),
+          chunk_source_id: chunkSourceIdMatch[1],
+          chunk_lines_from: chunkLinesFromMatch ? parseInt(chunkLinesFromMatch[1]) : 0,
+          chunk_lines_to: chunkLinesToMatch ? parseInt(chunkLinesToMatch[1]) : 0
+        };
+        console.log('Parsed citation with regex fallback:', parsed, 'from:', jsonString);
+        return parsed;
+      } else {
+        console.warn('Failed to extract citation data from:', jsonString);
+      }
+    } catch (regexError) {
+      console.warn('Failed to parse raw citation with regex:', regexError);
+    }
+  }
+
+  return null;
+};
+
+// Utility function to clean text and extract citations
+const cleanAndExtractCitations = (
+  text: string,
+  sourceMap: Map<string, any>,
+  startingCitationId: number
+): CleanedTextResult => {
+  try {
+    const rawMatches = detectRawCitations(text);
+
+    if (rawMatches.length === 0) {
+      return {
+        cleanedText: text,
+        extractedCitations: [],
+        nextCitationId: startingCitationId
+      };
+    }
+
+    // Sort matches by startIndex (descending) for safe removal
+    const sortedMatches = [...rawMatches].sort((a, b) => b.startIndex - a.startIndex);
+
+    let cleanedText = text;
+    const extractedCitations: Citation[] = [];
+    let citationId = startingCitationId;
+
+    // Process each match
+    for (const rawMatch of sortedMatches) {
+      const parsedCitation = parseRawCitation(rawMatch.match);
+
+      if (parsedCitation) {
+        const sourceInfo = sourceMap.get(parsedCitation.chunk_source_id);
+
+        extractedCitations.unshift({
+          citation_id: citationId,
+          source_id: parsedCitation.chunk_source_id,
+          source_title: sourceInfo?.title || 'Unknown Source',
+          source_type: sourceInfo?.type || 'pdf',
+          chunk_lines_from: parsedCitation.chunk_lines_from,
+          chunk_lines_to: parsedCitation.chunk_lines_to,
+          chunk_index: parsedCitation.chunk_index,
+          excerpt: `Lines ${parsedCitation.chunk_lines_from}-${parsedCitation.chunk_lines_to}`
+        });
+
+        // Remove raw JSON from text
+        cleanedText = cleanedText.substring(0, rawMatch.startIndex) +
+                     cleanedText.substring(rawMatch.endIndex);
+
+        citationId++;
+      }
+    }
+
+    // Clean up extra whitespace
+    cleanedText = cleanedText.replace(/\s+/g, ' ').trim();
+
+    return {
+      cleanedText,
+      extractedCitations,
+      nextCitationId: citationId
+    };
+  } catch (error) {
+    console.warn('Error cleaning and extracting citations:', error);
+    return {
+      cleanedText: text,
+      extractedCitations: [],
+      nextCitationId: startingCitationId
+    };
+  }
+};
+
 const transformMessage = (item: any, sourceMap: Map<string, any>): EnhancedChatMessage => {
   console.log('Processing item:', item);
   
@@ -66,17 +214,32 @@ const transformMessage = (item: any, sourceMap: Map<string, any>): EnhancedChatM
           const segments: MessageSegment[] = [];
           const citations: Citation[] = [];
           let citationIdCounter = 1;
-          
+
           parsedContent.output.forEach((outputItem) => {
-            // Add the text segment
+            // Clean text and extract any embedded raw citations
+            const { cleanedText, extractedCitations, nextCitationId } =
+              cleanAndExtractCitations(outputItem.text, sourceMap, citationIdCounter);
+
+            // Merge extracted citations with explicit ones
+            const allCitations = [
+              ...(outputItem.citations || []),
+              ...extractedCitations.map(ec => ({
+                chunk_index: ec.chunk_index,
+                chunk_source_id: ec.source_id,
+                chunk_lines_from: ec.chunk_lines_from,
+                chunk_lines_to: ec.chunk_lines_to
+              }))
+            ];
+
+            // Add the text segment with cleaned text
             segments.push({
-              text: outputItem.text,
-              citation_id: outputItem.citations && outputItem.citations.length > 0 ? citationIdCounter : undefined
+              text: cleanedText,
+              citation_id: allCitations.length > 0 ? citationIdCounter : undefined
             });
-            
-            // Process citations if they exist
-            if (outputItem.citations && outputItem.citations.length > 0) {
-              outputItem.citations.forEach((citation) => {
+
+            // Process all citations (both explicit and extracted)
+            if (allCitations.length > 0) {
+              allCitations.forEach((citation) => {
                 const sourceInfo = sourceMap.get(citation.chunk_source_id);
                 citations.push({
                   citation_id: citationIdCounter,
@@ -116,16 +279,36 @@ const transformMessage = (item: any, sourceMap: Map<string, any>): EnhancedChatM
           };
         }
       } catch (parseError) {
-        console.log('Failed to parse AI content as JSON, treating as plain text:', parseError);
-        // If parsing fails, treat as regular string content
-        transformedMessage = {
-          type: 'ai',
-          content: messageObj.content,
-          additional_kwargs: messageObj.additional_kwargs,
-          response_metadata: messageObj.response_metadata,
-          tool_calls: messageObj.tool_calls,
-          invalid_tool_calls: messageObj.invalid_tool_calls
-        };
+        console.log('Failed to parse AI content as JSON, attempting to extract raw citations:', parseError);
+
+        // Try to extract citations from raw text before giving up
+        const { cleanedText, extractedCitations } =
+          cleanAndExtractCitations(messageObj.content, sourceMap, 1);
+
+        if (extractedCitations.length > 0) {
+          // Found citations! Create structured format
+          transformedMessage = {
+            type: 'ai',
+            content: {
+              segments: [{ text: cleanedText, citation_id: 1 }],
+              citations: extractedCitations
+            },
+            additional_kwargs: messageObj.additional_kwargs,
+            response_metadata: messageObj.response_metadata,
+            tool_calls: messageObj.tool_calls,
+            invalid_tool_calls: messageObj.invalid_tool_calls
+          };
+        } else {
+          // No citations found, treat as plain text
+          transformedMessage = {
+            type: 'ai',
+            content: messageObj.content,
+            additional_kwargs: messageObj.additional_kwargs,
+            response_metadata: messageObj.response_metadata,
+            tool_calls: messageObj.tool_calls,
+            invalid_tool_calls: messageObj.invalid_tool_calls
+          };
+        }
       }
     } else {
       // Handle non-AI messages or AI messages that don't need parsing
