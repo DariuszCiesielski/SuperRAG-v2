@@ -14,7 +14,8 @@
       "Bash(npm run build:*)",
       "Bash(npm run dev:*)",
       "Bash(ping:*)",
-      "Bash(supabase functions deploy:*)"
+      "Bash(supabase functions deploy:*)",
+      "Bash(git log:*)"
     ]
   }
 }

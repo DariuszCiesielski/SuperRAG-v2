@@ -28,6 +28,20 @@ export const useSourceDelete = () => {
 
         console.log('Found source to delete:', source.title, 'with file_path:', source.file_path);
 
+        // Delete associated documents/chunks FIRST (before deleting the source)
+        console.log('Deleting associated documents/chunks for source:', sourceId);
+        const { error: documentsError, count: deletedCount } = await supabase
+          .from('documents')
+          .delete({ count: 'exact' })
+          .filter('metadata->>source_id', 'eq', sourceId);
+
+        if (documentsError) {
+          console.error('Error deleting documents:', documentsError);
+          // Don't throw - continue with source deletion even if chunks cleanup fails
+        } else {
+          console.log(`Successfully deleted ${deletedCount || 0} document chunks`);
+        }
+
         // Delete the file from storage if it exists
         if (source.file_path) {
           console.log('Deleting file from storage:', source.file_path);
