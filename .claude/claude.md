@@ -26,6 +26,27 @@ VITE_SUPABASE_ANON_KEY=your_anon_key_here
 - `NOTEBOOK_GENERATION_AUTH` - hasło Header Auth dla webhooków N8N
 - `OPENAI_API_KEY` - używany w `generate-note-title`
 
+## Deployment
+
+**Frontend (Vercel):**
+- Hosting: Vercel (połączony z GitHub repo)
+- Auto-deploy: Każdy push do `main` triggeuruje automatyczny deploy
+- Build command: `npm run build`
+- Output directory: `dist`
+- Environment variables: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`
+- Manual deploy: Vercel automatycznie deployuje lub trigger ręcznie w Vercel Dashboard
+
+**Backend (Supabase Edge Functions):**
+- Deploy pojedynczej funkcji: `supabase functions deploy <nazwa-funkcji> --project-ref sfqsuysimebkdeayxmmi`
+- Deploy wszystkich: `supabase functions deploy --project-ref sfqsuysimebkdeayxmmi`
+- Config w `supabase/config.toml` definiuje ustawienia JWT dla każdej funkcji
+
+**Workflow deploymentu:**
+1. Commit i push zmian do GitHub
+2. Frontend: Vercel auto-deploy z `main` branch
+3. Backend: Ręczny deploy Edge Functions przez Supabase CLI (jeśli zmiany w functions/)
+4. Migracje DB: `supabase db push --project-ref sfqsuysimebkdeayxmmi` (jeśli zmiany w migrations/)
+
 ## Kluczowe pliki
 
 **Konfiguracja:**
