@@ -3,7 +3,12 @@
   "backToDashboard": "Powrót do panelu",
   "profileInfo": {
     "title": "Informacje o profilu",
+    "description": "Zaktualizuj informacje o swoim koncie",
     "email": "E-mail",
+    "emailHelper": "Twój adres e-mail nie może zostać zmieniony",
+    "fullName": "Imię i nazwisko",
+    "fullNamePlaceholder": "Wprowadź swoje imię i nazwisko",
+    "saveChanges": "Zapisz zmiany",
     "memberSince": "Członek od",
     "lastUpdated": "Ostatnia aktualizacja"
   },
@@ -16,6 +21,9 @@
     "newPasswordPlaceholder": "Wprowadź nowe hasło",
     "confirmPassword": "Potwierdź nowe hasło",
     "confirmPasswordPlaceholder": "Potwierdź swoje nowe hasło",
+    "minCharacters": "Hasło musi mieć co najmniej 6 znaków",
+    "mismatch": "Hasła nie są zgodne",
+    "updatePassword": "Zaktualizuj hasło",
     "updateButton": "Zaktualizuj hasło",
     "updatingButton": "Aktualizowanie...",
     "success": "Hasło zaktualizowane",
@@ -39,6 +47,9 @@
   },
   "dangerZone": {
     "title": "Strefa niebezpieczna",
+    "description": "Nieodwracalne i destrukcyjne działania",
+    "warning": "Uwaga: Te działania nie mogą być cofnięte",
+    "deleteButton": "Usuń konto",
     "deleteAccount": {
       "title": "Usuń konto",
       "description": "Trwale usuń swoje konto i wszystkie powiązane dane",
