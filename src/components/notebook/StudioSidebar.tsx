@@ -20,6 +20,9 @@ interface StudioSidebarProps {
   onCitationClick?: (citation: Citation) => void;
 }
 
+// Feature flag: Audio Overview will be enabled in future versions
+const ENABLE_AUDIO_OVERVIEW = false;
+
 const StudioSidebar = ({
   notebookId,
   isExpanded,
@@ -222,8 +225,8 @@ const StudioSidebar = ({
       <div className="p-4 border-b border-gray-200 flex-shrink-0">
         <h2 className="text-lg font-medium text-gray-900 mb-4">{t('studio.title')}</h2>
 
-        {/* Audio Overview */}
-        <Card className="p-4 mb-4 border border-gray-200">
+        {/* Audio Overview - Hidden until future release */}
+        {ENABLE_AUDIO_OVERVIEW && <Card className="p-4 mb-4 border border-gray-200">
           <div className="flex items-center justify-between mb-3">
             <h3 className="font-medium text-gray-900">{t('studio.audioOverview.title')}</h3>
           </div>
@@ -281,7 +284,7 @@ const StudioSidebar = ({
                 </Button>
               </div>
             </Card>}
-        </Card>
+        </Card>}
 
         {/* Notes Section */}
         <div className="mb-4">
