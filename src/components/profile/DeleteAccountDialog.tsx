@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,12 +17,13 @@ import { Label } from '@/components/ui/label';
 import { Trash2 } from 'lucide-react';
 import { useAccountDelete } from '@/hooks/useAccountDelete';
 
-const CONFIRMATION_TEXT = 'DELETE MY ACCOUNT';
-
 export const DeleteAccountDialog = () => {
+  const { t } = useTranslation(['profile', 'common']);
   const [confirmationText, setConfirmationText] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const { deleteAccount, isDeleting } = useAccountDelete();
+
+  const CONFIRMATION_TEXT = t('dangerZone.deleteAccount.confirmText');
 
   const handleDelete = () => {
     deleteAccount();
@@ -41,38 +43,38 @@ export const DeleteAccountDialog = () => {
       <AlertDialogTrigger asChild>
         <Button variant="destructive" className="w-full">
           <Trash2 className="h-4 w-4 mr-2" />
-          Delete Account
+          {t('dangerZone.deleteButton')}
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete Account Permanently</AlertDialogTitle>
+          <AlertDialogTitle>{t('dangerZone.deleteAccount.title')}</AlertDialogTitle>
           <AlertDialogDescription className="space-y-4">
             <div className="text-red-600 font-semibold">
-              Warning: This action cannot be undone!
+              {t('dangerZone.deleteAccount.warning')}
             </div>
 
             <div>
-              Deleting your account will permanently remove:
+              {t('dangerZone.deleteAccount.description')}
             </div>
 
             <ul className="list-disc list-inside space-y-1 text-sm">
-              <li>Your profile and account information</li>
-              <li>All notebooks you have created</li>
-              <li>All sources and documents</li>
-              <li>All notes and chat histories</li>
-              <li>All uploaded files and generated audio</li>
+              <li>{t('dangerZone.deleteAccount.items.profile')}</li>
+              <li>{t('dangerZone.deleteAccount.items.notebooks')}</li>
+              <li>{t('dangerZone.deleteAccount.items.sources')}</li>
+              <li>{t('dangerZone.deleteAccount.items.notes')}</li>
+              <li>{t('dangerZone.deleteAccount.items.files')}</li>
             </ul>
 
             <div className="pt-4">
               <Label htmlFor="confirmation" className="text-foreground">
-                Type <span className="font-mono font-bold">{CONFIRMATION_TEXT}</span> to confirm:
+                {t('dangerZone.deleteAccount.confirmLabel', { text: CONFIRMATION_TEXT })}
               </Label>
               <Input
                 id="confirmation"
                 value={confirmationText}
                 onChange={(e) => setConfirmationText(e.target.value)}
-                placeholder={CONFIRMATION_TEXT}
+                placeholder={t('dangerZone.deleteAccount.confirmPlaceholder')}
                 className="mt-2 font-mono"
                 disabled={isDeleting}
               />
@@ -81,14 +83,14 @@ export const DeleteAccountDialog = () => {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel onClick={handleCancel} disabled={isDeleting}>
-            Cancel
+            {t('common:buttons.cancel')}
           </AlertDialogCancel>
           <AlertDialogAction
             onClick={handleDelete}
             disabled={!isConfirmed || isDeleting}
             className="bg-red-600 hover:bg-red-700 focus:ring-red-600"
           >
-            {isDeleting ? 'Deleting...' : 'Delete My Account'}
+            {isDeleting ? t('common:loading.deleting') : t('common:buttons.delete')}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

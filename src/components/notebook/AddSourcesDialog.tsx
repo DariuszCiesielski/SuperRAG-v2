@@ -10,6 +10,7 @@ import { useDocumentProcessing } from '@/hooks/useDocumentProcessing';
 import { useNotebookGeneration } from '@/hooks/useNotebookGeneration';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import { useTranslation } from 'react-i18next';
 
 interface AddSourcesDialogProps {
   open: boolean;
@@ -22,6 +23,7 @@ const AddSourcesDialog = ({
   onOpenChange,
   notebookId
 }: AddSourcesDialogProps) => {
+  const { t } = useTranslation(['notebook', 'common']);
   const [dragActive, setDragActive] = useState(false);
   const [showCopiedTextDialog, setShowCopiedTextDialog] = useState(false);
   const [showMultipleWebsiteDialog, setShowMultipleWebsiteDialog] = useState(false);
@@ -157,8 +159,8 @@ const AddSourcesDialog = ({
   const handleFileUpload = async (files: File[]) => {
     if (!notebookId) {
       toast({
-        title: "Error",
-        description: "No notebook selected",
+        title: t('addSources.errors.error'),
+        description: t('addSources.errors.noNotebook'),
         variant: "destructive"
       });
       return;
@@ -225,8 +227,8 @@ const AddSourcesDialog = ({
 
       // Step 4: Show success toast
       toast({
-        title: "Files Added",
-        description: `${files.length} file${files.length > 1 ? 's' : ''} added and processing started`
+        title: t('addSources.success.filesAdded'),
+        description: t('addSources.success.filesAddedDesc', { count: files.length })
       });
 
       // Step 5: Process files in parallel (background)
@@ -244,8 +246,8 @@ const AddSourcesDialog = ({
 
         if (failed > 0) {
           toast({
-            title: "Processing Issues",
-            description: `${failed} file${failed > 1 ? 's' : ''} had processing issues. Check the sources list for details.`,
+            title: t('addSources.errors.processingIssues'),
+            description: t('addSources.errors.processingIssuesDesc', { count: failed }),
             variant: "destructive"
           });
         }
@@ -254,8 +256,8 @@ const AddSourcesDialog = ({
       console.error('Error creating sources:', error);
       setIsLocallyProcessing(false);
       toast({
-        title: "Error",
-        description: "Failed to add files. Please try again.",
+        title: t('addSources.errors.error'),
+        description: t('addSources.errors.failedToAdd'),
         variant: "destructive"
       });
     }
@@ -296,14 +298,14 @@ const AddSourcesDialog = ({
       }
 
       toast({
-        title: "Success",
-        description: "Text has been added and sent for processing"
+        title: t('addSources.success.textAdded'),
+        description: t('addSources.success.textAddedDesc')
       });
     } catch (error) {
       console.error('Error adding text source:', error);
       toast({
-        title: "Error",
-        description: "Failed to add text source",
+        title: t('addSources.errors.error'),
+        description: t('addSources.errors.failedToAddText'),
         variant: "destructive"
       });
     } finally {
@@ -379,16 +381,16 @@ const AddSourcesDialog = ({
       }
 
       toast({
-        title: "Success",
-        description: `${urls.length} website${urls.length > 1 ? 's' : ''} added and sent for processing`
+        title: t('addSources.success.websitesAdded'),
+        description: t('addSources.success.websitesAddedDesc', { count: urls.length })
       });
 
       onOpenChange(false);
     } catch (error) {
       console.error('Error adding multiple websites:', error);
       toast({
-        title: "Error",
-        description: "Failed to add websites",
+        title: t('addSources.errors.error'),
+        description: t('addSources.errors.failedToAddWebsites'),
         variant: "destructive"
       });
     } finally {
@@ -411,17 +413,17 @@ const AddSourcesDialog = ({
                     <path d="M480-80q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-200v-80h320v80H320Zm10-120q-69-41-109.5-110T180-580q0-125 87.5-212.5T480-880q125 0 212.5 87.5T780-580q0 81-40.5 150T630-320H330Zm24-80h252q45-32 69.5-79T700-580q0-92-64-156t-156-64q-92 0-156 64t-64 156q0 54 24.5 101t69.5 79Zm126 0Z" />
                   </svg>
                 </div>
-                <DialogTitle className="text-xl font-medium">SuperRAG</DialogTitle>
+                <DialogTitle className="text-xl font-medium">{t('common:app.name')}</DialogTitle>
               </div>
             </div>
           </DialogHeader>
 
           <div className="space-y-6">
             <div>
-              <h2 className="text-xl font-medium mb-2">Add sources</h2>
-              <p className="text-gray-600 text-sm mb-1">Sources let SuperRAG base its responses on the information that matters most to you.</p>
+              <h2 className="text-xl font-medium mb-2">{t('addSources.title')}</h2>
+              <p className="text-gray-600 text-sm mb-1">{t('addSources.description')}</p>
               <p className="text-gray-500 text-xs">
-                (Examples: marketing plans, course reading, research notes, meeting transcripts, sales documents, etc.)
+                {t('addSources.examples')}
               </p>
             </div>
 
@@ -441,28 +443,28 @@ const AddSourcesDialog = ({
                 </div>
                 <div>
                   <h3 className="font-medium text-gray-900 mb-2">
-                    {isProcessingFiles ? 'Processing files...' : 'Upload sources'}
+                    {isProcessingFiles ? t('addSources.uploadArea.processing') : t('addSources.uploadArea.title')}
                   </h3>
                   <p className="text-gray-600 text-sm">
                     {isProcessingFiles ? (
-                      'Please wait while we process your files'
+                      t('addSources.uploadArea.processingDesc')
                     ) : (
                       <>
-                        Drag & drop or{' '}
-                        <button 
-                          className="text-blue-600 hover:underline" 
+                        {t('addSources.uploadArea.dragDrop')}{' '}
+                        <button
+                          className="text-blue-600 hover:underline"
                           onClick={() => document.getElementById('file-upload')?.click()}
                           disabled={isProcessingFiles}
                         >
-                          choose file
+                          {t('addSources.uploadArea.chooseFile')}
                         </button>{' '}
-                        to upload
+                        {t('addSources.uploadArea.toUpload')}
                       </>
                     )}
                   </p>
                 </div>
                 <p className="text-xs text-gray-500">
-                  Supported file types: PDF, txt, Markdown, Audio (e.g. mp3)
+                  {t('addSources.uploadArea.supportedTypes')}
                 </p>
                 <input
                   id="file-upload"
@@ -485,8 +487,8 @@ const AddSourcesDialog = ({
                 disabled={isProcessingFiles}
               >
                 <Link className="h-6 w-6 text-green-600" />
-                <span className="font-medium">Link - Website</span>
-                <span className="text-sm text-gray-500">Multiple URLs at once</span>
+                <span className="font-medium">{t('addSources.integrations.website.title')}</span>
+                <span className="text-sm text-gray-500">{t('addSources.integrations.website.description')}</span>
               </Button>
 
               <Button
@@ -496,8 +498,8 @@ const AddSourcesDialog = ({
                 disabled={isProcessingFiles}
               >
                 <Copy className="h-6 w-6 text-purple-600" />
-                <span className="font-medium">Paste Text - Copied Text</span>
-                <span className="text-sm text-gray-500">Add copied content</span>
+                <span className="font-medium">{t('addSources.integrations.text.title')}</span>
+                <span className="text-sm text-gray-500">{t('addSources.integrations.text.description')}</span>
               </Button>
             </div>
           </div>

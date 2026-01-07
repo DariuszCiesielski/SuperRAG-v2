@@ -1,0 +1,57 @@
+{
+  "generic": {
+    "somethingWentWrong": "Something went wrong",
+    "tryAgain": "Please try again",
+    "unknownError": "An unknown error occurred",
+    "networkError": "Network error. Please check your connection.",
+    "timeoutError": "Request timed out. Please try again.",
+    "serverError": "Server error. Please try again later."
+  },
+  "validation": {
+    "required": "This field is required",
+    "invalidEmail": "Please enter a valid email address",
+    "invalidUrl": "Please enter a valid URL",
+    "tooShort": "This field is too short",
+    "tooLong": "This field is too long",
+    "invalidFormat": "Invalid format"
+  },
+  "auth": {
+    "notAuthenticated": "Please sign in to continue",
+    "sessionExpired": "Your session has expired. Please sign in again.",
+    "invalidCredentials": "Invalid credentials",
+    "accountLocked": "Your account has been locked. Please contact support.",
+    "emailNotVerified": "Please verify your email address"
+  },
+  "notebook": {
+    "notFound": "Notebook not found",
+    "loadFailed": "Failed to load notebook",
+    "createFailed": "Failed to create notebook",
+    "updateFailed": "Failed to update notebook",
+    "deleteFailed": "Failed to delete notebook",
+    "accessDenied": "You don't have access to this notebook"
+  },
+  "source": {
+    "notFound": "Source not found",
+    "uploadFailed": "Failed to upload source",
+    "processingFailed": "Failed to process source",
+    "deleteFailed": "Failed to delete source",
+    "invalidFormat": "Invalid file format",
+    "fileTooLarge": "File is too large",
+    "quotaExceeded": "Storage quota exceeded"
+  },
+  "chat": {
+    "sendFailed": "Failed to send message",
+    "loadFailed": "Failed to load chat history",
+    "clearFailed": "Failed to clear chat"
+  },
+  "note": {
+    "saveFailed": "Failed to save note",
+    "deleteFailed": "Failed to delete note",
+    "loadFailed": "Failed to load notes"
+  },
+  "audio": {
+    "generateFailed": "Failed to generate audio",
+    "playbackFailed": "Audio playback failed",
+    "downloadFailed": "Failed to download audio"
+  }
+}

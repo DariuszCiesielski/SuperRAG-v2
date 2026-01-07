@@ -1,0 +1,179 @@
+{
+  "tabs": {
+    "chat": "Chat",
+    "sources": "Sources",
+    "studio": "Studio"
+  },
+  "chat": {
+    "title": "Chat",
+    "placeholder": "Ask anything about your sources...",
+    "send": "Send",
+    "sending": "Sending...",
+    "clearChat": "Clear Chat",
+    "clearing": "Clearing...",
+    "disclaimer": "AI can make mistakes. Please verify important information.",
+    "emptyTitle": "Start a conversation",
+    "emptyDescription": "Ask questions about your sources and get AI-powered answers.",
+    "thinking": "Thinking...",
+    "errorSending": "Error sending message",
+    "errorClearing": "Error clearing chat",
+    "chatCleared": "Chat cleared",
+    "chatClearedDesc": "Your chat history has been cleared."
+  },
+  "sources": {
+    "title": "Sources",
+    "add": "Add Sources",
+    "empty": {
+      "title": "No sources yet",
+      "description": "Add documents, websites, or YouTube videos to start chatting."
+    },
+    "processing": "Processing...",
+    "ready": "Ready",
+    "error": "Error",
+    "rename": "Rename",
+    "delete": "Delete",
+    "deleteTitle": "Delete Source",
+    "deleteDescription": "Are you sure you want to delete this source? This action cannot be undone.",
+    "deleteConfirm": "Delete",
+    "deleteCancel": "Cancel"
+  },
+  "addSources": {
+    "title": "Add Sources",
+    "description": "Add documents, websites, or YouTube videos to your notebook",
+    "tabs": {
+      "upload": "Upload Files",
+      "website": "Website",
+      "youtube": "YouTube",
+      "text": "Paste Text"
+    },
+    "upload": {
+      "dragDrop": "Drag and drop files here, or click to browse",
+      "supported": "Supported: PDF, TXT, DOCX, MD (max 10MB each)",
+      "selectedFiles": "Selected files:",
+      "addButton": "Add Files"
+    },
+    "website": {
+      "placeholder": "Enter website URL",
+      "addButton": "Add Website",
+      "addingButton": "Adding...",
+      "multipleUrls": "Enter one URL per line",
+      "addMultiple": "Add Multiple URLs",
+      "validUrl": "Please enter a valid URL"
+    },
+    "youtube": {
+      "placeholder": "Enter YouTube URL",
+      "addButton": "Add Video",
+      "addingButton": "Adding...",
+      "validUrl": "Please enter a valid YouTube URL",
+      "example": "Example: https://youtube.com/watch?v=..."
+    },
+    "text": {
+      "placeholder": "Paste your text here...",
+      "titlePlaceholder": "Give this text a title (optional)",
+      "addButton": "Add Text",
+      "addingButton": "Adding..."
+    },
+    "success": {
+      "filesAdded": "Files added",
+      "filesAddedDesc": "{{count}} file(s) added successfully",
+      "websiteAdded": "Website added",
+      "websiteAddedDesc": "Website is being processed",
+      "youtubeAdded": "YouTube video added",
+      "youtubeAddedDesc": "Video is being processed",
+      "textAdded": "Text added",
+      "textAddedDesc": "Your text has been added"
+    },
+    "errors": {
+      "noFiles": "Please select at least one file",
+      "fileTooLarge": "File {{filename}} is too large (max 10MB)",
+      "invalidFormat": "Invalid file format: {{filename}}",
+      "uploadFailed": "Failed to upload files",
+      "websiteFailed": "Failed to add website",
+      "youtubeFailed": "Failed to add YouTube video",
+      "textFailed": "Failed to add text",
+      "noUrl": "Please enter a URL",
+      "noText": "Please enter some text"
+    }
+  },
+  "renameSource": {
+    "title": "Rename Source",
+    "placeholder": "Enter new name",
+    "button": "Rename",
+    "success": "Source renamed",
+    "successDesc": "Source name has been updated",
+    "error": "Failed to rename source"
+  },
+  "studio": {
+    "title": "Studio",
+    "audioOverview": {
+      "title": "Audio Overview",
+      "description": "Generate an AI-powered audio summary of your notebook",
+      "generate": "Generate Audio",
+      "generating": "Generating...",
+      "regenerate": "Regenerate Audio",
+      "player": {
+        "play": "Play",
+        "pause": "Pause",
+        "speed": "Speed",
+        "download": "Download"
+      },
+      "success": "Audio generated",
+      "successDesc": "Your audio overview is ready!",
+      "error": "Failed to generate audio"
+    },
+    "notes": {
+      "title": "Notes",
+      "empty": {
+        "title": "No notes yet",
+        "description": "Create notes or save chat messages here"
+      },
+      "newNote": "New Note",
+      "saveNote": "Save Note",
+      "deleteNote": "Delete Note",
+      "deleteTitle": "Delete Note",
+      "deleteDescription": "Are you sure you want to delete this note?",
+      "deleteConfirm": "Delete",
+      "deleteCancel": "Cancel",
+      "titlePlaceholder": "Note title...",
+      "contentPlaceholder": "Write your note here...",
+      "createdOn": "Created on",
+      "success": {
+        "noteSaved": "Note saved",
+        "noteSavedDesc": "Your note has been saved",
+        "noteDeleted": "Note deleted",
+        "noteDeletedDesc": "Your note has been deleted"
+      },
+      "errors": {
+        "saveFailed": "Failed to save note",
+        "deleteFailed": "Failed to delete note",
+        "noTitle": "Please enter a title",
+        "noContent": "Please enter some content"
+      }
+    },
+    "saveToNote": {
+      "button": "Save to Note",
+      "saving": "Saving...",
+      "success": "Saved to notes",
+      "successDesc": "Message saved to your notes",
+      "error": "Failed to save to notes"
+    }
+  },
+  "copiedText": {
+    "title": "Add Copied Text",
+    "contentLabel": "Text Content",
+    "contentPlaceholder": "Paste your copied text here...",
+    "titleLabel": "Title (optional)",
+    "titlePlaceholder": "Give this text a name",
+    "addButton": "Add Text",
+    "cancelButton": "Cancel"
+  },
+  "multipleWebsites": {
+    "title": "Add Multiple Websites",
+    "description": "Enter one URL per line",
+    "placeholder": "https://example.com\nhttps://another-site.com",
+    "addButton": "Add Websites",
+    "addingButton": "Adding...",
+    "cancelButton": "Cancel",
+    "validationError": "Invalid URL on line {{line}}: {{url}}"
+  }
+}

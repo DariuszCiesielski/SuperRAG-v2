@@ -1,0 +1,45 @@
+{
+  "app": {
+    "name": "SuperRAG",
+    "tagline": "Your AI-powered knowledge companion"
+  },
+  "buttons": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "continue": "Continue",
+    "confirm": "Confirm",
+    "back": "Back",
+    "create": "Create",
+    "update": "Update",
+    "remove": "Remove",
+    "add": "Add"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "profile": "Profile Settings",
+    "signOut": "Sign Out",
+    "backToDashboard": "Back to Dashboard"
+  },
+  "loading": {
+    "saving": "Saving...",
+    "creating": "Creating...",
+    "deleting": "Deleting...",
+    "loading": "Loading...",
+    "processing": "Processing...",
+    "uploading": "Uploading...",
+    "generating": "Generating..."
+  },
+  "sources": {
+    "count_one": "{{count}} source",
+    "count_other": "{{count}} sources"
+  },
+  "status": {
+    "success": "Success",
+    "error": "Error",
+    "warning": "Warning",
+    "info": "Info"
+  }
+}

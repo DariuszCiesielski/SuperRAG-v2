@@ -1,0 +1,47 @@
+{
+  "app": {
+    "name": "SuperRAG",
+    "tagline": "Twój asystent wiedzy napędzany AI"
+  },
+  "buttons": {
+    "save": "Zapisz",
+    "cancel": "Anuluj",
+    "delete": "Usuń",
+    "edit": "Edytuj",
+    "close": "Zamknij",
+    "continue": "Kontynuuj",
+    "confirm": "Potwierdź",
+    "back": "Wstecz",
+    "create": "Utwórz",
+    "update": "Zaktualizuj",
+    "remove": "Usuń",
+    "add": "Dodaj"
+  },
+  "navigation": {
+    "dashboard": "Panel główny",
+    "profile": "Ustawienia profilu",
+    "signOut": "Wyloguj się",
+    "backToDashboard": "Powrót do panelu"
+  },
+  "loading": {
+    "saving": "Zapisywanie...",
+    "creating": "Tworzenie...",
+    "deleting": "Usuwanie...",
+    "loading": "Ładowanie...",
+    "processing": "Przetwarzanie...",
+    "uploading": "Przesyłanie...",
+    "generating": "Generowanie..."
+  },
+  "sources": {
+    "count_one": "{{count}} źródło",
+    "count_few": "{{count}} źródła",
+    "count_many": "{{count}} źródeł",
+    "count_other": "{{count}} źródeł"
+  },
+  "status": {
+    "success": "Sukces",
+    "error": "Błąd",
+    "warning": "Ostrzeżenie",
+    "info": "Informacja"
+  }
+}

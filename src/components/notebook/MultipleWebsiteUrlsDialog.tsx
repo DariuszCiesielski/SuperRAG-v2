@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -17,6 +18,7 @@ const MultipleWebsiteUrlsDialog = ({
   onOpenChange,
   onSubmit
 }: MultipleWebsiteUrlsDialogProps) => {
+  const { t } = useTranslation(['notebook', 'common']);
   const [urlsText, setUrlsText] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -62,15 +64,15 @@ const MultipleWebsiteUrlsDialog = ({
         <DialogHeader>
           <DialogTitle className="flex items-center space-x-2">
             <Link className="h-5 w-5 text-green-600" />
-            <span>Add Multiple Website URLs</span>
+            <span>{t('dialogs.multipleWebsites.title')}</span>
           </DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4">
           <div>
-            <Label className="text-sm font-medium">Website URLs</Label>
+            <Label className="text-sm font-medium">{t('dialogs.multipleWebsites.label')}</Label>
             <p className="text-sm text-gray-600 mb-3">
-              Enter multiple website URLs, one per line. Each URL will be scraped as a separate source.
+              {t('dialogs.multipleWebsites.description')}
             </p>
           </div>
 
@@ -87,20 +89,20 @@ https://third-website.org`}
             />
             {validUrls.length > 0 && (
               <p className="text-sm text-gray-500 mt-2">
-                {validUrls.length} URL{validUrls.length !== 1 ? 's' : ''} detected
+                {t('dialogs.multipleWebsites.urlsDetected', { count: validUrls.length })}
               </p>
             )}
           </div>
 
           <div className="flex justify-end space-x-2 pt-4">
             <Button variant="outline" onClick={handleClose}>
-              Cancel
+              {t('common:buttons.cancel')}
             </Button>
-            <Button 
-              onClick={handleSubmit} 
+            <Button
+              onClick={handleSubmit}
               disabled={!isValid || isSubmitting}
             >
-              {isSubmitting ? 'Adding...' : `Add ${validUrls.length} Website${validUrls.length !== 1 ? 's' : ''}`}
+              {isSubmitting ? t('dialogs.multipleWebsites.submitting') : t('dialogs.multipleWebsites.submit', { count: validUrls.length })}
             </Button>
           </div>
         </div>

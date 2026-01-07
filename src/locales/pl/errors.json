@@ -1,0 +1,57 @@
+{
+  "generic": {
+    "somethingWentWrong": "Coś poszło nie tak",
+    "tryAgain": "Spróbuj ponownie",
+    "unknownError": "Wystąpił nieznany błąd",
+    "networkError": "Błąd sieci. Sprawdź swoje połączenie.",
+    "timeoutError": "Przekroczono limit czasu. Spróbuj ponownie.",
+    "serverError": "Błąd serwera. Spróbuj ponownie później."
+  },
+  "validation": {
+    "required": "To pole jest wymagane",
+    "invalidEmail": "Wprowadź prawidłowy adres e-mail",
+    "invalidUrl": "Wprowadź prawidłowy adres URL",
+    "tooShort": "To pole jest za krótkie",
+    "tooLong": "To pole jest za długie",
+    "invalidFormat": "Nieprawidłowy format"
+  },
+  "auth": {
+    "notAuthenticated": "Zaloguj się, aby kontynuować",
+    "sessionExpired": "Twoja sesja wygasła. Zaloguj się ponownie.",
+    "invalidCredentials": "Nieprawidłowe dane logowania",
+    "accountLocked": "Twoje konto zostało zablokowane. Skontaktuj się z pomocą techniczną.",
+    "emailNotVerified": "Zweryfikuj swój adres e-mail"
+  },
+  "notebook": {
+    "notFound": "Nie znaleziono notesu",
+    "loadFailed": "Nie udało się załadować notesu",
+    "createFailed": "Nie udało się utworzyć notesu",
+    "updateFailed": "Nie udało się zaktualizować notesu",
+    "deleteFailed": "Nie udało się usunąć notesu",
+    "accessDenied": "Nie masz dostępu do tego notesu"
+  },
+  "source": {
+    "notFound": "Nie znaleziono źródła",
+    "uploadFailed": "Nie udało się przesłać źródła",
+    "processingFailed": "Nie udało się przetworzyć źródła",
+    "deleteFailed": "Nie udało się usunąć źródła",
+    "invalidFormat": "Nieprawidłowy format pliku",
+    "fileTooLarge": "Plik jest za duży",
+    "quotaExceeded": "Przekroczono limit miejsca"
+  },
+  "chat": {
+    "sendFailed": "Nie udało się wysłać wiadomości",
+    "loadFailed": "Nie udało się załadować historii czatu",
+    "clearFailed": "Nie udało się wyczyścić czatu"
+  },
+  "note": {
+    "saveFailed": "Nie udało się zapisać notatki",
+    "deleteFailed": "Nie udało się usunąć notatki",
+    "loadFailed": "Nie udało się załadować notatek"
+  },
+  "audio": {
+    "generateFailed": "Nie udało się wygenerować audio",
+    "playbackFailed": "Odtwarzanie audio nie powiodło się",
+    "downloadFailed": "Nie udało się pobrać audio"
+  }
+}

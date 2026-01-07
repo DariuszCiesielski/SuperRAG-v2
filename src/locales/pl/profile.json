@@ -1,0 +1,67 @@
+{
+  "title": "Ustawienia profilu",
+  "backToDashboard": "Powrót do panelu",
+  "profileInfo": {
+    "title": "Informacje o profilu",
+    "email": "E-mail",
+    "memberSince": "Członek od",
+    "lastUpdated": "Ostatnia aktualizacja"
+  },
+  "changePassword": {
+    "title": "Zmień hasło",
+    "description": "Zaktualizuj hasło, aby zabezpieczyć swoje konto",
+    "currentPassword": "Obecne hasło",
+    "currentPasswordPlaceholder": "Wprowadź obecne hasło",
+    "newPassword": "Nowe hasło",
+    "newPasswordPlaceholder": "Wprowadź nowe hasło",
+    "confirmPassword": "Potwierdź nowe hasło",
+    "confirmPasswordPlaceholder": "Potwierdź swoje nowe hasło",
+    "updateButton": "Zaktualizuj hasło",
+    "updatingButton": "Aktualizowanie...",
+    "success": "Hasło zaktualizowane",
+    "successDesc": "Twoje hasło zostało pomyślnie zmienione",
+    "errors": {
+      "currentPasswordRequired": "Obecne hasło jest wymagane",
+      "newPasswordRequired": "Nowe hasło jest wymagane",
+      "confirmPasswordRequired": "Potwierdź swoje nowe hasło",
+      "passwordTooShort": "Hasło musi mieć co najmniej 6 znaków",
+      "passwordsDoNotMatch": "Hasła nie są zgodne",
+      "updateFailed": "Nie udało się zaktualizować hasła",
+      "incorrectPassword": "Obecne hasło jest nieprawidłowe"
+    }
+  },
+  "accountInfo": {
+    "title": "Informacje o koncie",
+    "description": "Zarządzaj ustawieniami i preferencjami konta",
+    "emailVerified": "E-mail zweryfikowany",
+    "emailNotVerified": "E-mail niezweryfikowany",
+    "verifyEmail": "Zweryfikuj e-mail"
+  },
+  "dangerZone": {
+    "title": "Strefa niebezpieczna",
+    "deleteAccount": {
+      "title": "Usuń konto",
+      "description": "Trwale usuń swoje konto i wszystkie powiązane dane",
+      "button": "Usuń konto",
+      "dialogTitle": "Czy jesteś absolutnie pewien?",
+      "dialogDescription": "Tej operacji nie można cofnąć. Spowoduje to trwałe usunięcie Twojego konta i usunięcie wszystkich danych z naszych serwerów.",
+      "whatWillBeDeleted": "Co zostanie usunięte:",
+      "items": {
+        "profile": "Twój profil i informacje o koncie",
+        "notebooks": "Wszystkie Twoje notesy i ich zawartość",
+        "sources": "Wszystkie przesłane źródła i dokumenty",
+        "notes": "Wszystkie Twoje notatki i historia czatu",
+        "audio": "Wszystkie wygenerowane przeglądy audio"
+      },
+      "confirmText": "Wpisz USUŃ, aby potwierdzić",
+      "confirmPlaceholder": "USUŃ",
+      "deleteButton": "Usuń moje konto",
+      "deletingButton": "Usuwanie...",
+      "cancelButton": "Anuluj",
+      "success": "Konto usunięte",
+      "successDesc": "Twoje konto zostało trwale usunięte",
+      "error": "Nie udało się usunąć konta",
+      "confirmationMismatch": "Wpisz USUŃ, aby potwierdzić"
+    }
+  }
+}

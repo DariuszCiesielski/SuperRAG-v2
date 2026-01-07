@@ -1,17 +1,19 @@
-
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { User, LogOut, Settings } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { useLogout } from '@/services/authService';
 import Logo from '@/components/ui/Logo';
+import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher';
 
 interface DashboardHeaderProps {
   userEmail?: string;
 }
 
 const DashboardHeader = ({ userEmail }: DashboardHeaderProps) => {
+  const { t } = useTranslation('common');
   const navigate = useNavigate();
   const { logout } = useLogout();
 
@@ -20,10 +22,11 @@ const DashboardHeader = ({ userEmail }: DashboardHeaderProps) => {
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2">
           <Logo />
-          <h1 className="text-xl font-medium text-gray-900">SuperRAG</h1>
+          <h1 className="text-xl font-medium text-gray-900">{t('app.name')}</h1>
         </div>
 
         <div className="flex items-center space-x-4">
+          <LanguageSwitcher />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="sm" className="p-0">
@@ -35,12 +38,12 @@ const DashboardHeader = ({ userEmail }: DashboardHeaderProps) => {
             <DropdownMenuContent align="end" className="w-48">
               <DropdownMenuItem onClick={() => navigate('/profile')} className="cursor-pointer">
                 <Settings className="h-4 w-4 mr-2" />
-                Profile Settings
+                {t('navigation.profile')}
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={logout} className="cursor-pointer">
                 <LogOut className="h-4 w-4 mr-2" />
-                Sign Out
+                {t('navigation.signOut')}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

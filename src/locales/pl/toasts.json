@@ -1,0 +1,30 @@
+{
+  "success": {
+    "saved": "Zapisano pomyślnie",
+    "created": "Utworzono pomyślnie",
+    "updated": "Zaktualizowano pomyślnie",
+    "deleted": "Usunięto pomyślnie",
+    "uploaded": "Przesłano pomyślnie",
+    "copied": "Skopiowano do schowka"
+  },
+  "error": {
+    "failed": "Operacja nie powiodła się",
+    "saveFailed": "Nie udało się zapisać",
+    "createFailed": "Nie udało się utworzyć",
+    "updateFailed": "Nie udało się zaktualizować",
+    "deleteFailed": "Nie udało się usunąć",
+    "uploadFailed": "Nie udało się przesłać",
+    "loadFailed": "Nie udało się załadować"
+  },
+  "info": {
+    "processing": "Przetwarzanie...",
+    "uploading": "Przesyłanie...",
+    "loading": "Ładowanie...",
+    "pleaseWait": "Proszę czekać..."
+  },
+  "warning": {
+    "unsavedChanges": "Masz niezapisane zmiany",
+    "confirmAction": "Potwierdź tę operację",
+    "limitReached": "Osiągnięto limit"
+  }
+}

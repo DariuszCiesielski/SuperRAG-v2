@@ -1,0 +1,43 @@
+{
+  "welcome": "Welcome to SuperRAG",
+  "loading": "Loading your notebooks...",
+  "error": "Error loading notebooks: {{error}}",
+  "createNew": "Create New Notebook",
+  "empty": {
+    "title": "No notebooks yet",
+    "description": "Create your first notebook to get started with SuperRAG",
+    "createButton": "Create Your First Notebook"
+  },
+  "sorting": {
+    "label": "Sort by",
+    "mostRecent": "Most Recent",
+    "oldest": "Oldest",
+    "alphabetical": "A-Z",
+    "reverseAlphabetical": "Z-A"
+  },
+  "notebookCard": {
+    "createdOn": "Created on",
+    "lastModified": "Last modified",
+    "rename": "Rename Notebook",
+    "delete": "Delete Notebook",
+    "deleteTitle": "Delete Notebook",
+    "deleteDescription": "Are you sure you want to delete this notebook? This action cannot be undone and will delete all sources, notes, and chat history.",
+    "deleteConfirm": "Delete",
+    "deleteCancel": "Cancel",
+    "renameTitle": "Rename Notebook",
+    "renamePlaceholder": "Enter new notebook name",
+    "renameButton": "Rename",
+    "defaultName": "Untitled Notebook"
+  },
+  "toasts": {
+    "notebookCreated": "Notebook created",
+    "notebookCreatedDesc": "Your new notebook is ready!",
+    "notebookDeleted": "Notebook deleted",
+    "notebookDeletedDesc": "Your notebook has been deleted.",
+    "notebookRenamed": "Notebook renamed",
+    "notebookRenamedDesc": "Your notebook name has been updated.",
+    "errorCreating": "Error creating notebook",
+    "errorDeleting": "Error deleting notebook",
+    "errorRenaming": "Error renaming notebook"
+  }
+}

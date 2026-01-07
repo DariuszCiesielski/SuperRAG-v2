@@ -1,5 +1,5 @@
-
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -14,6 +14,7 @@ import { Mail } from 'lucide-react';
 type AuthMode = 'sign-in' | 'sign-up' | 'reset-password';
 
 const AuthForm = () => {
+  const { t } = useTranslation('auth');
   const [mode, setMode] = useState<AuthMode>('sign-in');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -109,14 +110,14 @@ const AuthForm = () => {
       console.log('Sign in successful:', data.user?.email);
 
       toast({
-        title: "Welcome back!",
-        description: "You have successfully signed in.",
+        title: t('success.welcomeBack'),
+        description: t('success.welcomeBackDesc'),
       });
 
     } catch (error: any) {
       console.error('Auth form error:', error);
       toast({
-        title: "Sign In Error",
+        title: t('errors.genericError'),
         description: error.message,
         variant: "destructive",
       });
@@ -132,11 +133,11 @@ const AuthForm = () => {
     try {
       // Validate passwords match
       if (password !== confirmPassword) {
-        throw new Error('Passwords do not match. Please try again.');
+        throw new Error(t('errors.passwordsDoNotMatch'));
       }
 
       if (password.length < 6) {
-        throw new Error('Password must be at least 6 characters long.');
+        throw new Error(t('errors.passwordTooShort'));
       }
 
       console.log('Attempting sign up for:', email);
@@ -158,14 +159,14 @@ const AuthForm = () => {
 
       setEmailSent(true);
       toast({
-        title: "Account Created!",
-        description: "Please check your email to confirm your account.",
+        title: t('success.accountCreated'),
+        description: t('signUp.checkEmailDesc'),
       });
 
     } catch (error: any) {
       console.error('Sign up error:', error);
       toast({
-        title: "Sign Up Error",
+        title: t('errors.genericError'),
         description: error.message,
         variant: "destructive",
       });
@@ -194,14 +195,14 @@ const AuthForm = () => {
 
       setEmailSent(true);
       toast({
-        title: "Reset Email Sent!",
-        description: "Please check your email for password reset instructions.",
+        title: t('success.resetLinkSent'),
+        description: t('success.resetLinkSentDesc'),
       });
 
     } catch (error: any) {
       console.error('Password reset error:', error);
       toast({
-        title: "Reset Password Error",
+        title: t('errors.genericError'),
         description: error.message,
         variant: "destructive",
       });
@@ -266,26 +267,26 @@ const AuthForm = () => {
   };
 
   const getTitle = () => {
-    if (mode === 'sign-in') return 'Sign In';
-    if (mode === 'sign-up') return 'Create Account';
-    if (mode === 'reset-password') return 'Reset Password';
+    if (mode === 'sign-in') return t('signIn.title');
+    if (mode === 'sign-up') return t('signUp.title');
+    if (mode === 'reset-password') return t('resetPassword.title');
   };
 
   const getDescription = () => {
-    if (mode === 'sign-in') return 'Enter your credentials to access your notebooks';
-    if (mode === 'sign-up') return 'Create a new account to get started';
-    if (mode === 'reset-password') return 'Enter your email to receive reset instructions';
+    if (mode === 'sign-in') return t('signIn.title');
+    if (mode === 'sign-up') return t('signUp.title');
+    if (mode === 'reset-password') return t('resetPassword.title');
   };
 
   const getButtonText = () => {
     if (loading) {
-      if (mode === 'sign-in') return 'Signing In...';
-      if (mode === 'sign-up') return 'Creating Account...';
-      if (mode === 'reset-password') return 'Sending Email...';
+      if (mode === 'sign-in') return t('signIn.buttonLoading');
+      if (mode === 'sign-up') return t('signUp.buttonLoading');
+      if (mode === 'reset-password') return t('resetPassword.buttonLoading');
     }
-    if (mode === 'sign-in') return 'Sign In';
-    if (mode === 'sign-up') return 'Create Account';
-    if (mode === 'reset-password') return 'Send Reset Link';
+    if (mode === 'sign-in') return t('signIn.button');
+    if (mode === 'sign-up') return t('signUp.button');
+    if (mode === 'reset-password') return t('resetPassword.button');
   };
 
   return (
@@ -299,10 +300,9 @@ const AuthForm = () => {
           <Alert className="mb-4">
             <Mail className="h-4 w-4" />
             <AlertDescription>
-              <strong>Check your email!</strong>
+              <strong>{mode === 'reset-password' ? t('resetPassword.checkEmail') : t('signUp.checkEmail')}</strong>
               <p className="mt-1">
-                We've sent you an email with {mode === 'reset-password' ? 'password reset instructions' : 'a confirmation link'}.
-                Please check your inbox and spam folder.
+                {mode === 'reset-password' ? t('resetPassword.checkEmailDesc') : t('signUp.checkEmailDesc')}
               </p>
             </AlertDescription>
           </Alert>
@@ -310,7 +310,7 @@ const AuthForm = () => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">{t('fields.email')}</Label>
             <Input
               id="email"
               type="email"
@@ -320,14 +320,14 @@ const AuthForm = () => {
                 if (error) setError(null);
               }}
               required
-              placeholder="Enter your email"
+              placeholder={t('fields.emailPlaceholder')}
               disabled={emailSent}
             />
           </div>
 
           {mode !== 'reset-password' && (
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">{t('fields.password')}</Label>
               <Input
                 id="password"
                 type="password"
@@ -337,7 +337,7 @@ const AuthForm = () => {
                   if (error) setError(null);
                 }}
                 required
-                placeholder="Enter your password"
+                placeholder={t('fields.passwordPlaceholder')}
                 minLength={6}
                 disabled={emailSent}
               />
@@ -346,14 +346,14 @@ const AuthForm = () => {
 
           {mode === 'sign-up' && (
             <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Confirm Password</Label>
+              <Label htmlFor="confirmPassword">{t('fields.confirmPassword')}</Label>
               <Input
                 id="confirmPassword"
                 type="password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
-                placeholder="Confirm your password"
+                placeholder={t('fields.confirmPasswordPlaceholder')}
                 minLength={6}
                 disabled={emailSent}
               />
@@ -364,7 +364,7 @@ const AuthForm = () => {
             <Alert className="border-blue-200 bg-blue-50">
               <AlertDescription>
                 <p className="text-sm text-gray-700">
-                  No account found with these credentials.{' '}
+                  {t('errors.accountNotFound')}{' '}
                   <button
                     type="button"
                     onClick={() => {
@@ -375,9 +375,9 @@ const AuthForm = () => {
                     }}
                     className="font-medium text-blue-600 hover:text-blue-800 underline"
                   >
-                    Create a new account
+                    {t('errors.createNewAccount')}
                   </button>
-                  {' '}or check your email and password.
+                  {' '}{t('errors.checkCredentials')}
                 </p>
               </AlertDescription>
             </Alert>
@@ -402,7 +402,7 @@ const AuthForm = () => {
                     setConfirmPassword('');
                   }}
                 >
-                  Don't have an account? Sign up
+                  {t('signIn.noAccount')} {t('signIn.signUpLink')}
                 </Button>
                 <Button
                   type="button"
@@ -415,7 +415,7 @@ const AuthForm = () => {
                     setPassword('');
                   }}
                 >
-                  Forgot password?
+                  {t('signIn.forgotPassword')} {t('signIn.resetLink')}
                 </Button>
               </>
             )}
@@ -433,7 +433,7 @@ const AuthForm = () => {
                   setConfirmPassword('');
                 }}
               >
-                Back to sign in
+                {t('resetPassword.backToSignIn')}
               </Button>
             )}
           </div>

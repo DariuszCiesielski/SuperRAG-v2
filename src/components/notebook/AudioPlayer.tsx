@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Slider } from '@/components/ui/slider';
@@ -17,9 +18,9 @@ interface AudioPlayerProps {
   onUrlRefresh?: (notebookId: string) => void;
 }
 
-const AudioPlayer = ({ 
-  audioUrl, 
-  title = "Deep Dive Conversation", 
+const AudioPlayer = ({
+  audioUrl,
+  title = "Deep Dive Conversation",
   notebookId,
   expiresAt,
   onError,
@@ -27,6 +28,7 @@ const AudioPlayer = ({
   onRetry,
   onUrlRefresh
 }: AudioPlayerProps) => {
+  const { t } = useTranslation(['notebook', 'common']);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -77,7 +79,7 @@ const AudioPlayer = ({
           audio.load();
         }, 1000 * (retryCount + 1)); // Exponential backoff
       } else {
-        setAudioError('Failed to load audio');
+        setAudioError(t('audioPlayer.failedToLoad'));
         setAutoRetryInProgress(false);
         onError?.();
       }
@@ -133,7 +135,7 @@ const AudioPlayer = ({
       if (playPromise !== undefined) {
         playPromise.catch(error => {
           console.error('Play failed:', error);
-          setAudioError('Playback failed');
+          setAudioError(t('audioPlayer.failedToLoad'));
         });
       }
     }
@@ -209,16 +211,17 @@ const AudioPlayer = ({
       // Clean up
       document.body.removeChild(link);
       URL.revokeObjectURL(blobUrl);
-      
+
+
       toast({
-        title: "Download Started",
-        description: "Your audio file is being downloaded.",
+        title: t('audioPlayer.downloadStarted'),
+        description: t('audioPlayer.downloadStartedDesc'),
       });
     } catch (error) {
       console.error('Download failed:', error);
       toast({
-        title: "Download Failed",
-        description: "Failed to download the audio file. Please try again.",
+        title: t('audioPlayer.downloadFailed'),
+        description: t('audioPlayer.downloadFailedDesc'),
         variant: "destructive",
       });
     } finally {
@@ -229,8 +232,8 @@ const AudioPlayer = ({
   const deleteAudio = async () => {
     if (!notebookId) {
       toast({
-        title: "Error",
-        description: "Cannot delete audio - notebook ID not found",
+        title: t('audioPlayer.deleteFailed'),
+        description: t('audioPlayer.cannotDelete'),
         variant: "destructive",
       });
       return;
@@ -288,8 +291,8 @@ const AudioPlayer = ({
       }
 
       toast({
-        title: "Audio Deleted",
-        description: "The audio overview and associated files have been successfully deleted.",
+        title: t('audioPlayer.audioDeleted'),
+        description: t('audioPlayer.audioDeletedDesc'),
       });
 
       // Call the onDeleted callback to update parent component
@@ -298,8 +301,8 @@ const AudioPlayer = ({
     } catch (error) {
       console.error('Failed to delete audio:', error);
       toast({
-        title: "Delete Failed",
-        description: "Failed to delete the audio overview. Please try again.",
+        title: t('audioPlayer.deleteFailed'),
+        description: t('audioPlayer.deleteFailedDesc'),
         variant: "destructive",
       });
     } finally {
@@ -332,15 +335,15 @@ const AudioPlayer = ({
               ) : (
                 <Download className="h-4 w-4 mr-2" />
               )}
-              {isDownloading ? 'Downloading...' : 'Download'}
+              {isDownloading ? t('audioPlayer.downloading') : t('audioPlayer.download')}
             </DropdownMenuItem>
-            <DropdownMenuItem 
+            <DropdownMenuItem
               onClick={deleteAudio}
               className="text-red-600 focus:text-red-600"
               disabled={isDeleting}
             >
               <Trash2 className="h-4 w-4 mr-2" />
-              Delete
+              {t('common:buttons.delete')}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -351,7 +354,7 @@ const AudioPlayer = ({
         <div className="flex items-center justify-between p-3 bg-blue-50 rounded-md border border-blue-200">
           <div className="flex items-center space-x-2">
             <Loader2 className="h-4 w-4 text-blue-600 animate-spin" />
-            <span className="text-sm text-blue-600">Refreshing audio access...</span>
+            <span className="text-sm text-blue-600">{t('audioPlayer.refreshing')}</span>
           </div>
         </div>
       )}

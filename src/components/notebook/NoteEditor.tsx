@@ -8,6 +8,8 @@ import { Note } from '@/hooks/useNotes';
 import MarkdownRenderer from '@/components/chat/MarkdownRenderer';
 import { Citation } from '@/types/message';
 import { supabase } from '@/integrations/supabase/client';
+import { useTranslation } from 'react-i18next';
+import { formatShortDate } from '@/lib/i18n-dates';
 
 interface NoteEditorProps {
   note?: Note;
@@ -19,6 +21,7 @@ interface NoteEditorProps {
 }
 
 const NoteEditor = ({ note, onSave, onDelete, onCancel, isLoading, onCitationClick }: NoteEditorProps) => {
+  const { t } = useTranslation('notebook');
   const [title, setTitle] = useState(note?.title || '');
   const [content, setContent] = useState(note?.content || '');
   // AI response notes should NEVER be in edit mode - they're read-only
@@ -103,12 +106,12 @@ const NoteEditor = ({ note, onSave, onDelete, onCancel, isLoading, onCitationCli
         <div className="p-4 border-b border-gray-200 flex-shrink-0">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-medium text-gray-900">
-              {isAIResponse ? 'AI Response' : 'Note'}
+              {isAIResponse ? t('studio.notes.types.aiResponse') : t('studio.notes.types.note')}
             </h3>
             <div className="flex items-center space-x-2">
               {!isAIResponse && (
                 <Button variant="ghost" size="sm" onClick={handleEdit}>
-                  Edit
+                  {t('noteEditor.edit')}
                 </Button>
               )}
               <Button variant="ghost" size="sm" onClick={onCancel}>
@@ -116,7 +119,7 @@ const NoteEditor = ({ note, onSave, onDelete, onCancel, isLoading, onCitationCli
               </Button>
             </div>
           </div>
-          
+
           <h2 className="text-lg font-semibold text-gray-900">{title}</h2>
         </div>
 
@@ -138,20 +141,20 @@ const NoteEditor = ({ note, onSave, onDelete, onCancel, isLoading, onCitationCli
           <div className="flex justify-between">
             <div>
               {note && onDelete && (
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
+                <Button
+                  variant="ghost"
+                  size="sm"
                   onClick={onDelete}
                   disabled={isLoading}
                   className="text-red-600 hover:text-red-700"
                 >
                   <Trash2 className="h-4 w-4 mr-2" />
-                  Delete
+                  {t('noteEditor.delete')}
                 </Button>
               )}
             </div>
             <div className="text-xs text-gray-500">
-              {note?.created_at && new Date(note.created_at).toLocaleDateString()}
+              {note?.created_at && formatShortDate(new Date(note.created_at))}
             </div>
           </div>
         </div>
@@ -166,29 +169,29 @@ const NoteEditor = ({ note, onSave, onDelete, onCancel, isLoading, onCitationCli
       <div className="p-4 border-b border-gray-200 flex-shrink-0">
         <div className="flex items-center justify-between mb-4">
           <h3 className="font-medium text-gray-900">
-            {note ? 'Edit Note' : 'New Note'}
+            {note ? t('noteEditor.editNote') : t('noteEditor.newNote')}
           </h3>
           <Button variant="ghost" size="sm" onClick={handleCancelEdit}>
             <X className="h-4 w-4" />
           </Button>
         </div>
-        
+
         <div className="flex space-x-2 mb-4">
           <Input
-            placeholder="Note title"
+            placeholder={t('noteEditor.titlePlaceholder')}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             className="flex-1"
           />
           {isAIResponse && (
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               size="sm"
               onClick={handleGenerateTitle}
               disabled={isGeneratingTitle}
             >
               <Wand2 className="h-4 w-4 mr-2" />
-              {isGeneratingTitle ? 'Generating...' : 'Generate Title'}
+              {isGeneratingTitle ? t('noteEditor.generating') : t('noteEditor.generateTitle')}
             </Button>
           )}
         </div>
@@ -197,7 +200,7 @@ const NoteEditor = ({ note, onSave, onDelete, onCancel, isLoading, onCitationCli
       {/* Content */}
       <div className="flex-1 p-4 overflow-hidden">
         <Textarea
-          placeholder="Write your note here..."
+          placeholder={t('noteEditor.contentPlaceholder')}
           value={content}
           onChange={(e) => setContent(e.target.value)}
           className="w-full h-full resize-none border-0 focus-visible:ring-0 p-0"
@@ -209,25 +212,25 @@ const NoteEditor = ({ note, onSave, onDelete, onCancel, isLoading, onCitationCli
         <div className="flex justify-between">
           <div>
             {note && onDelete && !isAIResponse && (
-              <Button 
-                variant="ghost" 
-                size="sm" 
+              <Button
+                variant="ghost"
+                size="sm"
                 onClick={onDelete}
                 disabled={isLoading}
                 className="text-red-600 hover:text-red-700"
               >
                 <Trash2 className="h-4 w-4 mr-2" />
-                Delete
+                {t('noteEditor.delete')}
               </Button>
             )}
           </div>
-          <Button 
+          <Button
             onClick={handleSave}
             disabled={!title.trim() || !content.trim() || isLoading}
             size="sm"
           >
             <Save className="h-4 w-4 mr-2" />
-            {isLoading ? 'Saving...' : 'Save'}
+            {isLoading ? t('noteEditor.saving') : t('noteEditor.save')}
           </Button>
         </div>
       </div>

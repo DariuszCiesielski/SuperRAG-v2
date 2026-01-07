@@ -1,0 +1,43 @@
+{
+  "welcome": "Witaj w SuperRAG",
+  "loading": "Ładowanie notesów...",
+  "error": "Błąd ładowania notesów: {{error}}",
+  "createNew": "Utwórz nowy notes",
+  "empty": {
+    "title": "Brak notesów",
+    "description": "Utwórz swój pierwszy notes, aby rozpocząć pracę z SuperRAG",
+    "createButton": "Utwórz swój pierwszy notes"
+  },
+  "sorting": {
+    "label": "Sortuj według",
+    "mostRecent": "Najnowsze",
+    "oldest": "Najstarsze",
+    "alphabetical": "A-Z",
+    "reverseAlphabetical": "Z-A"
+  },
+  "notebookCard": {
+    "createdOn": "Utworzono",
+    "lastModified": "Ostatnia modyfikacja",
+    "rename": "Zmień nazwę notesu",
+    "delete": "Usuń notes",
+    "deleteTitle": "Usuń notes",
+    "deleteDescription": "Czy na pewno chcesz usunąć ten notes? Tej operacji nie można cofnąć. Zostaną usunięte wszystkie źródła, notatki i historia czatu.",
+    "deleteConfirm": "Usuń",
+    "deleteCancel": "Anuluj",
+    "renameTitle": "Zmień nazwę notesu",
+    "renamePlaceholder": "Wprowadź nową nazwę notesu",
+    "renameButton": "Zmień nazwę",
+    "defaultName": "Notes bez tytułu"
+  },
+  "toasts": {
+    "notebookCreated": "Notes utworzony",
+    "notebookCreatedDesc": "Twój nowy notes jest gotowy!",
+    "notebookDeleted": "Notes usunięty",
+    "notebookDeletedDesc": "Twój notes został usunięty.",
+    "notebookRenamed": "Nazwa notesu zmieniona",
+    "notebookRenamedDesc": "Nazwa notesu została zaktualizowana.",
+    "errorCreating": "Błąd tworzenia notesu",
+    "errorDeleting": "Błąd usuwania notesu",
+    "errorRenaming": "Błąd zmiany nazwy notesu"
+  }
+}

@@ -1,5 +1,6 @@
 
 import React, { useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import NotebookCard from './NotebookCard';
 import { Check, Grid3X3, List, ChevronDown } from 'lucide-react';
@@ -13,8 +14,9 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 const NotebookGrid = () => {
+  const { t } = useTranslation(['dashboard', 'common']);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  const [sortBy, setSortBy] = useState('Most recent');
+  const [sortBy, setSortBy] = useState<'mostRecent' | 'title'>('mostRecent');
   const {
     notebooks,
     isLoading,
@@ -25,21 +27,21 @@ const NotebookGrid = () => {
 
   const sortedNotebooks = useMemo(() => {
     if (!notebooks) return [];
-    
+
     const sorted = [...notebooks];
-    
-    if (sortBy === 'Most recent') {
+
+    if (sortBy === 'mostRecent') {
       return sorted.sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
-    } else if (sortBy === 'Title') {
+    } else if (sortBy === 'title') {
       return sorted.sort((a, b) => a.title.localeCompare(b.title));
     }
-    
+
     return sorted;
   }, [notebooks, sortBy]);
 
   const handleCreateNotebook = () => {
     createNotebook({
-      title: 'Untitled notebook',
+      title: t('dashboard:notebookCard.untitledNotebook'),
       description: ''
     }, {
       onSuccess: data => {
@@ -65,32 +67,34 @@ const NotebookGrid = () => {
 
   if (isLoading) {
     return <div className="text-center py-16">
-        <p className="text-gray-600">Loading notebooks...</p>
+        <p className="text-gray-600">{t('dashboard:loading')}</p>
       </div>;
   }
 
   return <div>
       <div className="flex items-center justify-between mb-8">
         <Button className="bg-black hover:bg-gray-800 text-white rounded-full px-6" onClick={handleCreateNotebook} disabled={isCreating}>
-          {isCreating ? 'Creating...' : '+ Create new'}
+          {isCreating ? t('common:loading.creating') : t('dashboard:createNew')}
         </Button>
-        
+
         <div className="flex items-center space-x-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <div className="flex items-center space-x-2 bg-white rounded-lg border px-3 py-2 cursor-pointer hover:bg-gray-50 transition-colors">
-                <span className="text-sm text-gray-600">{sortBy}</span>
+                <span className="text-sm text-gray-600">
+                  {sortBy === 'mostRecent' ? t('dashboard:sorting.mostRecent') : t('dashboard:sorting.title')}
+                </span>
                 <ChevronDown className="h-4 w-4 text-gray-400" />
               </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuItem onClick={() => setSortBy('Most recent')} className="flex items-center justify-between">
-                Most recent
-                {sortBy === 'Most recent' && <Check className="h-4 w-4" />}
+              <DropdownMenuItem onClick={() => setSortBy('mostRecent')} className="flex items-center justify-between">
+                {t('dashboard:sorting.mostRecent')}
+                {sortBy === 'mostRecent' && <Check className="h-4 w-4" />}
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setSortBy('Title')} className="flex items-center justify-between">
-                Title
-                {sortBy === 'Title' && <Check className="h-4 w-4" />}
+              <DropdownMenuItem onClick={() => setSortBy('title')} className="flex items-center justify-between">
+                {t('dashboard:sorting.title')}
+                {sortBy === 'title' && <Check className="h-4 w-4" />}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

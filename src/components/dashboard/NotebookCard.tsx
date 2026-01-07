@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Trash2 } from 'lucide-react';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { useNotebookDelete } from '@/hooks/useNotebookDelete';
@@ -18,6 +19,7 @@ interface NotebookCardProps {
 const NotebookCard = ({
   notebook
 }: NotebookCardProps) => {
+  const { t } = useTranslation(['dashboard', 'common']);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const {
     deleteNotebook,
@@ -56,15 +58,15 @@ const NotebookCard = ({
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>Delete this notebook?</AlertDialogTitle>
+              <AlertDialogTitle>{t('dashboard:notebookCard.deleteTitle')}</AlertDialogTitle>
               <AlertDialogDescription>
-                You're about to delete this notebook and all of its content. This cannot be undone.
+                {t('dashboard:notebookCard.deleteDescription')}
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogCancel>{t('common:buttons.cancel')}</AlertDialogCancel>
               <AlertDialogAction onClick={handleConfirmDelete} className="bg-blue-600 hover:bg-blue-700" disabled={isDeleting}>
-                {isDeleting ? 'Deleting...' : 'Delete'}
+                {isDeleting ? t('common:loading.deleting') : t('common:buttons.delete')}
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
@@ -80,7 +82,7 @@ const NotebookCard = ({
       </h3>
       
       <div className="flex items-center justify-between text-sm text-gray-500 mt-auto">
-        <span>{notebook.date} • {notebook.sources} source{notebook.sources !== 1 ? 's' : ''}</span>
+        <span>{notebook.date} • {t('common:sources.count', { count: notebook.sources })}</span>
       </div>
     </div>;
 };

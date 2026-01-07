@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { User, LogOut } from 'lucide-react';
@@ -12,6 +13,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useLogout } from '@/services/authService';
 import Logo from '@/components/ui/Logo';
+import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher';
 
 interface NotebookHeaderProps {
   title: string;
@@ -19,6 +21,7 @@ interface NotebookHeaderProps {
 }
 
 const NotebookHeader = ({ title, notebookId }: NotebookHeaderProps) => {
+  const { t } = useTranslation('common');
   const navigate = useNavigate();
   const { logout } = useLogout();
   const [isEditing, setIsEditing] = useState(false);
@@ -90,8 +93,10 @@ const NotebookHeader = ({ title, notebookId }: NotebookHeaderProps) => {
             )}
           </div>
         </div>
-        
+
+
         <div className="flex items-center space-x-4">
+          <LanguageSwitcher />
           <div className="flex items-center space-x-2">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -104,7 +109,7 @@ const NotebookHeader = ({ title, notebookId }: NotebookHeaderProps) => {
               <DropdownMenuContent align="end" className="w-48">
                 <DropdownMenuItem onClick={logout} className="cursor-pointer">
                   <LogOut className="h-4 w-4 mr-2" />
-                  Sign Out
+                  {t('navigation.signOut')}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

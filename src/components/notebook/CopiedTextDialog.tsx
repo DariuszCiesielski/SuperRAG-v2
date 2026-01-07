@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -18,6 +19,7 @@ const CopiedTextDialog = ({
   onOpenChange,
   onSubmit
 }: CopiedTextDialogProps) => {
+  const { t } = useTranslation(['notebook', 'common']);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -88,24 +90,24 @@ const CopiedTextDialog = ({
         <DialogHeader>
           <DialogTitle className="flex items-center space-x-2">
             <Copy className="h-5 w-5 text-purple-600" />
-            <span>Add Copied Text</span>
+            <span>{t('dialogs.copiedText.title')}</span>
           </DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4">
           <div>
             <p className="text-sm text-gray-600 mb-4">
-              This dialog automatically reads from your clipboard. You can also manually paste content below.
+              {t('dialogs.copiedText.description')}
             </p>
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="title" className="text-sm font-medium">
-              Title
+              {t('dialogs.copiedText.titleLabel')}
             </Label>
             <Input
               id="title"
-              placeholder="Enter a title for this content..."
+              placeholder={t('dialogs.copiedText.titlePlaceholder')}
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
@@ -114,7 +116,7 @@ const CopiedTextDialog = ({
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <Label htmlFor="content" className="text-sm font-medium">
-                Content
+                {t('dialogs.copiedText.contentLabel')}
               </Label>
               <Button
                 variant="outline"
@@ -123,33 +125,33 @@ const CopiedTextDialog = ({
                 className="flex items-center space-x-1"
               >
                 <ClipboardPaste className="h-4 w-4" />
-                <span>Paste from Clipboard</span>
+                <span>{t('dialogs.copiedText.pasteButton')}</span>
               </Button>
             </div>
             <Textarea
               id="content"
-              placeholder="Your copied content will appear here..."
+              placeholder={t('dialogs.copiedText.contentPlaceholder')}
               value={content}
               onChange={(e) => setContent(e.target.value)}
               className="min-h-[200px] resize-y"
             />
             <div className="flex justify-between text-xs text-gray-500">
-              <span>{characterCount} characters</span>
+              <span>{t('dialogs.copiedText.characterCount', { count: characterCount })}</span>
               {characterCount > 10000 && (
-                <span className="text-amber-600">Large content may take longer to process</span>
+                <span className="text-amber-600">{t('dialogs.copiedText.largeContentWarning')}</span>
               )}
             </div>
           </div>
 
           <div className="flex justify-end space-x-2 pt-4">
             <Button variant="outline" onClick={handleClose}>
-              Cancel
+              {t('common:buttons.cancel')}
             </Button>
-            <Button 
-              onClick={handleSubmit} 
+            <Button
+              onClick={handleSubmit}
               disabled={!isValid || isSubmitting}
             >
-              {isSubmitting ? 'Adding...' : 'Add Copied Text'}
+              {isSubmitting ? t('dialogs.copiedText.submitting') : t('dialogs.copiedText.submit')}
             </Button>
           </div>
         </div>

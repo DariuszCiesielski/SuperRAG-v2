@@ -11,6 +11,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import NoteEditor from './NoteEditor';
 import AudioPlayer from './AudioPlayer';
 import { Citation } from '@/types/message';
+import { useTranslation } from 'react-i18next';
+import { formatShortDate } from '@/lib/i18n-dates';
 
 interface StudioSidebarProps {
   notebookId?: string;
@@ -23,6 +25,7 @@ const StudioSidebar = ({
   isExpanded,
   onCitationClick
 }: StudioSidebarProps) => {
+  const { t } = useTranslation(['notebook', 'common']);
   const [editingNote, setEditingNote] = useState<Note | null>(null);
   const [isCreatingNote, setIsCreatingNote] = useState(false);
   const [audioError, setAudioError] = useState(false);
@@ -160,28 +163,28 @@ const StudioSidebar = ({
     if (isAutoRefreshing) {
       return {
         icon: null,
-        text: "Refreshing URL...",
-        description: "Updating audio access"
+        text: t('studio.audioOverview.status.refreshing'),
+        description: t('studio.audioOverview.status.refreshingDesc')
       };
     }
-    
+
     if (currentStatus === 'generating' || isGenerating) {
       return {
         icon: <Loader2 className="h-4 w-4 animate-spin text-blue-600" />,
-        text: "Generating audio...",
-        description: "This may take a few minutes"
+        text: t('studio.audioOverview.status.generating'),
+        description: t('studio.audioOverview.status.generatingDesc')
       };
     } else if (currentStatus === 'failed') {
       return {
         icon: <AlertCircle className="h-4 w-4 text-red-600" />,
-        text: "Generation failed",
-        description: "Please try again"
+        text: t('studio.audioOverview.status.failed'),
+        description: t('studio.audioOverview.status.failedDesc')
       };
     } else if (currentStatus === 'completed' && hasValidAudio) {
       return {
         icon: <CheckCircle2 className="h-4 w-4 text-green-600" />,
-        text: "Ready to play",
-        description: "Audio overview available"
+        text: t('studio.audioOverview.status.ready'),
+        description: t('studio.audioOverview.status.readyDesc')
       };
     }
     return null;
@@ -217,21 +220,21 @@ const StudioSidebar = ({
 
   return <div className="w-full bg-gray-50 border-l border-gray-200 flex flex-col h-full overflow-hidden">
       <div className="p-4 border-b border-gray-200 flex-shrink-0">
-        <h2 className="text-lg font-medium text-gray-900 mb-4">Studio</h2>
-        
+        <h2 className="text-lg font-medium text-gray-900 mb-4">{t('studio.title')}</h2>
+
         {/* Audio Overview */}
         <Card className="p-4 mb-4 border border-gray-200">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="font-medium text-gray-900">Audio Overview</h3>
+            <h3 className="font-medium text-gray-900">{t('studio.audioOverview.title')}</h3>
           </div>
 
-          {hasValidAudio && !audioError && currentStatus !== 'generating' && !isAutoRefreshing ? <AudioPlayer 
-              audioUrl={notebook.audio_overview_url} 
-              title="Deep Dive Conversation" 
-              notebookId={notebookId} 
-              expiresAt={notebook.audio_url_expires_at} 
-              onError={handleAudioError} 
-              onRetry={handleAudioRetry} 
+          {hasValidAudio && !audioError && currentStatus !== 'generating' && !isAutoRefreshing ? <AudioPlayer
+              audioUrl={notebook.audio_overview_url}
+              title={t('studio.audioOverview.deepDive')}
+              notebookId={notebookId}
+              expiresAt={notebook.audio_url_expires_at}
+              onError={handleAudioError}
+              onRetry={handleAudioRetry}
               onDeleted={handleAudioDeleted}
               onUrlRefresh={handleUrlRefresh}
             /> : <Card className="p-3 border border-gray-200">
@@ -243,8 +246,8 @@ const StudioSidebar = ({
                     </svg>
                   </div>
                   <div className="flex-1">
-                    <h4 className="font-medium text-gray-900">Deep Dive conversation</h4>
-                    <p className="text-sm text-gray-600">Two hosts</p>
+                    <h4 className="font-medium text-gray-900">{t('studio.audioOverview.deepDive')}</h4>
+                    <p className="text-sm text-gray-600">{t('studio.audioOverview.twoHosts')}</p>
                   </div>
                 </div>}
               
@@ -261,20 +264,20 @@ const StudioSidebar = ({
               {audioError && <div className="flex items-center space-x-2 mb-3 p-2 bg-red-50 rounded-md">
                   <AlertCircle className="h-4 w-4 text-red-600" />
                   <div className="flex-1">
-                    <p className="text-sm text-red-600">Audio unavailable</p>
+                    <p className="text-sm text-red-600">{t('studio.audioOverview.status.unavailable')}</p>
                   </div>
                   <Button size="sm" variant="outline" onClick={handleAudioRetry} className="text-red-600 border-red-300 hover:bg-red-50">
                     <RefreshCw className="h-4 w-4 mr-1" />
-                    Retry
+                    {t('common:buttons.retry')}
                   </Button>
                 </div>}
-              
+
               <div className="flex space-x-2">
                 <Button size="sm" onClick={handleGenerateAudio} disabled={isGenerating || currentStatus === 'generating' || !hasProcessedSource || isAutoRefreshing} className="flex-1 text-white bg-slate-900 hover:bg-slate-800">
                   {isGenerating || currentStatus === 'generating' ? <>
                       <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                      Generating...
-                    </> : 'Generate'}
+                      {t('studio.audioOverview.generating')}
+                    </> : t('studio.audioOverview.generate')}
                 </Button>
               </div>
             </Card>}
@@ -283,13 +286,13 @@ const StudioSidebar = ({
         {/* Notes Section */}
         <div className="mb-4">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="font-medium text-gray-900">Notes</h3>
-            
+            <h3 className="font-medium text-gray-900">{t('studio.notes.title')}</h3>
+
           </div>
-          
+
           <Button variant="outline" size="sm" className="w-full mb-4" onClick={handleCreateNote}>
             <Plus className="h-4 w-4 mr-2" />
-            Add note
+            {t('studio.notes.addNote')}
           </Button>
         </div>
       </div>
@@ -298,7 +301,7 @@ const StudioSidebar = ({
       <ScrollArea className="flex-1 h-full">
         <div className="p-4">
           {isLoading ? <div className="text-center py-8">
-              <p className="text-sm text-gray-600">Loading notes...</p>
+              <p className="text-sm text-gray-600">{t('studio.notes.loading')}</p>
             </div> : notes && notes.length > 0 ? <div className="space-y-3">
               {notes.map(note => <Card key={note.id} className="p-3 border border-gray-200 hover:bg-gray-50 cursor-pointer" onClick={() => handleEditNote(note)}>
                   <div className="flex items-start justify-between">
@@ -306,7 +309,7 @@ const StudioSidebar = ({
                       <div className="flex items-center space-x-2 mb-1">
                         {note.source_type === 'ai_response' ? <Bot className="h-3 w-3 text-blue-600" /> : <User className="h-3 w-3 text-gray-600" />}
                         <span className="text-xs text-gray-500 uppercase">
-                          {note.source_type === 'ai_response' ? 'AI Response' : 'Note'}
+                          {note.source_type === 'ai_response' ? t('studio.notes.types.aiResponse') : t('studio.notes.types.note')}
                         </span>
                       </div>
                       <h4 className="font-medium text-gray-900 truncate">{note.title}</h4>
@@ -314,7 +317,7 @@ const StudioSidebar = ({
                         {getPreviewText(note)}
                       </p>
                       <p className="text-xs text-gray-500 mt-2">
-                        {new Date(note.updated_at).toLocaleDateString()}
+                        {formatShortDate(new Date(note.updated_at))}
                       </p>
                     </div>
                     {note.source_type === 'user' && <Button variant="ghost" size="sm" className="ml-2">
@@ -326,9 +329,9 @@ const StudioSidebar = ({
               <div className="w-16 h-16 bg-gray-200 rounded-lg mx-auto mb-4 flex items-center justify-center">
                 <span className="text-gray-400 text-2xl">📄</span>
               </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">Saved notes will appear here</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">{t('studio.notes.empty.title')}</h3>
               <p className="text-sm text-gray-600">
-                Save a chat message to create a new note, or click Add note above.
+                {t('studio.notes.empty.description')}
               </p>
             </div>}
         </div>

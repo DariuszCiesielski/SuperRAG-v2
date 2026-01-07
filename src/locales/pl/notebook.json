@@ -1,0 +1,179 @@
+{
+  "tabs": {
+    "chat": "Czat",
+    "sources": "Źródła",
+    "studio": "Studio"
+  },
+  "chat": {
+    "title": "Czat",
+    "placeholder": "Zapytaj o cokolwiek dotyczącego Twoich źródeł...",
+    "send": "Wyślij",
+    "sending": "Wysyłanie...",
+    "clearChat": "Wyczyść czat",
+    "clearing": "Czyszczenie...",
+    "disclaimer": "AI może popełniać błędy. Sprawdź ważne informacje.",
+    "emptyTitle": "Rozpocznij rozmowę",
+    "emptyDescription": "Zadawaj pytania dotyczące swoich źródeł i otrzymuj odpowiedzi oparte na AI.",
+    "thinking": "Myślę...",
+    "errorSending": "Błąd wysyłania wiadomości",
+    "errorClearing": "Błąd czyszczenia czatu",
+    "chatCleared": "Czat wyczyszczony",
+    "chatClearedDesc": "Historia czatu została wyczyszczona."
+  },
+  "sources": {
+    "title": "Źródła",
+    "add": "Dodaj źródła",
+    "empty": {
+      "title": "Brak źródeł",
+      "description": "Dodaj dokumenty, strony internetowe lub filmy z YouTube, aby rozpocząć czat."
+    },
+    "processing": "Przetwarzanie...",
+    "ready": "Gotowe",
+    "error": "Błąd",
+    "rename": "Zmień nazwę",
+    "delete": "Usuń",
+    "deleteTitle": "Usuń źródło",
+    "deleteDescription": "Czy na pewno chcesz usunąć to źródło? Tej operacji nie można cofnąć.",
+    "deleteConfirm": "Usuń",
+    "deleteCancel": "Anuluj"
+  },
+  "addSources": {
+    "title": "Dodaj źródła",
+    "description": "Dodaj dokumenty, strony internetowe lub filmy z YouTube do swojego notesu",
+    "tabs": {
+      "upload": "Prześlij pliki",
+      "website": "Strona WWW",
+      "youtube": "YouTube",
+      "text": "Wklej tekst"
+    },
+    "upload": {
+      "dragDrop": "Przeciągnij i upuść pliki tutaj lub kliknij, aby przeglądać",
+      "supported": "Obsługiwane: PDF, TXT, DOCX, MD (maks. 10MB każdy)",
+      "selectedFiles": "Wybrane pliki:",
+      "addButton": "Dodaj pliki"
+    },
+    "website": {
+      "placeholder": "Wprowadź adres URL strony",
+      "addButton": "Dodaj stronę",
+      "addingButton": "Dodawanie...",
+      "multipleUrls": "Wprowadź jeden URL w każdej linii",
+      "addMultiple": "Dodaj wiele adresów URL",
+      "validUrl": "Wprowadź prawidłowy adres URL"
+    },
+    "youtube": {
+      "placeholder": "Wprowadź adres URL YouTube",
+      "addButton": "Dodaj film",
+      "addingButton": "Dodawanie...",
+      "validUrl": "Wprowadź prawidłowy adres URL YouTube",
+      "example": "Przykład: https://youtube.com/watch?v=..."
+    },
+    "text": {
+      "placeholder": "Wklej swój tekst tutaj...",
+      "titlePlaceholder": "Nadaj temu tekstowi tytuł (opcjonalnie)",
+      "addButton": "Dodaj tekst",
+      "addingButton": "Dodawanie..."
+    },
+    "success": {
+      "filesAdded": "Pliki dodane",
+      "filesAddedDesc": "Pomyślnie dodano {{count}} plik(ów)",
+      "websiteAdded": "Strona dodana",
+      "websiteAddedDesc": "Strona jest przetwarzana",
+      "youtubeAdded": "Film YouTube dodany",
+      "youtubeAddedDesc": "Film jest przetwarzany",
+      "textAdded": "Tekst dodany",
+      "textAddedDesc": "Twój tekst został dodany"
+    },
+    "errors": {
+      "noFiles": "Wybierz co najmniej jeden plik",
+      "fileTooLarge": "Plik {{filename}} jest za duży (maks. 10MB)",
+      "invalidFormat": "Nieprawidłowy format pliku: {{filename}}",
+      "uploadFailed": "Nie udało się przesłać plików",
+      "websiteFailed": "Nie udało się dodać strony",
+      "youtubeFailed": "Nie udało się dodać filmu YouTube",
+      "textFailed": "Nie udało się dodać tekstu",
+      "noUrl": "Wprowadź adres URL",
+      "noText": "Wprowadź jakiś tekst"
+    }
+  },
+  "renameSource": {
+    "title": "Zmień nazwę źródła",
+    "placeholder": "Wprowadź nową nazwę",
+    "button": "Zmień nazwę",
+    "success": "Nazwa źródła zmieniona",
+    "successDesc": "Nazwa źródła została zaktualizowana",
+    "error": "Nie udało się zmienić nazwy źródła"
+  },
+  "studio": {
+    "title": "Studio",
+    "audioOverview": {
+      "title": "Przegląd audio",
+      "description": "Wygeneruj podsumowanie audio notesu oparte na AI",
+      "generate": "Generuj audio",
+      "generating": "Generowanie...",
+      "regenerate": "Regeneruj audio",
+      "player": {
+        "play": "Odtwórz",
+        "pause": "Wstrzymaj",
+        "speed": "Prędkość",
+        "download": "Pobierz"
+      },
+      "success": "Audio wygenerowane",
+      "successDesc": "Twój przegląd audio jest gotowy!",
+      "error": "Nie udało się wygenerować audio"
+    },
+    "notes": {
+      "title": "Notatki",
+      "empty": {
+        "title": "Brak notatek",
+        "description": "Twórz notatki lub zapisuj wiadomości z czatu tutaj"
+      },
+      "newNote": "Nowa notatka",
+      "saveNote": "Zapisz notatkę",
+      "deleteNote": "Usuń notatkę",
+      "deleteTitle": "Usuń notatkę",
+      "deleteDescription": "Czy na pewno chcesz usunąć tę notatkę?",
+      "deleteConfirm": "Usuń",
+      "deleteCancel": "Anuluj",
+      "titlePlaceholder": "Tytuł notatki...",
+      "contentPlaceholder": "Napisz swoją notatkę tutaj...",
+      "createdOn": "Utworzono",
+      "success": {
+        "noteSaved": "Notatka zapisana",
+        "noteSavedDesc": "Twoja notatka została zapisana",
+        "noteDeleted": "Notatka usunięta",
+        "noteDeletedDesc": "Twoja notatka została usunięta"
+      },
+      "errors": {
+        "saveFailed": "Nie udało się zapisać notatki",
+        "deleteFailed": "Nie udało się usunąć notatki",
+        "noTitle": "Wprowadź tytuł",
+        "noContent": "Wprowadź treść"
+      }
+    },
+    "saveToNote": {
+      "button": "Zapisz do notatek",
+      "saving": "Zapisywanie...",
+      "success": "Zapisano do notatek",
+      "successDesc": "Wiadomość zapisana w notatkach",
+      "error": "Nie udało się zapisać do notatek"
+    }
+  },
+  "copiedText": {
+    "title": "Dodaj skopiowany tekst",
+    "contentLabel": "Treść tekstowa",
+    "contentPlaceholder": "Wklej skopiowany tekst tutaj...",
+    "titleLabel": "Tytuł (opcjonalnie)",
+    "titlePlaceholder": "Nadaj temu tekstowi nazwę",
+    "addButton": "Dodaj tekst",
+    "cancelButton": "Anuluj"
+  },
+  "multipleWebsites": {
+    "title": "Dodaj wiele stron WWW",
+    "description": "Wprowadź jeden URL w każdej linii",
+    "placeholder": "https://przyklad.pl\nhttps://inna-strona.pl",
+    "addButton": "Dodaj strony",
+    "addingButton": "Dodawanie...",
+    "cancelButton": "Anuluj",
+    "validationError": "Nieprawidłowy URL w linii {{line}}: {{url}}"
+  }
+}

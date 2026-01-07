@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { FileText } from 'lucide-react';
 import { useNotes } from '@/hooks/useNotes';
@@ -11,6 +12,7 @@ interface SaveToNoteButtonProps {
 }
 
 const SaveToNoteButton = ({ content, notebookId, onSaved }: SaveToNoteButtonProps) => {
+  const { t } = useTranslation('notebook');
   const { createNote, isCreating } = useNotes(notebookId);
 
   const handleSaveToNote = () => {
@@ -73,7 +75,7 @@ const SaveToNoteButton = ({ content, notebookId, onSaved }: SaveToNoteButtonProp
       className="flex items-center space-x-1 text-gray-600 hover:text-gray-800"
     >
       <FileText className="h-3 w-3" />
-      <span className="text-xs">{isCreating ? 'Saving...' : 'Save to note'}</span>
+      <span className="text-xs">{isCreating ? t('saveToNote.saving') : t('saveToNote.button')}</span>
     </Button>
   );
 };

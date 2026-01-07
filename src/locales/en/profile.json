@@ -1,0 +1,67 @@
+{
+  "title": "Profile Settings",
+  "backToDashboard": "Back to Dashboard",
+  "profileInfo": {
+    "title": "Profile Information",
+    "email": "Email",
+    "memberSince": "Member since",
+    "lastUpdated": "Last updated"
+  },
+  "changePassword": {
+    "title": "Change Password",
+    "description": "Update your password to keep your account secure",
+    "currentPassword": "Current Password",
+    "currentPasswordPlaceholder": "Enter your current password",
+    "newPassword": "New Password",
+    "newPasswordPlaceholder": "Enter your new password",
+    "confirmPassword": "Confirm New Password",
+    "confirmPasswordPlaceholder": "Confirm your new password",
+    "updateButton": "Update Password",
+    "updatingButton": "Updating...",
+    "success": "Password updated",
+    "successDesc": "Your password has been changed successfully",
+    "errors": {
+      "currentPasswordRequired": "Current password is required",
+      "newPasswordRequired": "New password is required",
+      "confirmPasswordRequired": "Please confirm your new password",
+      "passwordTooShort": "Password must be at least 6 characters",
+      "passwordsDoNotMatch": "Passwords do not match",
+      "updateFailed": "Failed to update password",
+      "incorrectPassword": "Current password is incorrect"
+    }
+  },
+  "accountInfo": {
+    "title": "Account Information",
+    "description": "Manage your account settings and preferences",
+    "emailVerified": "Email verified",
+    "emailNotVerified": "Email not verified",
+    "verifyEmail": "Verify Email"
+  },
+  "dangerZone": {
+    "title": "Danger Zone",
+    "deleteAccount": {
+      "title": "Delete Account",
+      "description": "Permanently delete your account and all associated data",
+      "button": "Delete Account",
+      "dialogTitle": "Are you absolutely sure?",
+      "dialogDescription": "This action cannot be undone. This will permanently delete your account and remove all data from our servers.",
+      "whatWillBeDeleted": "What will be deleted:",
+      "items": {
+        "profile": "Your profile and account information",
+        "notebooks": "All your notebooks and their contents",
+        "sources": "All uploaded sources and documents",
+        "notes": "All your notes and chat history",
+        "audio": "All generated audio overviews"
+      },
+      "confirmText": "Type DELETE to confirm",
+      "confirmPlaceholder": "DELETE",
+      "deleteButton": "Delete My Account",
+      "deletingButton": "Deleting...",
+      "cancelButton": "Cancel",
+      "success": "Account deleted",
+      "successDesc": "Your account has been permanently deleted",
+      "error": "Failed to delete account",
+      "confirmationMismatch": "Please type DELETE to confirm"
+    }
+  }
+}

@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Dialog,
   DialogContent,
@@ -18,6 +19,7 @@ interface WebsiteUrlInputProps {
 }
 
 const WebsiteUrlInput = ({ open, onOpenChange, onSubmit }: WebsiteUrlInputProps) => {
+  const { t } = useTranslation(['notebook', 'common']);
   const [url, setUrl] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -43,23 +45,23 @@ const WebsiteUrlInput = ({ open, onOpenChange, onSubmit }: WebsiteUrlInputProps)
         <DialogHeader>
           <DialogTitle className="flex items-center space-x-2">
             <Globe className="h-5 w-5 text-blue-600" />
-            <span>Add Website</span>
+            <span>{t('dialogs.websiteUrl.title')}</span>
           </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="website-url">Website URL</Label>
+            <Label htmlFor="website-url">{t('dialogs.websiteUrl.label')}</Label>
             <Input
               id="website-url"
               type="url"
-              placeholder="https://example.com"
+              placeholder={t('dialogs.websiteUrl.placeholder')}
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               required
             />
             <p className="text-xs text-gray-500">
-              Enter the URL of the website you want to add as a source
+              {t('dialogs.websiteUrl.helper')}
             </p>
           </div>
 
@@ -70,14 +72,14 @@ const WebsiteUrlInput = ({ open, onOpenChange, onSubmit }: WebsiteUrlInputProps)
               className="flex-1"
               onClick={() => onOpenChange(false)}
             >
-              Cancel
+              {t('common:buttons.cancel')}
             </Button>
             <Button
               type="submit"
               className="flex-1"
               disabled={!url.trim() || isLoading}
             >
-              {isLoading ? 'Adding...' : 'Add Source'}
+              {isLoading ? t('dialogs.websiteUrl.submitting') : t('dialogs.websiteUrl.submit')}
             </Button>
           </div>
         </form>

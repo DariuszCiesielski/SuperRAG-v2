@@ -1,19 +1,20 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Upload, FileText, Globe, Video, Mic } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useNotebooks } from '@/hooks/useNotebooks';
+
 const EmptyDashboard = () => {
+  const { t } = useTranslation('dashboard');
   const navigate = useNavigate();
-  const {
-    createNotebook,
-    isCreating
-  } = useNotebooks();
+  const { createNotebook, isCreating } = useNotebooks();
+
   const handleCreateNotebook = () => {
     console.log('Create notebook button clicked');
     console.log('isCreating:', isCreating);
     createNotebook({
-      title: 'Untitled notebook',
+      title: t('notebookCard.defaultName'),
       description: ''
     }, {
       onSuccess: data => {
@@ -25,10 +26,12 @@ const EmptyDashboard = () => {
       }
     });
   };
-  return <div className="text-center py-16">
+
+  return (
+    <div className="text-center py-16">
       <div className="mb-12">
-        <h2 className="text-3xl font-medium text-gray-900 mb-4">Create your first notebook</h2>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">SuperRAG is an AI-powered research and writing assistant that works best with the sources you upload</p>
+        <h2 className="text-3xl font-medium text-gray-900 mb-4">{t('empty.title')}</h2>
+        <p className="text-lg text-gray-600 max-w-2xl mx-auto">{t('empty.description')}</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-12">
@@ -59,8 +62,10 @@ const EmptyDashboard = () => {
 
       <Button onClick={handleCreateNotebook} size="lg" className="bg-blue-600 hover:bg-blue-700" disabled={isCreating}>
         <Upload className="h-5 w-5 mr-2" />
-        {isCreating ? 'Creating...' : 'Create notebook'}
+        {isCreating ? t('common:loading.creating') : t('empty.createButton')}
       </Button>
-    </div>;
+    </div>
+  );
 };
+
 export default EmptyDashboard;

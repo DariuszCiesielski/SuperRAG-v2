@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Dialog,
   DialogContent,
@@ -21,6 +22,7 @@ interface RenameSourceDialogProps {
 }
 
 const RenameSourceDialog = ({ open, onOpenChange, source, notebookId }: RenameSourceDialogProps) => {
+  const { t } = useTranslation(['notebook', 'common']);
   const [title, setTitle] = useState('');
   const { updateSource, isUpdating } = useSourceUpdate();
 
@@ -51,31 +53,31 @@ const RenameSourceDialog = ({ open, onOpenChange, source, notebookId }: RenameSo
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Rename {source?.title}?</DialogTitle>
+          <DialogTitle>{t('dialogs.renameSource.title', { title: source?.title })}</DialogTitle>
           <DialogDescription>
-            Enter a new name for this source.
+            {t('dialogs.renameSource.description')}
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid gap-2">
-            <Label htmlFor="source-name">Source Name *</Label>
+            <Label htmlFor="source-name">{t('dialogs.renameSource.label')}</Label>
             <Input
               id="source-name"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="Enter source name"
+              placeholder={t('dialogs.renameSource.placeholder')}
             />
           </div>
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={handleCancel}>
-            Cancel
+            {t('common:buttons.cancel')}
           </Button>
-          <Button 
+          <Button
             onClick={handleSave}
             disabled={!title.trim() || isUpdating}
           >
-            {isUpdating ? 'Saving...' : 'Save'}
+            {isUpdating ? t('common:loading.saving') : t('common:buttons.save')}
           </Button>
         </DialogFooter>
       </DialogContent>

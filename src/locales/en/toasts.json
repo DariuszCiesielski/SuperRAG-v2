@@ -1,0 +1,30 @@
+{
+  "success": {
+    "saved": "Saved successfully",
+    "created": "Created successfully",
+    "updated": "Updated successfully",
+    "deleted": "Deleted successfully",
+    "uploaded": "Uploaded successfully",
+    "copied": "Copied to clipboard"
+  },
+  "error": {
+    "failed": "Operation failed",
+    "saveFailed": "Failed to save",
+    "createFailed": "Failed to create",
+    "updateFailed": "Failed to update",
+    "deleteFailed": "Failed to delete",
+    "uploadFailed": "Failed to upload",
+    "loadFailed": "Failed to load"
+  },
+  "info": {
+    "processing": "Processing...",
+    "uploading": "Uploading...",
+    "loading": "Loading...",
+    "pleaseWait": "Please wait..."
+  },
+  "warning": {
+    "unsavedChanges": "You have unsaved changes",
+    "confirmAction": "Please confirm this action",
+    "limitReached": "Limit reached"
+  }
+}

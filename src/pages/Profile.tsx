@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,9 +11,11 @@ import { useProfile } from '@/hooks/useProfile';
 import DashboardHeader from '@/components/dashboard/DashboardHeader';
 import { useAuth } from '@/contexts/AuthContext';
 import { DeleteAccountDialog } from '@/components/profile/DeleteAccountDialog';
+import { formatShortDate } from '@/lib/i18n-dates';
 
 const Profile = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation(['profile', 'common']);
   const { user } = useAuth();
   const { profile, isLoading, updateProfile, isUpdating, updatePassword, isUpdatingPassword } = useProfile();
 
@@ -69,24 +72,24 @@ const Profile = () => {
           className="mb-6"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
-          Back to Dashboard
+          {t('backToDashboard')}
         </Button>
 
-        <h1 className="text-3xl font-medium text-gray-900 mb-8">Profile Settings</h1>
+        <h1 className="text-3xl font-medium text-gray-900 mb-8">{t('title')}</h1>
 
         <div className="space-y-6">
           {/* Profile Information */}
           <Card>
             <CardHeader>
-              <CardTitle>Profile Information</CardTitle>
+              <CardTitle>{t('profileInfo.title')}</CardTitle>
               <CardDescription>
-                Update your personal information
+                {t('profileInfo.description')}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleUpdateProfile} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email">{t('profileInfo.email')}</Label>
                   <Input
                     id="email"
                     type="email"
@@ -94,22 +97,22 @@ const Profile = () => {
                     disabled
                     className="bg-gray-50"
                   />
-                  <p className="text-sm text-gray-500">Email cannot be changed</p>
+                  <p className="text-sm text-gray-500">{t('profileInfo.emailHelper')}</p>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="fullName">Full Name</Label>
+                  <Label htmlFor="fullName">{t('profileInfo.fullName')}</Label>
                   <Input
                     id="fullName"
                     type="text"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    placeholder="Enter your full name"
+                    placeholder={t('profileInfo.fullNamePlaceholder')}
                   />
                 </div>
 
                 <Button type="submit" disabled={isUpdating}>
-                  {isUpdating ? 'Saving...' : 'Save Changes'}
+                  {isUpdating ? t('common:loading.saving') : t('profileInfo.saveChanges')}
                 </Button>
               </form>
             </CardContent>
@@ -120,40 +123,40 @@ const Profile = () => {
           {/* Change Password */}
           <Card>
             <CardHeader>
-              <CardTitle>Change Password</CardTitle>
+              <CardTitle>{t('changePassword.title')}</CardTitle>
               <CardDescription>
-                Update your password to keep your account secure
+                {t('changePassword.description')}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleUpdatePassword} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="newPassword">New Password</Label>
+                  <Label htmlFor="newPassword">{t('changePassword.newPassword')}</Label>
                   <Input
                     id="newPassword"
                     type="password"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
-                    placeholder="Enter new password"
+                    placeholder={t('changePassword.newPasswordPlaceholder')}
                     minLength={6}
                   />
-                  <p className="text-sm text-gray-500">Minimum 6 characters</p>
+                  <p className="text-sm text-gray-500">{t('changePassword.minCharacters')}</p>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="confirmPassword">Confirm Password</Label>
+                  <Label htmlFor="confirmPassword">{t('changePassword.confirmPassword')}</Label>
                   <Input
                     id="confirmPassword"
                     type="password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    placeholder="Confirm new password"
+                    placeholder={t('changePassword.confirmPasswordPlaceholder')}
                     minLength={6}
                   />
                 </div>
 
                 {newPassword && confirmPassword && newPassword !== confirmPassword && (
-                  <p className="text-sm text-red-600">Passwords do not match</p>
+                  <p className="text-sm text-red-600">{t('changePassword.mismatch')}</p>
                 )}
 
                 <Button
@@ -166,7 +169,7 @@ const Profile = () => {
                     newPassword.length < 6
                   }
                 >
-                  {isUpdatingPassword ? 'Updating...' : 'Update Password'}
+                  {isUpdatingPassword ? t('common:loading.updating') : t('changePassword.updatePassword')}
                 </Button>
               </form>
             </CardContent>
@@ -175,22 +178,22 @@ const Profile = () => {
           {/* Account Information */}
           <Card>
             <CardHeader>
-              <CardTitle>Account Information</CardTitle>
+              <CardTitle>{t('accountInfo.title')}</CardTitle>
               <CardDescription>
-                Your account details
+                {t('accountInfo.description')}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-2">
               <div className="flex justify-between text-sm">
-                <span className="text-gray-500">Member since</span>
+                <span className="text-gray-500">{t('accountInfo.memberSince')}</span>
                 <span className="font-medium">
-                  {profile?.created_at && new Date(profile.created_at).toLocaleDateString()}
+                  {profile?.created_at && formatShortDate(new Date(profile.created_at))}
                 </span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-gray-500">Last updated</span>
+                <span className="text-gray-500">{t('accountInfo.lastUpdated')}</span>
                 <span className="font-medium">
-                  {profile?.updated_at && new Date(profile.updated_at).toLocaleDateString()}
+                  {profile?.updated_at && formatShortDate(new Date(profile.updated_at))}
                 </span>
               </div>
             </CardContent>
@@ -201,15 +204,15 @@ const Profile = () => {
           {/* Danger Zone */}
           <Card className="border-red-200 dark:border-red-900">
             <CardHeader>
-              <CardTitle className="text-red-600 dark:text-red-400">Danger Zone</CardTitle>
+              <CardTitle className="text-red-600 dark:text-red-400">{t('dangerZone.title')}</CardTitle>
               <CardDescription>
-                Irreversible actions that will permanently delete your data
+                {t('dangerZone.description')}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 <div className="text-sm text-gray-700 dark:text-gray-300">
-                  Once you delete your account, there is no going back. All your data will be permanently removed from our servers.
+                  {t('dangerZone.warning')}
                 </div>
                 <DeleteAccountDialog />
               </div>
