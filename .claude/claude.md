@@ -202,6 +202,54 @@ supabase/
 - PL (`src/locales/pl/notebook.json`): "Dodaj do notatek" (zamiast "Zapisz do notatek")
 - EN (`src/locales/en/notebook.json`): "Add to notes" (zamiast "Save to Note")
 
+### Naprawienie błędu 401 przy dodawaniu stron www (v1.7.1)
+
+**Problem:** Edge Function `process-additional-sources` zwracał błąd 401 Unauthorized przy dodawaniu stron www.
+
+**Przyczyna:**
+- Funkcja miała `verify_jwt = true` w `supabase/config.toml`
+- NIE wykorzystywała JWT wewnętrznie (nie odczytuje user_id)
+- Frontend nie sprawdzał sesji przed wywołaniem
+- Funkcja używa tylko env vars (`ADDITIONAL_SOURCES_WEBHOOK_URL`, `NOTEBOOK_GENERATION_AUTH`)
+
+**Rozwiązanie:**
+- Zmieniono `verify_jwt = true` → `verify_jwt = false` w `supabase/config.toml` (linia 63)
+- Zdeployowano Edge Function do Supabase
+- Funkcja teraz spójna z innymi webhook functions (`generate-notebook-content`, `process-document`)
+
+**Pliki zmodyfikowane:**
+- `supabase/config.toml` - zmiana konfiguracji JWT
+- `.claude/settings.local.json` - dodano uprawnienia dla `supabase functions deploy`
+
+### Naprawienie usuwania chunków przy usunięciu źródła (v1.7.2)
+
+**Problem:** Po usunięciu źródła (strony www, PDF, etc.) chunki pozostawały w tabeli `documents` jako "zombie data".
+
+**Przyczyna:**
+- Hook `useSourceDelete` usuwał tylko:
+  1. Plik ze storage
+  2. Rekord z tabeli `sources`
+- NIE usuwał powiązanych chunków z tabeli `documents`
+
+**Rozwiązanie:**
+- Dodano explicite usuwanie documents/chunks w `src/hooks/useSourceDelete.tsx` (linie 30-42)
+- Chunki usuwane na podstawie `metadata->>'source_id'`
+- Logowanie liczby usuniętych chunków w konsoli
+- Nie blokuje usunięcia źródła jeśli czyszczenie chunków się nie powiedzie
+
+**Kod:**
+```typescript
+const { error: documentsError, count: deletedCount } = await supabase
+  .from('documents')
+  .delete({ count: 'exact' })
+  .filter('metadata->>source_id', 'eq', sourceId);
+```
+
+**Efekt:**
+- Usunięcie źródła automatycznie czyści wszystkie powiązane chunki
+- Działa dla wszystkich typów źródeł (PDF, websites, text, audio)
+- Konsola pokazuje: `Successfully deleted X document chunks`
+
 ### Znane problemy
 
 **Problem z cache'owaniem tłumaczeń i18next:**
