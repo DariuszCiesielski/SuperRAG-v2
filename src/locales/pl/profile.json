@@ -41,6 +41,8 @@
   "accountInfo": {
     "title": "Informacje o koncie",
     "description": "Zarządzaj ustawieniami i preferencjami konta",
+    "memberSince": "Członek od",
+    "lastUpdated": "Ostatnia aktualizacja",
     "emailVerified": "E-mail zweryfikowany",
     "emailNotVerified": "E-mail niezweryfikowany",
     "verifyEmail": "Zweryfikuj e-mail"

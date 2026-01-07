@@ -41,6 +41,8 @@
   "accountInfo": {
     "title": "Account Information",
     "description": "Manage your account settings and preferences",
+    "memberSince": "Member since",
+    "lastUpdated": "Last updated",
     "emailVerified": "Email verified",
     "emailNotVerified": "Email not verified",
     "verifyEmail": "Verify Email"
