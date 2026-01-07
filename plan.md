@@ -309,6 +309,182 @@
 
 ---
 
-*Ostatnia aktualizacja: [Data]*
+## 13. Usuwanie Konta Użytkownika (v1.4.0)
+
+### Cel
+Dodać możliwość całkowitego usunięcia konta użytkownika wraz z wszystkimi powiązanymi danymi z Supabase (baza danych + storage).
+
+### Analiza Obecnego Stanu
+
+**CASCADE działające poprawnie:**
+- ✅ `auth.users` → `profiles` (ON DELETE CASCADE)
+- ✅ `profiles` → `notebooks` (ON DELETE CASCADE)
+- ✅ `notebooks` → `sources` (ON DELETE CASCADE)
+- ✅ `notebooks` → `notes` (ON DELETE CASCADE)
+
+**Krytyczne luki:**
+- ❌ Tabela `documents`: Brak `user_id`, więc NIE jest usuwana kaskadowo
+- ❌ Tabela `n8n_chat_histories`: Ma `session_id` ale brak bezpośredniej relacji CASCADE z użytkownikiem
+- ❌ Pliki w Storage: Pozostają osierocone w bucketach ('sources', 'audio', 'public-images')
+
+### Implementacja
+
+#### Faza 1: Migracja Bazy Danych
+**Plik:** `supabase/migrations/20260106000000_add_account_deletion_support.sql`
+
+**Zmiany:**
+1. Dodanie kolumny `user_id` do tabeli `documents` z CASCADE
+2. Dodanie kolumny `user_id` do tabeli `n8n_chat_histories` z CASCADE
+3. Backfill istniejących rekordów user_id na podstawie notebooks
+4. Utworzenie funkcji pomocniczej `get_user_storage_files(user_id)` do pobierania listy plików przed usunięciem
+5. Aktualizacja polityk RLS dla documents i chat_histories
+6. Dodanie triggerów do automatycznego ustawiania user_id przy INSERT
+
+**Dlaczego ta kolejność:**
+- CASCADE zapewnia atomowość (wszystko lub nic)
+- Funkcja pomocnicza pozwala pobrać listę plików PRZED usunięciem rekordów z bazy
+- Triggery zapobiegają przyszłym rekordom bez user_id
+
+#### Faza 2: Edge Function
+**Plik:** `supabase/functions/delete-user-account/index.ts`
+
+**Logika:**
+1. Weryfikacja JWT tokenu użytkownika (tylko zalogowany użytkownik może usunąć swoje konto)
+2. Pobranie listy wszystkich plików storage (przez RPC `get_user_storage_files`)
+3. Usunięcie wszystkich plików z bucketów (sources, audio, public-images)
+4. Usunięcie użytkownika z `auth.users` (używając service role)
+5. CASCADE automatycznie usuwa wszystkie powiązane rekordy
+
+**Dlaczego Edge Function:**
+- Wymaga uprawnień service role (tylko service role może usuwać auth.users)
+- Zapewnia atomowość operacji
+- Może czyścić storage z uprawnieniami service role
+- Bezpieczeństwo: weryfikacja JWT, użytkownik może usunąć tylko swoje konto
+
+**Config:** `supabase/config.toml` - dodać `[functions.delete-user-account]` z `verify_jwt = true`
+
+#### Faza 3: Frontend Hook
+**Plik:** `src/hooks/useAccountDelete.tsx`
+
+**Funkcjonalność:**
+- Hook React Query z mutacją wywołującą Edge Function
+- Przekazuje JWT token w nagłówku Authorization
+- Po sukcesie: wylogowanie użytkownika i przekierowanie do strony głównej
+- Obsługa błędów z przejrzystymi komunikatami
+- Stan ładowania (isDeleting) dla UI
+
+#### Faza 4: Komponent UI
+**Plik:** `src/components/profile/DeleteAccountDialog.tsx`
+
+**Funkcjonalność:**
+- AlertDialog z potwierdzeniem
+- Wymaga wpisania tekstu "DELETE MY ACCOUNT" (zabezpieczenie przed przypadkowym usunięciem)
+- Lista wszystkich danych, które zostaną usunięte
+- Ostrzeżenie: "This action cannot be undone"
+- Przycisk wyłączony dopóki użytkownik nie wpisze poprawnego tekstu
+- Stan ładowania podczas usuwania
+
+#### Faza 5: Aktualizacja Strony Profile
+**Plik:** `src/pages/Profile.tsx`
+
+**Zmiany:**
+- Import `DeleteAccountDialog`
+- Dodanie sekcji "Danger Zone" na końcu strony (po "Account Information")
+- Card z czerwoną ramką zawierający DeleteAccountDialog
+- Separator przed sekcją
+
+### Kolejność Wykonania (KRYTYCZNA!)
+
+**Deployment:**
+1. **Najpierw:** Zastosować migrację bazy danych (`supabase db push`)
+2. **Potem:** Wdrożyć Edge Function (`supabase functions deploy delete-user-account`)
+3. **Na końcu:** Wdrożyć zmiany frontend (build + deploy do Vercel)
+
+**Kolejność operacji w Edge Function:**
+1. Weryfikacja JWT (kto wywołuje?)
+2. Pobranie listy plików storage (PRZED usunięciem z bazy!)
+3. Usunięcie wszystkich plików storage
+4. Usunięcie użytkownika z auth.users (CASCADE usuwa resztę)
+
+**Dlaczego ta kolejność?**
+- Pliki muszą być pobrane PRZED usunięciem rekordów z bazy (inaczej stracimy ścieżki do plików)
+- Storage przed bazą zapobiega osieroconymi plikom
+- Usunięcie użytkownika OSTATNIE uruchamia CASCADE dla wszystkich tabel
+
+### Bezpieczeństwo
+
+- ✅ Wymaga autentykacji (JWT token)
+- ✅ Użytkownik może usunąć tylko swoje konto (user_id z JWT)
+- ✅ Service role tylko w Edge Function (nie w kliencie)
+- ✅ Wymagane potwierdzenie w UI (wpisanie tekstu)
+- ✅ Polityki RLS na wszystkich tabelach
+- ✅ Logi w Edge Function do audytu
+
+### Pliki do Zmiany
+
+**Backend:**
+- `supabase/migrations/20260106000000_add_account_deletion_support.sql` - Migracja CASCADE + funkcja pomocnicza
+- `supabase/functions/delete-user-account/index.ts` - Edge Function do usuwania konta
+- `supabase/config.toml` - Konfiguracja Edge Function
+
+**Frontend:**
+- `src/hooks/useAccountDelete.tsx` - Hook do usuwania konta
+- `src/components/profile/DeleteAccountDialog.tsx` - Komponent dialog potwierdzenia
+- `src/pages/Profile.tsx` - Dodanie sekcji Danger Zone
+
+### Co Zostanie Usunięte
+
+Po wywołaniu delete account, następujące dane zostaną PERMANENTNIE usunięte:
+
+**Baza danych:**
+- Użytkownik z auth.users
+- Profil z profiles
+- Wszystkie notebooki (notebooks)
+- Wszystkie źródła (sources)
+- Wszystkie notatki (notes)
+- Wszystkie dokumenty (documents)
+- Wszystkie historie czatu (n8n_chat_histories)
+
+**Storage:**
+- Wszystkie pliki z bucketa 'sources' (uploaded documents)
+- Wszystkie pliki z bucketa 'audio' (generated audio overviews)
+- Wszystkie pliki z bucketa 'public-images' (user images)
+
+**Suma: 100% danych użytkownika** - żadne osierocone dane nie pozostaną w systemie.
+
+### Test Plan
+
+1. Utworzyć testowe konto
+2. Dodać notebooki, źródła, uploady plików
+3. Wygenerować audio overviews
+4. Utworzyć notatki i wiadomości czatu
+5. Przejść do Profile → Danger Zone
+6. Kliknąć "Delete Account"
+7. Wpisać niepoprawny tekst (przycisk powinien być disabled)
+8. Wpisać "DELETE MY ACCOUNT"
+9. Kliknąć "Delete My Account"
+10. Sprawdzić toast sukcesu
+11. Sprawdzić przekierowanie do strony głównej
+12. Spróbować zalogować się na usunięte konto (powinno się nie udać)
+13. Sprawdzić w Supabase Studio:
+    - Użytkownik usunięty z auth.users
+    - Wszystkie tabele puste dla tego użytkownika
+    - Wszystkie pliki usunięte z bucketów
+
+### Podsumowanie
+
+Implementacja zapewnia:
+- ✅ Kompletne usunięcie konta i wszystkich danych
+- ✅ Bezpieczeństwo (JWT + RLS + confirmation dialog)
+- ✅ UX zgodny z najlepszymi praktykami (potwierdzenie tekstu)
+- ✅ Obsługę błędów
+- ✅ Atomowość operacji (wszystko lub nic)
+- ✅ Brak osierocononych danych (baza + storage)
+
+**Żadnych danych użytkownika nie pozostanie w systemie Supabase.**
+
+---
+
+*Ostatnia aktualizacja: 2026-01-06*
 *Wersja: 2.0*
 

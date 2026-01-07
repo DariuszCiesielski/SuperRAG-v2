@@ -207,6 +207,55 @@ const AuthForm = () => {
     }
   };
 
+  const handleResendVerification = async () => {
+    if (!email) {
+      toast({
+        title: "Email Required",
+        description: "Please enter your email address first.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      console.log('Resending verification email for:', email);
+
+      // Resend by attempting to sign up again with the same email
+      const { error } = await supabase.auth.resend({
+        type: 'signup',
+        email: email,
+        options: {
+          emailRedirectTo: `${window.location.origin}/auth`,
+        }
+      });
+
+      if (error) {
+        console.error('Resend error:', error);
+        throw error;
+      }
+
+      console.log('Verification email resent');
+
+      setEmailSent(true);
+      toast({
+        title: "Verification Email Sent!",
+        description: "Please check your email (and spam folder) for the verification link.",
+      });
+
+    } catch (error: any) {
+      console.error('Resend verification error:', error);
+      toast({
+        title: "Resend Error",
+        description: error.message || 'Failed to resend verification email',
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     if (mode === 'sign-in') return handleSignIn(e);
     if (mode === 'sign-up') return handleSignUp(e);

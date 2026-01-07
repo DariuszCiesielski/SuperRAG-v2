@@ -9,6 +9,7 @@ import { Separator } from '@/components/ui/separator';
 import { useProfile } from '@/hooks/useProfile';
 import DashboardHeader from '@/components/dashboard/DashboardHeader';
 import { useAuth } from '@/contexts/AuthContext';
+import { DeleteAccountDialog } from '@/components/profile/DeleteAccountDialog';
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -191,6 +192,26 @@ const Profile = () => {
                 <span className="font-medium">
                   {profile?.updated_at && new Date(profile.updated_at).toLocaleDateString()}
                 </span>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Separator />
+
+          {/* Danger Zone */}
+          <Card className="border-red-200 dark:border-red-900">
+            <CardHeader>
+              <CardTitle className="text-red-600 dark:text-red-400">Danger Zone</CardTitle>
+              <CardDescription>
+                Irreversible actions that will permanently delete your data
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="text-sm text-gray-700 dark:text-gray-300">
+                  Once you delete your account, there is no going back. All your data will be permanently removed from our servers.
+                </div>
+                <DeleteAccountDialog />
               </div>
             </CardContent>
           </Card>
