@@ -19,7 +19,7 @@ interface YouTubeUrlInputProps {
 }
 
 const YouTubeUrlInput = ({ open, onOpenChange, onSubmit }: YouTubeUrlInputProps) => {
-  const { t } = useTranslation(['notebook', 'common']);
+  const { t } = useTranslation(['dialogs', 'common']);
   const [url, setUrl] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -45,23 +45,23 @@ const YouTubeUrlInput = ({ open, onOpenChange, onSubmit }: YouTubeUrlInputProps)
         <DialogHeader>
           <DialogTitle className="flex items-center space-x-2">
             <Youtube className="h-5 w-5 text-red-600" />
-            <span>{t('dialogs.youtubeUrl.title')}</span>
+            <span>{t('youtubeUrl.title')}</span>
           </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="youtube-url">{t('dialogs.youtubeUrl.label')}</Label>
+            <Label htmlFor="youtube-url">{t('youtubeUrl.label')}</Label>
             <Input
               id="youtube-url"
               type="url"
-              placeholder={t('dialogs.youtubeUrl.placeholder')}
+              placeholder={t('youtubeUrl.placeholder')}
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               required
             />
             <p className="text-xs text-gray-500">
-              {t('dialogs.youtubeUrl.helper')}
+              {t('youtubeUrl.helper')}
             </p>
           </div>
 
@@ -79,7 +79,7 @@ const YouTubeUrlInput = ({ open, onOpenChange, onSubmit }: YouTubeUrlInputProps)
               className="flex-1"
               disabled={!url.trim() || isLoading}
             >
-              {isLoading ? t('dialogs.youtubeUrl.submitting') : t('dialogs.youtubeUrl.submit')}
+              {isLoading ? t('youtubeUrl.submitting') : t('youtubeUrl.submit')}
             </Button>
           </div>
         </form>

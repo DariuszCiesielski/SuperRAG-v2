@@ -19,7 +19,7 @@ const CopiedTextDialog = ({
   onOpenChange,
   onSubmit
 }: CopiedTextDialogProps) => {
-  const { t } = useTranslation(['notebook', 'common']);
+  const { t } = useTranslation(['dialogs', 'common']);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -90,24 +90,24 @@ const CopiedTextDialog = ({
         <DialogHeader>
           <DialogTitle className="flex items-center space-x-2">
             <Copy className="h-5 w-5 text-purple-600" />
-            <span>{t('dialogs.copiedText.title')}</span>
+            <span>{t('copiedText.title')}</span>
           </DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4">
           <div>
             <p className="text-sm text-gray-600 mb-4">
-              {t('dialogs.copiedText.description')}
+              {t('copiedText.description')}
             </p>
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="title" className="text-sm font-medium">
-              {t('dialogs.copiedText.titleLabel')}
+              {t('copiedText.titleLabel')}
             </Label>
             <Input
               id="title"
-              placeholder={t('dialogs.copiedText.titlePlaceholder')}
+              placeholder={t('copiedText.titlePlaceholder')}
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
@@ -116,7 +116,7 @@ const CopiedTextDialog = ({
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <Label htmlFor="content" className="text-sm font-medium">
-                {t('dialogs.copiedText.contentLabel')}
+                {t('copiedText.contentLabel')}
               </Label>
               <Button
                 variant="outline"
@@ -125,20 +125,20 @@ const CopiedTextDialog = ({
                 className="flex items-center space-x-1"
               >
                 <ClipboardPaste className="h-4 w-4" />
-                <span>{t('dialogs.copiedText.pasteButton')}</span>
+                <span>{t('copiedText.pasteButton')}</span>
               </Button>
             </div>
             <Textarea
               id="content"
-              placeholder={t('dialogs.copiedText.contentPlaceholder')}
+              placeholder={t('copiedText.contentPlaceholder')}
               value={content}
               onChange={(e) => setContent(e.target.value)}
               className="min-h-[200px] resize-y"
             />
             <div className="flex justify-between text-xs text-gray-500">
-              <span>{t('dialogs.copiedText.characterCount', { count: characterCount })}</span>
+              <span>{t('copiedText.characterCount', { count: characterCount })}</span>
               {characterCount > 10000 && (
-                <span className="text-amber-600">{t('dialogs.copiedText.largeContentWarning')}</span>
+                <span className="text-amber-600">{t('copiedText.largeContentWarning')}</span>
               )}
             </div>
           </div>
@@ -151,7 +151,7 @@ const CopiedTextDialog = ({
               onClick={handleSubmit}
               disabled={!isValid || isSubmitting}
             >
-              {isSubmitting ? t('dialogs.copiedText.submitting') : t('dialogs.copiedText.submit')}
+              {isSubmitting ? t('copiedText.submitting') : t('copiedText.submit')}
             </Button>
           </div>
         </div>

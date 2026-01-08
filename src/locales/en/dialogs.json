@@ -1,0 +1,57 @@
+{
+  "multipleWebsites": {
+    "title": "Add Multiple Websites",
+    "label": "Website URLs",
+    "description": "Enter one URL per line",
+    "placeholder": "https://example.com\nhttps://another-site.com",
+    "urlsDetected": "{{count}} URL detected",
+    "urlsDetected_other": "{{count}} URLs detected",
+    "submitting": "Adding websites...",
+    "submit": "Add {{count}} Website",
+    "submit_other": "Add {{count}} Websites",
+    "cancelButton": "Cancel",
+    "validationError": "Invalid URL on line {{line}}: {{url}}"
+  },
+  "copiedText": {
+    "title": "Add Text",
+    "description": "Paste or type your text content",
+    "titleLabel": "Title",
+    "titlePlaceholder": "Give this text a name",
+    "contentLabel": "Content",
+    "contentPlaceholder": "Paste your text here...",
+    "pasteButton": "Paste from Clipboard",
+    "characterCount": "{{count}} character",
+    "characterCount_other": "{{count}} characters",
+    "largeContentWarning": "Large content detected ({{size}}). Processing may take a moment.",
+    "submitting": "Adding text...",
+    "submit": "Add Text",
+    "cancelButton": "Cancel"
+  },
+  "renameSource": {
+    "title": "Rename \"{{name}}\"",
+    "description": "Enter a new name for this source",
+    "label": "Source Name",
+    "placeholder": "Enter new name",
+    "submitting": "Renaming...",
+    "submit": "Rename",
+    "cancelButton": "Cancel"
+  },
+  "websiteUrl": {
+    "title": "Add Website",
+    "label": "Website URL",
+    "placeholder": "https://example.com",
+    "helper": "Enter the URL of the website you want to add",
+    "submitting": "Adding website...",
+    "submit": "Add Website",
+    "cancelButton": "Cancel"
+  },
+  "youtubeUrl": {
+    "title": "Add YouTube Video",
+    "label": "YouTube URL",
+    "placeholder": "https://youtube.com/watch?v=...",
+    "helper": "Enter the URL of the YouTube video",
+    "submitting": "Adding video...",
+    "submit": "Add Video",
+    "cancelButton": "Cancel"
+  }
+}

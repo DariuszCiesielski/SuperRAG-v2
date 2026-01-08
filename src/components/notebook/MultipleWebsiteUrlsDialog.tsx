@@ -18,7 +18,7 @@ const MultipleWebsiteUrlsDialog = ({
   onOpenChange,
   onSubmit
 }: MultipleWebsiteUrlsDialogProps) => {
-  const { t } = useTranslation(['notebook', 'common']);
+  const { t } = useTranslation(['dialogs', 'common']);
   const [urlsText, setUrlsText] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -64,15 +64,15 @@ const MultipleWebsiteUrlsDialog = ({
         <DialogHeader>
           <DialogTitle className="flex items-center space-x-2">
             <Link className="h-5 w-5 text-green-600" />
-            <span>{t('dialogs.multipleWebsites.title')}</span>
+            <span>{t('multipleWebsites.title')}</span>
           </DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4">
           <div>
-            <Label className="text-sm font-medium">{t('dialogs.multipleWebsites.label')}</Label>
+            <Label className="text-sm font-medium">{t('multipleWebsites.label')}</Label>
             <p className="text-sm text-gray-600 mb-3">
-              {t('dialogs.multipleWebsites.description')}
+              {t('multipleWebsites.description')}
             </p>
           </div>
 
@@ -89,7 +89,7 @@ https://third-website.org`}
             />
             {validUrls.length > 0 && (
               <p className="text-sm text-gray-500 mt-2">
-                {t('dialogs.multipleWebsites.urlsDetected', { count: validUrls.length })}
+                {t('multipleWebsites.urlsDetected', { count: validUrls.length })}
               </p>
             )}
           </div>
@@ -102,7 +102,7 @@ https://third-website.org`}
               onClick={handleSubmit}
               disabled={!isValid || isSubmitting}
             >
-              {isSubmitting ? t('dialogs.multipleWebsites.submitting') : t('dialogs.multipleWebsites.submit', { count: validUrls.length })}
+              {isSubmitting ? t('multipleWebsites.submitting') : t('multipleWebsites.submit', { count: validUrls.length })}
             </Button>
           </div>
         </div>

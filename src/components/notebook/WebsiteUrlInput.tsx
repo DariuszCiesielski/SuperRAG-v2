@@ -19,7 +19,7 @@ interface WebsiteUrlInputProps {
 }
 
 const WebsiteUrlInput = ({ open, onOpenChange, onSubmit }: WebsiteUrlInputProps) => {
-  const { t } = useTranslation(['notebook', 'common']);
+  const { t } = useTranslation(['dialogs', 'common']);
   const [url, setUrl] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -45,23 +45,23 @@ const WebsiteUrlInput = ({ open, onOpenChange, onSubmit }: WebsiteUrlInputProps)
         <DialogHeader>
           <DialogTitle className="flex items-center space-x-2">
             <Globe className="h-5 w-5 text-blue-600" />
-            <span>{t('dialogs.websiteUrl.title')}</span>
+            <span>{t('websiteUrl.title')}</span>
           </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="website-url">{t('dialogs.websiteUrl.label')}</Label>
+            <Label htmlFor="website-url">{t('websiteUrl.label')}</Label>
             <Input
               id="website-url"
               type="url"
-              placeholder={t('dialogs.websiteUrl.placeholder')}
+              placeholder={t('websiteUrl.placeholder')}
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               required
             />
             <p className="text-xs text-gray-500">
-              {t('dialogs.websiteUrl.helper')}
+              {t('websiteUrl.helper')}
             </p>
           </div>
 
@@ -79,7 +79,7 @@ const WebsiteUrlInput = ({ open, onOpenChange, onSubmit }: WebsiteUrlInputProps)
               className="flex-1"
               disabled={!url.trim() || isLoading}
             >
-              {isLoading ? t('dialogs.websiteUrl.submitting') : t('dialogs.websiteUrl.submit')}
+              {isLoading ? t('websiteUrl.submitting') : t('websiteUrl.submit')}
             </Button>
           </div>
         </form>

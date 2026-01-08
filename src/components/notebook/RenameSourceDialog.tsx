@@ -22,7 +22,7 @@ interface RenameSourceDialogProps {
 }
 
 const RenameSourceDialog = ({ open, onOpenChange, source, notebookId }: RenameSourceDialogProps) => {
-  const { t } = useTranslation(['notebook', 'common']);
+  const { t } = useTranslation(['dialogs', 'common']);
   const [title, setTitle] = useState('');
   const { updateSource, isUpdating } = useSourceUpdate();
 
@@ -53,19 +53,19 @@ const RenameSourceDialog = ({ open, onOpenChange, source, notebookId }: RenameSo
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>{t('dialogs.renameSource.title', { title: source?.title })}</DialogTitle>
+          <DialogTitle>{t('renameSource.title', { title: source?.title })}</DialogTitle>
           <DialogDescription>
-            {t('dialogs.renameSource.description')}
+            {t('renameSource.description')}
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid gap-2">
-            <Label htmlFor="source-name">{t('dialogs.renameSource.label')}</Label>
+            <Label htmlFor="source-name">{t('renameSource.label')}</Label>
             <Input
               id="source-name"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder={t('dialogs.renameSource.placeholder')}
+              placeholder={t('renameSource.placeholder')}
             />
           </div>
         </div>

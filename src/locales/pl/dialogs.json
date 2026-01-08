@@ -1,0 +1,63 @@
+{
+  "multipleWebsites": {
+    "title": "Dodaj wiele stron WWW",
+    "label": "Adresy URL stron",
+    "description": "Wprowadź jeden URL w każdej linii",
+    "placeholder": "https://przyklad.pl\nhttps://inna-strona.pl",
+    "urlsDetected_one": "Wykryto {{count}} URL",
+    "urlsDetected_few": "Wykryto {{count}} URL-e",
+    "urlsDetected_many": "Wykryto {{count}} URL-i",
+    "urlsDetected_other": "Wykryto {{count}} URL",
+    "submitting": "Dodawanie stron...",
+    "submit_one": "Dodaj {{count}} stronę",
+    "submit_few": "Dodaj {{count}} strony",
+    "submit_many": "Dodaj {{count}} stron",
+    "submit_other": "Dodaj {{count}} stron",
+    "cancelButton": "Anuluj",
+    "validationError": "Nieprawidłowy URL w linii {{line}}: {{url}}"
+  },
+  "copiedText": {
+    "title": "Dodaj tekst",
+    "description": "Wklej lub wpisz treść tekstu",
+    "titleLabel": "Tytuł",
+    "titlePlaceholder": "Nadaj temu tekstowi nazwę",
+    "contentLabel": "Treść",
+    "contentPlaceholder": "Wklej tutaj swój tekst...",
+    "pasteButton": "Wklej ze schowka",
+    "characterCount_one": "{{count}} znak",
+    "characterCount_few": "{{count}} znaki",
+    "characterCount_many": "{{count}} znaków",
+    "characterCount_other": "{{count}} znaków",
+    "largeContentWarning": "Wykryto dużą ilość treści ({{size}}). Przetwarzanie może chwilę potrwać.",
+    "submitting": "Dodawanie tekstu...",
+    "submit": "Dodaj tekst",
+    "cancelButton": "Anuluj"
+  },
+  "renameSource": {
+    "title": "Zmień nazwę \"{{name}}\"",
+    "description": "Wprowadź nową nazwę dla tego źródła",
+    "label": "Nazwa źródła",
+    "placeholder": "Wprowadź nową nazwę",
+    "submitting": "Zmienianie nazwy...",
+    "submit": "Zmień nazwę",
+    "cancelButton": "Anuluj"
+  },
+  "websiteUrl": {
+    "title": "Dodaj stronę WWW",
+    "label": "Adres URL strony",
+    "placeholder": "https://przyklad.pl",
+    "helper": "Wprowadź adres URL strony, którą chcesz dodać",
+    "submitting": "Dodawanie strony...",
+    "submit": "Dodaj stronę",
+    "cancelButton": "Anuluj"
+  },
+  "youtubeUrl": {
+    "title": "Dodaj film z YouTube",
+    "label": "Adres URL YouTube",
+    "placeholder": "https://youtube.com/watch?v=...",
+    "helper": "Wprowadź adres URL filmu z YouTube",
+    "submitting": "Dodawanie filmu...",
+    "submit": "Dodaj film",
+    "cancelButton": "Anuluj"
+  }
+}

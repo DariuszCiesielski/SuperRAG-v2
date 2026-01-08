@@ -75,7 +75,7 @@ const SaveToNoteButton = ({ content, notebookId, onSaved }: SaveToNoteButtonProp
       className="flex items-center space-x-1 border-gray-300 text-gray-600 hover:bg-gray-50 hover:text-gray-800 hover:border-gray-400"
     >
       <FileText className="h-3 w-3" />
-      <span className="text-xs">{isCreating ? t('saveToNote.saving') : t('saveToNote.button')}</span>
+      <span className="text-xs">{isCreating ? t('studio.saveToNote.saving') : t('studio.saveToNote.button')}</span>
     </Button>
   );
 };
