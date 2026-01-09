@@ -164,7 +164,23 @@ supabase/
 - Jak włączyć: Zmień `ENABLE_AUDIO_OVERVIEW` na `true` w `StudioSidebar.tsx`
 - Planowane uruchomienie: Kolejne wersje aplikacji
 
-## Ostatnie zmiany i poprawki (2026-01-07)
+## Ostatnie zmiany i poprawki
+
+### Rozszerzenie uprawnień Claude Code dla deploymentu (v1.7.18 - 2026-01-09)
+
+**Zmiana:** Dodano uprawnienie dla Claude Code do automatycznego deployowania Supabase Edge Functions.
+
+**Plik zmodyfikowany:**
+- `.claude/settings.local.json` - dodano `Bash(npx supabase functions deploy:*)` do listy `preApproved`
+
+**Efekt:**
+- Claude Code może teraz bezpośrednio deployować Edge Functions bez proszenia o pozwolenie
+- Usprawnia workflow przy zmianach w Edge Functions
+- Bezpieczne - ograniczone tylko do komendy `npx supabase functions deploy`
+
+---
+
+## Historia zmian (2026-01-07 - 2026-01-09)
 
 ### Naprawienie wykrywania surowych cytowań w czacie
 
