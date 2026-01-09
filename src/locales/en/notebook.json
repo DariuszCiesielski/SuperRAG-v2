@@ -19,7 +19,8 @@
     "errorClearing": "Error clearing chat",
     "chatCleared": "Chat cleared",
     "chatClearedDesc": "Your chat history has been cleared.",
-    "resend": "Ask again"
+    "resend": "Ask again",
+    "generating": "Generating response..."
   },
   "sources": {
     "title": "Sources",

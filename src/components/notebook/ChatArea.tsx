@@ -326,7 +326,7 @@ const ChatArea = ({
                       </div>}
                     
                     {/* AI Loading Indicator */}
-                    {showAiLoading && <div className="flex justify-start" ref={latestMessageRef}>
+                    {showAiLoading && <div className="flex flex-col items-start" ref={latestMessageRef}>
                         <div className="flex items-center space-x-2 px-4 py-3 bg-gray-100 rounded-lg">
                           <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
                           <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{
@@ -336,6 +336,9 @@ const ChatArea = ({
                     animationDelay: '0.2s'
                   }}></div>
                         </div>
+                        <span className="mt-1 text-xs text-gray-400 italic">
+                          {t('chat.generating')}
+                        </span>
                       </div>}
                     
                     {/* Scroll target for when no AI loading is shown */}

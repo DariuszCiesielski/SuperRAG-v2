@@ -19,7 +19,8 @@
     "errorClearing": "Błąd czyszczenia czatu",
     "chatCleared": "Czat wyczyszczony",
     "chatClearedDesc": "Historia czatu została wyczyszczona.",
-    "resend": "Zapytaj ponownie"
+    "resend": "Zapytaj ponownie",
+    "generating": "Trwa generowanie odpowiedzi..."
   },
   "sources": {
     "title": "Źródła",
