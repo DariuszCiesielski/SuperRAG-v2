@@ -166,6 +166,22 @@ supabase/
 
 ## Ostatnie zmiany i poprawki
 
+### Usunięcie odniesień do Lovable (v1.7.19 - 2026-01-09)
+
+**Zmiana:** Usunięto wszystkie odniesienia do Lovable z projektu.
+
+**Pliki zmodyfikowane:**
+- `index.html` - zmieniono autora na "SuperRAG", usunięto obrazy OpenGraph/Twitter lovable.dev, usunięto skrypt gptengineer.js
+- `vite.config.ts` - usunięto import i użycie `lovable-tagger`
+- `package.json` - usunięto `lovable-tagger` z devDependencies
+- `package-lock.json` - zaktualizowany automatycznie (usunięto 9 pakietów)
+
+**Efekt:**
+- Aplikacja całkowicie niezależna od Lovable
+- Czystsze meta tagi w HTML
+- Mniejszy bundle (9 pakietów mniej)
+- Uproszczona konfiguracja Vite
+
 ### Rozszerzenie uprawnień Claude Code dla deploymentu (v1.7.18 - 2026-01-09)
 
 **Zmiana:** Dodano uprawnienie dla Claude Code do automatycznego deployowania Supabase Edge Functions.
