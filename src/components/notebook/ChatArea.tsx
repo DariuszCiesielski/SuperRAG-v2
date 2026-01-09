@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { Send, Upload, FileText, Loader2, RefreshCw } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -247,14 +247,31 @@ const ChatArea = ({
           {/* Chat Input - Fixed at bottom */}
           <div className="p-6 border-t border-gray-200 flex-shrink-0">
             <div className="max-w-4xl mx-auto">
-              <div className="flex space-x-4">
+              <div className="flex space-x-4 items-end">
                 <div className="flex-1 relative">
-                  <Input placeholder={getPlaceholderText()} value={message} onChange={e => setMessage(e.target.value)} onKeyDown={e => e.key === 'Enter' && !isChatDisabled && !isSending && !pendingUserMessage && handleSendMessage()} className="pr-12" disabled={isChatDisabled || isSending || !!pendingUserMessage} />
-                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm text-gray-500">
+                  <Textarea
+                    placeholder={getPlaceholderText()}
+                    value={message}
+                    onChange={e => setMessage(e.target.value)}
+                    onKeyDown={e => {
+                      if (e.key === 'Enter' && !e.shiftKey && !isChatDisabled && !isSending && !pendingUserMessage) {
+                        e.preventDefault();
+                        handleSendMessage();
+                      }
+                    }}
+                    className="pr-20 min-h-[44px] max-h-[200px] resize-y"
+                    disabled={isChatDisabled || isSending || !!pendingUserMessage}
+                    rows={1}
+                  />
+                  <div className="absolute right-3 bottom-3 text-sm text-gray-500">
                     {t('common:sources.count', { count: sourceCount })}
                   </div>
                 </div>
-                <Button onClick={() => handleSendMessage()} disabled={!message.trim() || isChatDisabled || isSending || !!pendingUserMessage}>
+                <Button
+                  onClick={() => handleSendMessage()}
+                  disabled={!message.trim() || isChatDisabled || isSending || !!pendingUserMessage}
+                  className="h-[44px]"
+                >
                   {isSending || pendingUserMessage ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
                 </Button>
               </div>
