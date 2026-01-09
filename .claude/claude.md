@@ -166,6 +166,22 @@ supabase/
 
 ## Ostatnie zmiany i poprawki
 
+### Implementacja nowego logo i brandingu (v1.7.20 - 2026-01-09)
+
+**Zmiana:** Dodano nowe logo marki "AI w BIZNESIE" i zaktualizowano branding aplikacji.
+
+**Pliki zmodyfikowane:**
+- `public/logo.png` - nowy plik logo (21KB)
+- `src/components/ui/Logo.tsx` - zaktualizowano komponent do używania obrazu zamiast SVG
+- `index.html` - dodano favicon i meta tagi OpenGraph/Twitter z logo
+- `public/favicon.ico` - usunięto stary favicon
+
+**Efekt:**
+- Nowe profesjonalne logo "AI w BIZNESIE" widoczne w całej aplikacji
+- Favicon w przeglądarce pokazuje nowe logo
+- Meta tagi social media (OpenGraph/Twitter) używają nowego logo
+- Komponent Logo jest prostszy i łatwiejszy w utrzymaniu
+
 ### Usunięcie odniesień do Lovable (v1.7.19 - 2026-01-09)
 
 **Zmiana:** Usunięto wszystkie odniesienia do Lovable z projektu.
