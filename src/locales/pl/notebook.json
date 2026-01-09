@@ -54,7 +54,7 @@
       "dragDrop": "Przeciągnij i upuść lub",
       "chooseFile": "wybierz plik",
       "toUpload": "do przesłania",
-      "supportedTypes": "Obsługuje pliki PDF, TXT, MD, MP3, WAV, M4A"
+      "supportedTypes": "Obsługuje pliki PDF, TXT"
     },
     "integrations": {
       "website": {
@@ -68,7 +68,7 @@
     },
     "upload": {
       "dragDrop": "Przeciągnij i upuść pliki tutaj lub kliknij, aby przeglądać",
-      "supported": "Obsługiwane: PDF, TXT, DOCX, MD (maks. 10MB każdy)",
+      "supported": "Obsługiwane: PDF, TXT (maks. 10MB każdy)",
       "selectedFiles": "Wybrane pliki:",
       "addButton": "Dodaj pliki"
     },

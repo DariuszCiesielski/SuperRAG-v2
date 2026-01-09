@@ -15,7 +15,14 @@
       "Bash(npm run dev:*)",
       "Bash(ping:*)",
       "Bash(supabase functions deploy:*)",
-      "Bash(git log:*)"
+      "Bash(git log:*)",
+      "Bash(cat:*)",
+      "Bash(lsof:*)",
+      "Bash(node -e:*)",
+      "Bash(pkill:*)",
+      "Bash(netstat:*)",
+      "Bash(taskkill:*)",
+      "Bash(ls:*)"
     ]
   }
 }
