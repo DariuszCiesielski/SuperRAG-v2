@@ -2,10 +2,12 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { useTranslation } from 'react-i18next';
 
 export const useNotebookGeneration = () => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
+  const { i18n } = useTranslation();
 
   const generateNotebookContent = useMutation({
     mutationFn: async ({ notebookId, filePath, sourceType }: { 
@@ -19,7 +21,8 @@ export const useNotebookGeneration = () => {
         body: {
           notebookId,
           filePath,
-          sourceType
+          sourceType,
+          language: i18n.language // Pass user's language preference
         }
       });
 

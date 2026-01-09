@@ -13,7 +13,7 @@ serve(async (req) => {
   }
 
   try {
-    const { notebookId, filePath, sourceType } = await req.json()
+    const { notebookId, filePath, sourceType, language } = await req.json()
 
     if (!notebookId || !sourceType) {
       return new Response(
@@ -56,7 +56,8 @@ serve(async (req) => {
 
     // Prepare payload based on source type
     let payload: any = {
-      sourceType: sourceType
+      sourceType: sourceType,
+      language: language || 'en' // Default to English if not specified
     };
 
     if (filePath) {

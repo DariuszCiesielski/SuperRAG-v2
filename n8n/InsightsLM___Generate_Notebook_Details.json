@@ -46,7 +46,7 @@
         "messages": {
           "messageValues": [
             {
-              "message": "=Based on the data provided, output an appropriate title and summary of the document. \n\nAlso output an appropriate UTF-8 emoji for the notebook. - example: 🏆\nAnd output an appropriate color from this list\n\nslate\ngray\nzinc\nneutral\nstone\nred\norange\namber\nyellow\nlime\ngreen\nemerald\nteal\ncyan\nsky\nblue\nindigo\nviolet\npurple\nfuchsia\npink\nrose\n\nAlso output a list of 5 Example Questions that could be asked of this document. For example \"How are the rules and regulations of tennis enforced?\" - Maximum 10 words each\n\nOnly output in JSON."
+              "message": "=Based on the data provided, output an appropriate title and summary of the document. \n\nAlso output an appropriate UTF-8 emoji for the notebook. - example: 🏆\nAnd output an appropriate color from this list\n\nslate\ngray\nzinc\nneutral\nstone\nred\norange\namber\nyellow\nlime\ngreen\nemerald\nteal\ncyan\nsky\nblue\nindigo\nviolet\npurple\nfuchsia\npink\nrose\n\nAlso output a list of 5 Example Questions that could be asked of this document. For example \"How are the rules and regulations of tennis enforced?\" - Maximum 10 words each\n\nIMPORTANT: Generate ALL output (title, summary, and example_questions) in this language: {{ $('Webhook').first().json.body.language || 'en' }}\n- If 'pl' (Polish): Write title, summary and questions in Polish\n- If 'en' (English): Write title, summary and questions in English\n\nOnly output in JSON."
             }
           ]
         }
