@@ -83,7 +83,7 @@ VITE_SUPABASE_ANON_KEY=your_anon_key_here
 2. `generate-notebook-content` - verify_jwt: **false**
 3. `process-document` - verify_jwt: **false**
 4. `process-document-callback` - verify_jwt: **false**
-5. `process-additional-sources` - verify_jwt: **true**
+5. `process-additional-sources` - verify_jwt: **false**
 6. `generate-audio-overview`
 7. `generate-note-title`
 8. `delete-user-account` - verify_jwt: **false**
@@ -228,99 +228,9 @@ supabase/
 
 ---
 
-## Historia zmian (2026-01-07 - 2026-01-09)
-
-### Naprawienie wykrywania surowych cytowań w czacie
-
-**Problem:** AI czasami nie przestrzegał Structured Output i zwracał surowy JSON z chunk info w tekście odpowiedzi zamiast właściwej struktury cytowań.
-
-**Rozwiązanie zaimplementowane w `src/hooks/useChatMessages.tsx`:**
-
-1. **Nowe funkcje narzędziowe** (linie 43-168):
-   - `detectRawCitations()` - wykrywa surowy JSON w tekście (formaty `{...}` i `[...]`)
-   - `parseRawCitation()` - parsuje JSON z fallback na regex dla malformed JSON
-   - `cleanAndExtractCitations()` - czyści tekst i tworzy Citation objects
-
-2. **Modyfikacje `transformMessage()`**:
-   - **Blok success (linie 197-236)**: Merge'uje explicit i extracted citations
-   - **Blok catch/fallback (linie 260-291)**: Próbuje wyciągnąć citations przed plain text
-
-3. **Nowe typy w `src/types/message.ts`** (linie 33-50):
-   - `RawCitationMatch` - do wykrywania
-   - `ParsedRawCitation` - do przechowywania danych
-   - `CleanedTextResult` - do zwracania wyniku
-
-**Efekt:**
-- Surowy JSON typu `{"chunk_index":2, ...}` jest automatycznie konwertowany na klikalne przyciski cytowań [1], [2], [3]
-- Backward compatible - stare wiadomości działają bez zmian
-- Obsługa malformed JSON przez regex fallback
-
-### Zmiana stylu przycisku "Dodaj do notatek"
-
-**Zmiany w `src/components/notebook/SaveToNoteButton.tsx` (linia 70-75):**
-- Zmiana wariantu z `ghost` na `outline`
-- Dodanie obramowania: `border-gray-300`
-- Styl hover: `hover:bg-gray-50 hover:border-gray-400`
-
-**Zmiany w tłumaczeniach:**
-- PL (`src/locales/pl/notebook.json`): "Dodaj do notatek" (zamiast "Zapisz do notatek")
-- EN (`src/locales/en/notebook.json`): "Add to notes" (zamiast "Save to Note")
-
-### Naprawienie błędu 401 przy dodawaniu stron www (v1.7.1)
-
-**Problem:** Edge Function `process-additional-sources` zwracał błąd 401 Unauthorized przy dodawaniu stron www.
-
-**Przyczyna:**
-- Funkcja miała `verify_jwt = true` w `supabase/config.toml`
-- NIE wykorzystywała JWT wewnętrznie (nie odczytuje user_id)
-- Frontend nie sprawdzał sesji przed wywołaniem
-- Funkcja używa tylko env vars (`ADDITIONAL_SOURCES_WEBHOOK_URL`, `NOTEBOOK_GENERATION_AUTH`)
-
-**Rozwiązanie:**
-- Zmieniono `verify_jwt = true` → `verify_jwt = false` w `supabase/config.toml` (linia 63)
-- Zdeployowano Edge Function do Supabase
-- Funkcja teraz spójna z innymi webhook functions (`generate-notebook-content`, `process-document`)
-
-**Pliki zmodyfikowane:**
-- `supabase/config.toml` - zmiana konfiguracji JWT
-- `.claude/settings.local.json` - dodano uprawnienia dla `supabase functions deploy`
-
-### Naprawienie usuwania chunków przy usunięciu źródła (v1.7.2)
-
-**Problem:** Po usunięciu źródła (strony www, PDF, etc.) chunki pozostawały w tabeli `documents` jako "zombie data".
-
-**Przyczyna:**
-- Hook `useSourceDelete` usuwał tylko:
-  1. Plik ze storage
-  2. Rekord z tabeli `sources`
-- NIE usuwał powiązanych chunków z tabeli `documents`
-
-**Rozwiązanie:**
-- Dodano explicite usuwanie documents/chunks w `src/hooks/useSourceDelete.tsx` (linie 30-42)
-- Chunki usuwane na podstawie `metadata->>'source_id'`
-- Logowanie liczby usuniętych chunków w konsoli
-- Nie blokuje usunięcia źródła jeśli czyszczenie chunków się nie powiedzie
-
-**Kod:**
-```typescript
-const { error: documentsError, count: deletedCount } = await supabase
-  .from('documents')
-  .delete({ count: 'exact' })
-  .filter('metadata->>source_id', 'eq', sourceId);
-```
-
-**Efekt:**
-- Usunięcie źródła automatycznie czyści wszystkie powiązane chunki
-- Działa dla wszystkich typów źródeł (PDF, websites, text, audio)
-- Konsola pokazuje: `Successfully deleted X document chunks`
-
-### Znane problemy
+## Znane problemy
 
 **Problem z cache'owaniem tłumaczeń i18next:**
-- Tłumaczenia są importowane **statycznie** w `src/i18n/config.ts` (linie 6-20)
+- Tłumaczenia są importowane **statycznie** w `src/i18n/config.ts`
 - Vite HMR nie odświeża automatycznie zmienionych plików JSON
-- **Workaround**:
-  - Dodanie komentarza do `config.ts` wymusza rebuild (linia 6)
-  - Alternatywnie: `rm -rf node_modules/.vite && npm run dev`
-  - Lub hard refresh przeglądarki: `Ctrl + Shift + R`
-  - localStorage może cache'ować tłumaczenia (klucz `i18nextLng`)
+- **Workaround**: `rm -rf node_modules/.vite && npm run dev` lub hard refresh `Ctrl + Shift + R`
