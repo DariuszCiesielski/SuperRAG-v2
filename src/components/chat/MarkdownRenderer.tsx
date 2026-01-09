@@ -90,8 +90,16 @@ const processRichMarkdown = (
     return <p className="mb-4 leading-relaxed text-gray-700"></p>;
   }
 
+  // Pre-process: convert inline numbered lists to proper format
+  // Matches patterns like "1) text [] 2) text" or "1) text 2) text"
+  let processedText = text.replace(/(\d+\))\s+/g, '\n$1 ');
+  // Clean up any empty brackets that might be citation placeholders
+  processedText = processedText.replace(/\[\]\s*/g, ' ');
+  // Clean up excessive spaces
+  processedText = processedText.replace(/\s{2,}/g, ' ');
+
   // Split by double newlines first to get blocks
-  const blocks = text.split(/\n\n+/);
+  const blocks = processedText.split(/\n\n+/);
 
   blocks.forEach((block, blockIndex) => {
     const trimmedBlock = block.trim();
@@ -138,23 +146,25 @@ const processRichMarkdown = (
       return;
     }
 
-    // Check for ordered list (lines starting with number.)
-    const orderedListMatch = trimmedBlock.match(/^\d+\.\s+/m);
+    // Check for ordered list (lines starting with number. or number))
+    const orderedListMatch = trimmedBlock.match(/^\d+[\.\)]\s+/m);
     if (orderedListMatch) {
-      const listItems = trimmedBlock.split('\n').filter(line => line.trim());
-      elements.push(
-        <ol key={blockIndex} className="list-decimal list-outside ml-5 mb-4 space-y-1.5">
-          {listItems.map((item, itemIndex) => {
-            const itemText = item.replace(/^\d+\.\s+/, '').trim();
-            return (
-              <li key={itemIndex} className="text-gray-700 leading-relaxed pl-1">
-                {processInlineFormatting(itemText)}
-              </li>
-            );
-          })}
-        </ol>
-      );
-      return;
+      const listItems = trimmedBlock.split('\n').filter(line => line.trim() && line.match(/^\d+[\.\)]/));
+      if (listItems.length > 0) {
+        elements.push(
+          <ol key={blockIndex} className="list-decimal list-outside ml-5 mb-4 space-y-2">
+            {listItems.map((item, itemIndex) => {
+              const itemText = item.replace(/^\d+[\.\)]\s*/, '').trim();
+              return (
+                <li key={itemIndex} className="text-gray-700 leading-relaxed pl-1">
+                  {processInlineFormatting(itemText)}
+                </li>
+              );
+            })}
+          </ol>
+        );
+        return;
+      }
     }
 
     // Check for blockquote

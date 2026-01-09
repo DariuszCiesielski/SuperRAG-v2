@@ -92,11 +92,22 @@ const ChatArea = ({
   useEffect(() => {
     // If we have new messages and we have a pending message, clear it
     if (messages.length > lastMessageCount && pendingUserMessage) {
+      // Save timestamp for the new user message (find the latest user message)
+      if (pendingMessageTimestamp) {
+        const userMessages = messages.filter(m =>
+          m.message?.type === 'human' || m.message?.role === 'user'
+        );
+        const latestUserMessage = userMessages[userMessages.length - 1];
+        if (latestUserMessage && !messageTimestamps.has(latestUserMessage.id)) {
+          setMessageTimestamps(prev => new Map(prev).set(latestUserMessage.id, pendingMessageTimestamp));
+        }
+      }
       setPendingUserMessage(null);
+      setPendingMessageTimestamp(null);
       setShowAiLoading(false);
     }
     setLastMessageCount(messages.length);
-  }, [messages.length, lastMessageCount, pendingUserMessage]);
+  }, [messages.length, lastMessageCount, pendingUserMessage, pendingMessageTimestamp]);
 
   // Auto-scroll when pending message is set, when messages update, or when AI loading appears
   useEffect(() => {
