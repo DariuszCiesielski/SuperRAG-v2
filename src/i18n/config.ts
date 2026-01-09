@@ -3,7 +3,7 @@ import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
 // Import all translation files
-// Updated: 2026-01-07 - Changed saveToNote button text
+// Updated: 2026-01-09 - Added dialogs namespace
 import commonEN from '@/locales/en/common.json';
 import authEN from '@/locales/en/auth.json';
 import dashboardEN from '@/locales/en/dashboard.json';
@@ -11,6 +11,7 @@ import notebookEN from '@/locales/en/notebook.json';
 import profileEN from '@/locales/en/profile.json';
 import errorsEN from '@/locales/en/errors.json';
 import toastsEN from '@/locales/en/toasts.json';
+import dialogsEN from '@/locales/en/dialogs.json';
 
 import commonPL from '@/locales/pl/common.json';
 import authPL from '@/locales/pl/auth.json';
@@ -19,6 +20,7 @@ import notebookPL from '@/locales/pl/notebook.json';
 import profilePL from '@/locales/pl/profile.json';
 import errorsPL from '@/locales/pl/errors.json';
 import toastsPL from '@/locales/pl/toasts.json';
+import dialogsPL from '@/locales/pl/dialogs.json';
 
 const resources = {
   en: {
@@ -29,6 +31,7 @@ const resources = {
     profile: profileEN,
     errors: errorsEN,
     toasts: toastsEN,
+    dialogs: dialogsEN,
   },
   pl: {
     common: commonPL,
@@ -38,6 +41,7 @@ const resources = {
     profile: profilePL,
     errors: errorsPL,
     toasts: toastsPL,
+    dialogs: dialogsPL,
   },
 };
 
@@ -48,7 +52,7 @@ i18n
     resources,
     fallbackLng: 'en',
     defaultNS: 'common',
-    ns: ['common', 'auth', 'dashboard', 'notebook', 'profile', 'errors', 'toasts'],
+    ns: ['common', 'auth', 'dashboard', 'notebook', 'profile', 'errors', 'toasts', 'dialogs'],
 
     detection: {
       order: ['localStorage', 'navigator'],
