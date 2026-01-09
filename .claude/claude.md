@@ -166,6 +166,22 @@ supabase/
 
 ## Ostatnie zmiany i poprawki
 
+### Powiększenie logo i poprawa favicon (v1.7.21 - 2026-01-09)
+
+**Zmiana:** Zwiększono rozmiary logo w aplikacji i naprawiono zniekształcony favicon.
+
+**Pliki zmodyfikowane:**
+- `src/components/ui/Logo.tsx` - zmieniono rozmiary z kwadratowych na proporcjonalne (h-6, h-10, h-16 z w-auto)
+- `index.html` - favicon używa teraz `logo-icon.png` zamiast `logo.png`
+- `public/logo.png` - zaktualizowany plik z lepszymi proporcjami (17KB)
+- `public/logo-icon.png` - nowy plik dla faviconu (21KB)
+
+**Efekt:**
+- Logo w headerach jest teraz większe i czytelniejsze (md: 40px, lg: 64px wysokości)
+- Favicon nie jest zniekształcony dzięki użyciu dedykowanej ikony
+- Logo zachowuje naturalne proporcje (szerokość automatyczna)
+- Social media preview używa pełnego logo
+
 ### Implementacja nowego logo i brandingu (v1.7.20 - 2026-01-09)
 
 **Zmiana:** Dodano nowe logo marki "AI w BIZNESIE" i zaktualizowano branding aplikacji.

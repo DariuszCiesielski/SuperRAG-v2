@@ -8,15 +8,15 @@ interface LogoProps {
 
 const Logo = ({ size = 'md', className = '' }: LogoProps) => {
   const sizeClasses = {
-    sm: 'w-6 h-6',
-    md: 'w-8 h-8',
-    lg: 'w-12 h-12'
+    sm: 'h-6 w-auto',
+    md: 'h-10 w-auto',
+    lg: 'h-16 w-auto'
   };
 
   return (
     <img
       src="/logo.png"
-      alt="SuperRAG Logo"
+      alt="AI w BIZNESIE Logo"
       className={`${sizeClasses[size]} object-contain ${className}`}
     />
   );
