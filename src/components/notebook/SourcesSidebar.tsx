@@ -310,9 +310,9 @@ const SourcesSidebar = ({
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>{t('sources.deleteDialog.title', { title: selectedSource?.title })}</AlertDialogTitle>
+            <AlertDialogTitle>{t('sources.deleteTitle')}</AlertDialogTitle>
             <AlertDialogDescription>
-              {t('sources.deleteDialog.description')}
+              {t('sources.deleteDescription')}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
