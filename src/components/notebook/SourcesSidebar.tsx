@@ -272,11 +272,11 @@ const SourcesSidebar = ({
                   <ContextMenuContent>
                     <ContextMenuItem onClick={() => handleRenameSource(source)}>
                       <Edit className="h-4 w-4 mr-2" />
-                      {t('sources.contextMenu.rename')}
+                      {t('sources.rename')}
                     </ContextMenuItem>
                     <ContextMenuItem onClick={() => handleRemoveSource(source)} className="text-red-600 focus:text-red-600">
                       <Trash2 className="h-4 w-4 mr-2" />
-                      {t('sources.contextMenu.remove')}
+                      {t('sources.delete')}
                     </ContextMenuItem>
                   </ContextMenuContent>
                 </ContextMenu>
