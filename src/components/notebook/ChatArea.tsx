@@ -317,7 +317,7 @@ const ChatArea = ({
                 <Button
                   onClick={() => handleSendMessage()}
                   disabled={!message.trim() || isChatDisabled || isSending || !!pendingUserMessage}
-                  style={{ height: `${inputHeight}px` }}
+                  className="h-10 self-end"
                 >
                   {isSending || pendingUserMessage ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
                 </Button>
