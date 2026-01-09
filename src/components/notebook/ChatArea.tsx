@@ -41,6 +41,12 @@ const ChatArea = ({
   const [clickedQuestions, setClickedQuestions] = useState<Set<string>>(new Set());
   const [showAddSourcesDialog, setShowAddSourcesDialog] = useState(false);
 
+  // Resizable input area
+  const [inputHeight, setInputHeight] = useState(44);
+  const [isDragging, setIsDragging] = useState(false);
+  const dragStartY = useRef(0);
+  const dragStartHeight = useRef(0);
+
   const isGenerating = notebook?.generation_status === 'generating';
   
   const {
@@ -94,6 +100,38 @@ const ChatArea = ({
       }
     }
   }, [pendingUserMessage, messages.length, showAiLoading]);
+
+  // Handle drag to resize input area
+  const handleDragStart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+    dragStartY.current = e.clientY;
+    dragStartHeight.current = inputHeight;
+  };
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isDragging) return;
+      const deltaY = dragStartY.current - e.clientY;
+      const newHeight = Math.min(300, Math.max(44, dragStartHeight.current + deltaY));
+      setInputHeight(newHeight);
+    };
+
+    const handleMouseUp = () => {
+      setIsDragging(false);
+    };
+
+    if (isDragging) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+    }
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isDragging]);
+
   const handleSendMessage = async (messageText?: string) => {
     const textToSend = messageText || message.trim();
     if (textToSend && notebookId) {
@@ -245,8 +283,16 @@ const ChatArea = ({
             </div>
           </ScrollArea>
 
+          {/* Draggable Divider */}
+          <div
+            className={`h-2 border-t border-gray-200 cursor-ns-resize hover:bg-gray-100 active:bg-gray-200 transition-colors flex items-center justify-center group ${isDragging ? 'bg-gray-200' : ''}`}
+            onMouseDown={handleDragStart}
+          >
+            <div className="w-12 h-1 bg-gray-300 rounded-full group-hover:bg-gray-400 transition-colors" />
+          </div>
+
           {/* Chat Input - Fixed at bottom */}
-          <div className="p-6 border-t border-gray-200 flex-shrink-0">
+          <div className="px-6 pb-6 pt-4 flex-shrink-0">
             <div className="max-w-4xl mx-auto">
               <div className="flex space-x-4 items-end">
                 <div className="flex-1 relative">
@@ -260,9 +306,9 @@ const ChatArea = ({
                         handleSendMessage();
                       }
                     }}
-                    className="pr-20 min-h-[44px] max-h-[200px] resize-y"
+                    style={{ height: `${inputHeight}px` }}
+                    className="pr-20 resize-none"
                     disabled={isChatDisabled || isSending || !!pendingUserMessage}
-                    rows={1}
                   />
                   <div className="absolute right-3 bottom-3 text-sm text-gray-500">
                     {t('common:sources.count', { count: sourceCount })}
@@ -271,7 +317,7 @@ const ChatArea = ({
                 <Button
                   onClick={() => handleSendMessage()}
                   disabled={!message.trim() || isChatDisabled || isSending || !!pendingUserMessage}
-                  className="h-[44px]"
+                  style={{ height: `${inputHeight}px` }}
                 >
                   {isSending || pendingUserMessage ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
                 </Button>
