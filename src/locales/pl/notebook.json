@@ -18,7 +18,8 @@
     "errorSending": "Błąd wysyłania wiadomości",
     "errorClearing": "Błąd czyszczenia czatu",
     "chatCleared": "Czat wyczyszczony",
-    "chatClearedDesc": "Historia czatu została wyczyszczona."
+    "chatClearedDesc": "Historia czatu została wyczyszczona.",
+    "resend": "Zapytaj ponownie"
   },
   "sources": {
     "title": "Źródła",

@@ -18,7 +18,8 @@
     "errorSending": "Error sending message",
     "errorClearing": "Error clearing chat",
     "chatCleared": "Chat cleared",
-    "chatClearedDesc": "Your chat history has been cleared."
+    "chatClearedDesc": "Your chat history has been cleared.",
+    "resend": "Ask again"
   },
   "sources": {
     "title": "Sources",

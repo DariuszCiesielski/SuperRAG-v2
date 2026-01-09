@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Send, Upload, FileText, Loader2, RefreshCw } from 'lucide-react';
+import { Send, Upload, FileText, Loader2, RefreshCw, RotateCcw } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
@@ -34,12 +34,26 @@ const ChatArea = ({
   notebook,
   onCitationClick
 }: ChatAreaProps) => {
-  const { t } = useTranslation(['notebook', 'common']);
+  const { t, i18n } = useTranslation(['notebook', 'common']);
   const [message, setMessage] = useState('');
   const [pendingUserMessage, setPendingUserMessage] = useState<string | null>(null);
+  const [pendingMessageTimestamp, setPendingMessageTimestamp] = useState<Date | null>(null);
   const [showAiLoading, setShowAiLoading] = useState(false);
   const [clickedQuestions, setClickedQuestions] = useState<Set<string>>(new Set());
   const [showAddSourcesDialog, setShowAddSourcesDialog] = useState(false);
+  const [messageTimestamps, setMessageTimestamps] = useState<Map<number, Date>>(new Map());
+
+  // Format timestamp for display
+  const formatTimestamp = (date: Date) => {
+    return date.toLocaleString(i18n.language, {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    });
+  };
 
   // Resizable input area
   const [inputHeight, setInputHeight] = useState(44);
@@ -136,8 +150,10 @@ const ChatArea = ({
     const textToSend = messageText || message.trim();
     if (textToSend && notebookId) {
       try {
-        // Store the pending message to display immediately
+        // Store the pending message and timestamp to display immediately
+        const timestamp = new Date();
         setPendingUserMessage(textToSend);
+        setPendingMessageTimestamp(timestamp);
         await sendMessage({
           notebookId: notebookId,
           role: 'user',
@@ -151,9 +167,24 @@ const ChatArea = ({
         console.error('Failed to send message:', error);
         // Clear pending message on error
         setPendingUserMessage(null);
+        setPendingMessageTimestamp(null);
         setShowAiLoading(false);
       }
     }
+  };
+
+  // Handle resending a message
+  const handleResendMessage = (messageContent: string) => {
+    handleSendMessage(messageContent);
+  };
+
+  // Get message content as string
+  const getMessageText = (content: any): string => {
+    if (typeof content === 'string') return content;
+    if (content?.segments) {
+      return content.segments.map((s: any) => s.text).join('');
+    }
+    return '';
   };
   const handleRefreshChat = () => {
     if (notebookId) {
@@ -246,20 +277,51 @@ const ChatArea = ({
                 {/* Chat Messages */}
                 {(messages.length > 0 || pendingUserMessage || showAiLoading) && <div className="mb-6 space-y-4">
                     {messages.map((msg, index) => <div key={msg.id} className={`flex ${isUserMessage(msg) ? 'justify-end' : 'justify-start'}`}>
-                        <div className={`${isUserMessage(msg) ? 'max-w-xs lg:max-w-md px-4 py-2 bg-blue-500 text-white rounded-lg' : 'w-full'}`}>
-                          <div className={isUserMessage(msg) ? '' : 'prose prose-gray max-w-none text-gray-800'}>
-                            <MarkdownRenderer content={msg.message.content} className={isUserMessage(msg) ? '' : ''} onCitationClick={handleCitationClick} isUserMessage={isUserMessage(msg)} />
+                        {isUserMessage(msg) ? (
+                          <div className="flex flex-col items-end">
+                            {/* Resend button */}
+                            <button
+                              onClick={() => handleResendMessage(getMessageText(msg.message.content))}
+                              className="mb-1 p-1 text-gray-400 hover:text-gray-600 transition-colors"
+                              title={t('chat.resend')}
+                            >
+                              <RotateCcw className="h-3 w-3" />
+                            </button>
+                            {/* Message bubble */}
+                            <div className="max-w-xs lg:max-w-md px-4 py-2 bg-blue-500 text-white rounded-lg">
+                              <MarkdownRenderer content={msg.message.content} className="" onCitationClick={handleCitationClick} isUserMessage={true} />
+                            </div>
+                            {/* Timestamp */}
+                            {messageTimestamps.get(msg.id) && (
+                              <span className="mt-1 text-xs text-gray-400">
+                                {formatTimestamp(messageTimestamps.get(msg.id)!)}
+                              </span>
+                            )}
                           </div>
-                          {isAiMessage(msg) && <div className="mt-2 flex justify-start">
+                        ) : (
+                          <div className="w-full">
+                            <div className="prose prose-gray max-w-none text-gray-800">
+                              <MarkdownRenderer content={msg.message.content} className="" onCitationClick={handleCitationClick} isUserMessage={false} />
+                            </div>
+                            <div className="mt-2 flex justify-start">
                               <SaveToNoteButton content={msg.message.content} notebookId={notebookId} />
-                            </div>}
-                        </div>
+                            </div>
+                          </div>
+                        )}
                       </div>)}
-                    
+
                     {/* Pending user message */}
                     {pendingUserMessage && <div className="flex justify-end">
-                        <div className="max-w-xs lg:max-w-md px-4 py-2 bg-blue-500 text-white rounded-lg">
-                          <MarkdownRenderer content={pendingUserMessage} className="" isUserMessage={true} />
+                        <div className="flex flex-col items-end">
+                          <div className="max-w-xs lg:max-w-md px-4 py-2 bg-blue-500 text-white rounded-lg">
+                            <MarkdownRenderer content={pendingUserMessage} className="" isUserMessage={true} />
+                          </div>
+                          {/* Timestamp for pending message */}
+                          {pendingMessageTimestamp && (
+                            <span className="mt-1 text-xs text-gray-400">
+                              {formatTimestamp(pendingMessageTimestamp)}
+                            </span>
+                          )}
                         </div>
                       </div>}
                     
