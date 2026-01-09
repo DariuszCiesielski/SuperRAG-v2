@@ -85,6 +85,11 @@ const processRichMarkdown = (
 ) => {
   const elements: JSX.Element[] = [];
 
+  // Safety check for null/undefined text
+  if (!text || typeof text !== 'string') {
+    return <p className="mb-4 leading-relaxed text-gray-700"></p>;
+  }
+
   // Split by double newlines first to get blocks
   const blocks = text.split(/\n\n+/);
 
@@ -215,6 +220,11 @@ const processRichMarkdown = (
 
 // Process inline formatting: bold, italic, inline code, links
 const processInlineFormatting = (text: string): React.ReactNode => {
+  // Safety check
+  if (!text || typeof text !== 'string') {
+    return null;
+  }
+
   // Pattern for all inline formatting
   const pattern = /(\*\*\*.*?\*\*\*|\*\*.*?\*\*|\*.*?\*|__.*?__|_.*?_|`[^`]+`|\[.*?\]\(.*?\))/g;
 
