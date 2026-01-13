@@ -90,23 +90,39 @@ const processRichMarkdown = (
     return <p className="mb-4 leading-relaxed text-gray-700"></p>;
   }
 
-  // Pre-process: convert inline numbered lists to proper format
+  // Pre-process: convert inline lists to proper format
   // Clean up any empty brackets that might be citation placeholders
   let processedText = text.replace(/\[\]\s*/g, ' ');
+  // Clean up [.] placeholders
+  processedText = processedText.replace(/\[\.\]\s*/g, ' ');
 
-  // Detect inline numbered lists like "1) text 2) text 3) text" or "1. text 2. text"
-  // Check if we have at least 2 sequential numbers indicating a list
+  // === NUMBERED LISTS ===
+  // Detect inline numbered lists like "1) text 2) text" or "1. text 2. text"
   const numberedItemsMatch = processedText.match(/\d+[\.\)]\s+/g);
   const hasInlineNumberedList = numberedItemsMatch && numberedItemsMatch.length >= 2;
 
   if (hasInlineNumberedList) {
-    // Step 1: Add newline before each numbered item (except when already at line start)
-    // This converts "text 1) item text 2) item" to "text\n1) item text\n2) item"
-    processedText = processedText.replace(/(["""„"''«».!?:])\s*(\d+[\.\)])\s+/g, '$1\n$2 ');
+    // Add newline before each numbered item after punctuation/quotes
+    // Handles: ." 2) or ." 2. or just . 2) etc.
+    processedText = processedText.replace(/(["\"\"„"''«»\.!\?:,;])\s*(\d+[\.\)])\s+/g, '$1\n$2 ');
 
-    // Step 2: Separate intro text from list with double newline (to create separate blocks)
-    // Find where first list item starts and add double newline before it
+    // Separate intro text from list with double newline
     processedText = processedText.replace(/^([^\n]*?)(\n)(1[\.\)])/m, '$1\n\n$3');
+  }
+
+  // === BULLET LISTS ===
+  // Detect inline bullet lists with • or - markers
+  // Pattern: "text: • item1, • item2" or "text: - item1 - item2"
+  const bulletMatches = processedText.match(/[•\-]\s*[^•\-]+/g);
+  const hasInlineBulletList = bulletMatches && bulletMatches.length >= 2;
+
+  if (hasInlineBulletList) {
+    // Add newline before each bullet point
+    processedText = processedText.replace(/([,:.])\s*([•\-])\s+/g, '$1\n$2 ');
+    processedText = processedText.replace(/,\s*([•\-])\s+/g, '\n$1 ');
+
+    // Separate intro text from bullet list
+    processedText = processedText.replace(/^([^\n]*?)(\n)([•\-])/m, '$1\n\n$3');
   }
 
   // Clean up excessive spaces (but preserve newlines)
@@ -141,14 +157,14 @@ const processRichMarkdown = (
       return;
     }
 
-    // Check for unordered list (lines starting with - or *)
-    const unorderedListMatch = trimmedBlock.match(/^[\-\*]\s+/m);
+    // Check for unordered list (lines starting with -, *, or •)
+    const unorderedListMatch = trimmedBlock.match(/^[\-\*•]\s*/m);
     if (unorderedListMatch) {
-      const listItems = trimmedBlock.split('\n').filter(line => line.trim());
+      const listItems = trimmedBlock.split('\n').filter(line => line.trim() && line.match(/^[\-\*•]/));
       elements.push(
         <ul key={blockIndex} className="list-disc list-outside ml-5 mb-4 space-y-1.5">
           {listItems.map((item, itemIndex) => {
-            const itemText = item.replace(/^[\-\*]\s+/, '').trim();
+            const itemText = item.replace(/^[\-\*•]\s*/, '').trim();
             return (
               <li key={itemIndex} className="text-gray-700 leading-relaxed pl-1">
                 {processInlineFormatting(itemText)}
