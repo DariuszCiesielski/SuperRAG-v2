@@ -102,12 +102,19 @@ const processRichMarkdown = (
   const hasInlineNumberedList = numberedItemsMatch && numberedItemsMatch.length >= 2;
 
   if (hasInlineNumberedList) {
-    // Add newline before each numbered item after punctuation/quotes
-    // Handles: ." 2) or ." 2. or just . 2) etc.
-    processedText = processedText.replace(/(["\"\"„"''«»\.!\?:,;])\s*(\d+[\.\)])\s+/g, '$1\n$2 ');
+    // Add newline before numbered items 2, 3, 4, etc. (not before 1)
+    // This catches any number >= 2 followed by ) or . that appears after some text
+    processedText = processedText.replace(/(\S)\s+(\d+[\.\)])\s+/g, (match, before, num) => {
+      const numValue = parseInt(num);
+      // Only add newline for numbers 2 and above (list continuations)
+      if (numValue >= 2) {
+        return before + '\n' + num + ' ';
+      }
+      return match;
+    });
 
-    // Separate intro text from list with double newline
-    processedText = processedText.replace(/^([^\n]*?)(\n)(1[\.\)])/m, '$1\n\n$3');
+    // Find where "1)" or "1." appears and add double newline before it (to separate from intro)
+    processedText = processedText.replace(/(\S[^\n]*?)\s+(1[\.\)])\s+/m, '$1\n\n$2 ');
   }
 
   // === BULLET LISTS ===
