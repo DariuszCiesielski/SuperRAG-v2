@@ -91,12 +91,26 @@ const processRichMarkdown = (
   }
 
   // Pre-process: convert inline numbered lists to proper format
-  // Matches patterns like "1) text [] 2) text" or "1) text 2) text"
-  let processedText = text.replace(/(\d+\))\s+/g, '\n$1 ');
   // Clean up any empty brackets that might be citation placeholders
-  processedText = processedText.replace(/\[\]\s*/g, ' ');
-  // Clean up excessive spaces
-  processedText = processedText.replace(/\s{2,}/g, ' ');
+  let processedText = text.replace(/\[\]\s*/g, ' ');
+
+  // Detect inline numbered lists like "1) text 2) text 3) text" or "1. text 2. text"
+  // Check if we have at least 2 sequential numbers indicating a list
+  const numberedItemsMatch = processedText.match(/\d+[\.\)]\s+/g);
+  const hasInlineNumberedList = numberedItemsMatch && numberedItemsMatch.length >= 2;
+
+  if (hasInlineNumberedList) {
+    // Step 1: Add newline before each numbered item (except when already at line start)
+    // This converts "text 1) item text 2) item" to "text\n1) item text\n2) item"
+    processedText = processedText.replace(/(["""„"''«».!?:])\s*(\d+[\.\)])\s+/g, '$1\n$2 ');
+
+    // Step 2: Separate intro text from list with double newline (to create separate blocks)
+    // Find where first list item starts and add double newline before it
+    processedText = processedText.replace(/^([^\n]*?)(\n)(1[\.\)])/m, '$1\n\n$3');
+  }
+
+  // Clean up excessive spaces (but preserve newlines)
+  processedText = processedText.replace(/[ \t]{2,}/g, ' ');
 
   // Split by double newlines first to get blocks
   const blocks = processedText.split(/\n\n+/);
