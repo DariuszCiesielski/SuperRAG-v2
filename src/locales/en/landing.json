@@ -1,0 +1,60 @@
+{
+  "navPricing": "Pricing",
+  "navLogin": "Log in",
+  "navGetStarted": "Get Started",
+  "navDashboard": "Dashboard",
+
+  "heroBadge": "AI-Powered Research Assistant",
+  "heroTitle": "Transform Your Documents Into",
+  "heroTitleHighlight": "Intelligent Knowledge",
+  "heroSubtitle": "Upload PDFs, websites, YouTube videos, and text. Ask questions, get instant answers with citations. Your personal AI research assistant.",
+  "heroCtaPrimary": "Start Free",
+  "heroCtaSecondary": "See How It Works",
+
+  "demoQuestion": "What are the main conclusions from my research documents?",
+  "demoAnswer": "Based on your uploaded documents, the main conclusions are: 1) Market growth is projected at 15% annually, 2) Customer satisfaction increased by 23% after implementing the new features, 3) The recommended strategy focuses on mobile-first approach...",
+
+  "featuresTitle": "Everything You Need for Research",
+  "featuresSubtitle": "Powerful features to help you extract insights from any source",
+
+  "feature1Title": "PDF & Document Analysis",
+  "feature1Description": "Upload PDFs, Word documents, and text files. Our AI extracts and indexes all content for intelligent search.",
+
+  "feature2Title": "YouTube Integration",
+  "feature2Description": "Paste any YouTube URL. We automatically transcribe and analyze video content so you can ask questions about it.",
+
+  "feature3Title": "Website Import",
+  "feature3Description": "Add any webpage as a source. Extract and analyze content from articles, documentation, and more.",
+
+  "feature4Title": "AI Chat with Citations",
+  "feature4Description": "Ask questions in natural language. Get accurate answers with direct citations to your source materials.",
+
+  "feature5Title": "Smart Notes",
+  "feature5Description": "Create and organize notes. Save important insights and build your knowledge base.",
+
+  "feature6Title": "Multi-Source RAG",
+  "feature6Description": "Combine multiple sources in one notebook. Get comprehensive answers that synthesize information across all your materials.",
+
+  "howItWorksTitle": "How It Works",
+  "howItWorksSubtitle": "Get started in three simple steps",
+
+  "step1Title": "Upload Your Sources",
+  "step1Description": "Add PDFs, paste YouTube links, or import websites. We support multiple formats and sources.",
+
+  "step2Title": "AI Processes Everything",
+  "step2Description": "Our AI analyzes, indexes, and understands your content. Ready for intelligent queries in seconds.",
+
+  "step3Title": "Ask & Discover",
+  "step3Description": "Chat naturally with your documents. Get instant answers with citations and save insights to notes.",
+
+  "pricingTitle": "Simple, Transparent Pricing",
+  "pricingSubtitle": "Choose the plan that fits your needs. Start free, upgrade anytime.",
+
+  "ctaTitle": "Ready to Transform Your Research?",
+  "ctaSubtitle": "Join thousands of researchers, students, and professionals who save hours every day with SuperRAG.",
+  "ctaButton": "Get Started for Free",
+
+  "footerContact": "Contact",
+  "footerPricing": "Pricing",
+  "footerRights": "All rights reserved."
+}

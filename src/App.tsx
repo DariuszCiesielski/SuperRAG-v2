@@ -7,6 +7,7 @@ import { I18nextProvider } from 'react-i18next';
 import i18n from '@/i18n/config';
 import { AuthProvider } from "@/contexts/AuthContext";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
+import Landing from "./pages/Landing";
 import Dashboard from "./pages/Dashboard";
 import Notebook from "./pages/Notebook";
 import Profile from "./pages/Profile";
@@ -22,7 +23,7 @@ const AppContent = () => {
       <Route
         path="/"
         element={
-          <ProtectedRoute fallback={<Auth />}>
+          <ProtectedRoute fallback={<Landing />}>
             <Dashboard />
           </ProtectedRoute>
         }
