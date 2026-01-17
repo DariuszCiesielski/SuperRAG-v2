@@ -12,6 +12,7 @@ import profileEN from '@/locales/en/profile.json';
 import errorsEN from '@/locales/en/errors.json';
 import toastsEN from '@/locales/en/toasts.json';
 import dialogsEN from '@/locales/en/dialogs.json';
+import pricingEN from '@/locales/en/pricing.json';
 
 import commonPL from '@/locales/pl/common.json';
 import authPL from '@/locales/pl/auth.json';
@@ -21,6 +22,7 @@ import profilePL from '@/locales/pl/profile.json';
 import errorsPL from '@/locales/pl/errors.json';
 import toastsPL from '@/locales/pl/toasts.json';
 import dialogsPL from '@/locales/pl/dialogs.json';
+import pricingPL from '@/locales/pl/pricing.json';
 
 const resources = {
   en: {
@@ -32,6 +34,7 @@ const resources = {
     errors: errorsEN,
     toasts: toastsEN,
     dialogs: dialogsEN,
+    pricing: pricingEN,
   },
   pl: {
     common: commonPL,
@@ -42,6 +45,7 @@ const resources = {
     errors: errorsPL,
     toasts: toastsPL,
     dialogs: dialogsPL,
+    pricing: pricingPL,
   },
 };
 
@@ -52,7 +56,7 @@ i18n
     resources,
     fallbackLng: 'en',
     defaultNS: 'common',
-    ns: ['common', 'auth', 'dashboard', 'notebook', 'profile', 'errors', 'toasts', 'dialogs'],
+    ns: ['common', 'auth', 'dashboard', 'notebook', 'profile', 'errors', 'toasts', 'dialogs', 'pricing'],
 
     detection: {
       order: ['localStorage', 'navigator'],

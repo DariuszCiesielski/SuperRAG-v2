@@ -20,6 +20,7 @@
   "navigation": {
     "dashboard": "Dashboard",
     "profile": "Profile Settings",
+    "pricing": "Pricing",
     "signOut": "Sign Out",
     "backToDashboard": "Back to Dashboard"
   },

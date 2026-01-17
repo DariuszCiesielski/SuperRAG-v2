@@ -20,6 +20,7 @@
   "navigation": {
     "dashboard": "Panel główny",
     "profile": "Ustawienia profilu",
+    "pricing": "Cennik",
     "signOut": "Wyloguj się",
     "backToDashboard": "Powrót do panelu"
   },
