@@ -17,7 +17,7 @@ export interface Subscription {
   updated_at: string;
 }
 
-export const STRIPE_PRICE_ID_PRO = 'price_1SqWcGGJOj5HoRnWdBEA9Gae'; // Pro plan - 1 PLN/month
+export const STRIPE_PRICE_ID_PRO = 'price_1SqZvp9tEVOvn6llJo0AKA4o'; // Pro plan - 1 PLN/month
 
 export function useSubscription() {
   const { user } = useAuth();
