@@ -123,7 +123,7 @@ const Landing = () => {
               {t('navPricing')}
             </Button>
             {user ? (
-              <Button onClick={() => navigate('/dashboard')}>
+              <Button className="bg-brand hover:bg-brand-700" onClick={() => navigate('/dashboard')}>
                 {t('navDashboard')}
               </Button>
             ) : (
@@ -131,7 +131,7 @@ const Landing = () => {
                 <Button variant="ghost" onClick={() => navigate('/auth')}>
                   {t('navLogin')}
                 </Button>
-                <Button onClick={handleGetStarted}>
+                <Button className="bg-brand hover:bg-brand-700" onClick={handleGetStarted}>
                   {t('navGetStarted')}
                 </Button>
               </>
@@ -141,31 +141,31 @@ const Landing = () => {
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-6 bg-gradient-to-b from-blue-50 to-white">
+      <section className="pt-32 pb-20 px-6 bg-gradient-to-b from-brand-50 to-white">
         <div className="max-w-7xl mx-auto text-center">
-          <Badge className="mb-6 bg-blue-100 text-blue-700 hover:bg-blue-100">
+          <Badge className="mb-6 bg-brand-100 text-brand-700 hover:bg-brand-100">
             {t('heroBadge')}
           </Badge>
           <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
             {t('heroTitle')}
-            <span className="text-blue-600"> {t('heroTitleHighlight')}</span>
+            <span className="text-brand"> {t('heroTitleHighlight')}</span>
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-10">
             {t('heroSubtitle')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="h-14 px-8 text-lg" onClick={handleGetStarted}>
+            <Button size="lg" className="h-14 px-8 text-lg bg-brand hover:bg-brand-700" onClick={handleGetStarted}>
               {t('heroCtaPrimary')}
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-            <Button size="lg" variant="outline" className="h-14 px-8 text-lg" onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}>
+            <Button size="lg" variant="outline" className="h-14 px-8 text-lg border-brand text-brand hover:bg-brand-50" onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}>
               {t('heroCtaSecondary')}
             </Button>
           </div>
 
           {/* Hero Image/Demo */}
           <div className="mt-16 relative">
-            <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-1 shadow-2xl max-w-5xl mx-auto">
+            <div className="bg-gradient-to-r from-brand to-brand-700 rounded-2xl p-1 shadow-2xl max-w-5xl mx-auto">
               <div className="bg-gray-900 rounded-xl p-4">
                 <div className="flex items-center gap-2 mb-4">
                   <div className="w-3 h-3 rounded-full bg-red-500"></div>
@@ -174,16 +174,16 @@ const Landing = () => {
                 </div>
                 <div className="bg-gray-800 rounded-lg p-6 text-left">
                   <div className="flex items-start gap-4 mb-4">
-                    <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-bold">U</div>
+                    <div className="w-8 h-8 rounded-full bg-brand flex items-center justify-center text-white text-sm font-bold">U</div>
                     <div className="bg-gray-700 rounded-lg p-3 text-gray-200 text-sm">
                       {t('demoQuestion')}
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-brand to-brand-700 flex items-center justify-center">
                       <Brain className="w-4 h-4 text-white" />
                     </div>
-                    <div className="bg-blue-600/20 border border-blue-500/30 rounded-lg p-3 text-gray-200 text-sm flex-1">
+                    <div className="bg-brand/20 border border-brand/30 rounded-lg p-3 text-gray-200 text-sm flex-1">
                       {t('demoAnswer')}
                     </div>
                   </div>
@@ -208,10 +208,10 @@ const Landing = () => {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feature, index) => (
-              <Card key={index} className="border-2 border-gray-100 hover:border-blue-200 hover:shadow-lg transition-all duration-300">
+              <Card key={index} className="border-2 border-gray-100 hover:border-brand-200 hover:shadow-lg transition-all duration-300">
                 <CardHeader>
-                  <div className="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center mb-4">
-                    <feature.icon className="w-6 h-6 text-blue-600" />
+                  <div className="w-12 h-12 rounded-lg bg-brand-100 flex items-center justify-center mb-4">
+                    <feature.icon className="w-6 h-6 text-brand" />
                   </div>
                   <CardTitle className="text-xl">{feature.title}</CardTitle>
                 </CardHeader>
@@ -240,10 +240,10 @@ const Landing = () => {
             {steps.map((step, index) => (
               <div key={index} className="text-center">
                 <div className="relative inline-block mb-6">
-                  <div className="w-20 h-20 rounded-full bg-blue-600 flex items-center justify-center mx-auto">
+                  <div className="w-20 h-20 rounded-full bg-brand flex items-center justify-center mx-auto">
                     <step.icon className="w-10 h-10 text-white" />
                   </div>
-                  <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-white border-2 border-blue-600 flex items-center justify-center text-blue-600 font-bold">
+                  <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-white border-2 border-brand flex items-center justify-center text-brand font-bold">
                     {index + 1}
                   </div>
                 </div>
@@ -287,7 +287,7 @@ const Landing = () => {
                 <ul className="space-y-3">
                   {pricingFeatures.map((feature, index) => (
                     <li key={index} className="flex items-start gap-3">
-                      <Check className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
+                      <Check className="h-5 w-5 text-brand flex-shrink-0 mt-0.5" />
                       <span className="text-gray-700">{feature}</span>
                     </li>
                   ))}
@@ -296,7 +296,7 @@ const Landing = () => {
               <CardFooter>
                 <Button
                   variant="outline"
-                  className="w-full h-12 text-lg"
+                  className="w-full h-12 text-lg border-brand text-brand hover:bg-brand-50"
                   onClick={handleSelectFree}
                   disabled={isFree && !!user}
                 >
@@ -306,9 +306,9 @@ const Landing = () => {
             </Card>
 
             {/* Pro Plan */}
-            <Card className="relative border-2 border-blue-500 hover:border-blue-600 transition-colors shadow-lg">
+            <Card className="relative border-2 border-brand hover:border-brand-700 transition-colors shadow-lg">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                <Badge className="bg-blue-500 text-white px-4 py-1">
+                <Badge className="bg-brand text-white px-4 py-1 hover:bg-brand-700">
                   {tPricing('recommended')}
                 </Badge>
               </div>
@@ -329,19 +329,19 @@ const Landing = () => {
                 <ul className="space-y-3">
                   {pricingFeatures.map((feature, index) => (
                     <li key={index} className="flex items-start gap-3">
-                      <Check className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
+                      <Check className="h-5 w-5 text-brand flex-shrink-0 mt-0.5" />
                       <span className="text-gray-700">{feature}</span>
                     </li>
                   ))}
                   <li className="flex items-start gap-3">
-                    <Check className="h-5 w-5 text-blue-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-blue-700 font-medium">{tPricing('featurePrioritySupport')}</span>
+                    <Check className="h-5 w-5 text-brand flex-shrink-0 mt-0.5" />
+                    <span className="text-brand font-medium">{tPricing('featurePrioritySupport')}</span>
                   </li>
                 </ul>
               </CardContent>
               <CardFooter>
                 <Button
-                  className="w-full h-12 text-lg bg-blue-600 hover:bg-blue-700"
+                  className="w-full h-12 text-lg bg-brand hover:bg-brand-700"
                   onClick={handleSelectPro}
                   disabled={isPro || isCreatingCheckout}
                 >
@@ -363,15 +363,15 @@ const Landing = () => {
       </section>
 
       {/* Final CTA Section */}
-      <section className="py-20 px-6 bg-gradient-to-r from-blue-600 to-purple-600">
+      <section className="py-20 px-6 bg-gradient-to-r from-brand to-brand-700">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl font-bold text-white mb-6">
             {t('ctaTitle')}
           </h2>
-          <p className="text-xl text-blue-100 mb-10">
+          <p className="text-xl text-brand-100 mb-10">
             {t('ctaSubtitle')}
           </p>
-          <Button size="lg" variant="secondary" className="h-14 px-8 text-lg" onClick={handleGetStarted}>
+          <Button size="lg" variant="secondary" className="h-14 px-8 text-lg bg-white text-brand hover:bg-gray-100" onClick={handleGetStarted}>
             {t('ctaButton')}
             <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
