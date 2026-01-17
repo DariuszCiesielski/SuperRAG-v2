@@ -43,7 +43,8 @@ const Landing = () => {
 
   const handleSelectPro = () => {
     if (!user) {
-      navigate('/auth');
+      // Pass upgrade intent through URL so AuthForm can handle it after login
+      navigate('/auth?intent=upgrade_pro');
       return;
     }
     createCheckoutSession(STRIPE_PRICE_ID_PRO);

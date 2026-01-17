@@ -7,8 +7,9 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useToast } from '@/hooks/use-toast';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
+import { useSubscription, STRIPE_PRICE_ID_PRO } from '@/hooks/useSubscription';
 import { Mail } from 'lucide-react';
 
 type AuthMode = 'sign-in' | 'sign-up' | 'reset-password';
@@ -24,7 +25,12 @@ const AuthForm = () => {
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { isAuthenticated } = useAuth();
+  const { createCheckoutSession } = useSubscription();
+
+  // Check for upgrade intent from landing page
+  const upgradeIntent = searchParams.get('intent');
 
   // Handle email confirmation and password reset from URL hash
   useEffect(() => {
@@ -74,13 +80,18 @@ const AuthForm = () => {
     handleAuthCallback();
   }, [navigate, toast]);
 
-  // Redirect to dashboard if already authenticated
+  // Redirect to dashboard or checkout if already authenticated
   useEffect(() => {
     if (isAuthenticated) {
-      console.log('User is authenticated, redirecting to dashboard');
-      navigate('/', { replace: true });
+      if (upgradeIntent === 'upgrade_pro') {
+        console.log('User is authenticated, initiating checkout for Pro plan');
+        createCheckoutSession(STRIPE_PRICE_ID_PRO);
+      } else {
+        console.log('User is authenticated, redirecting to dashboard');
+        navigate('/', { replace: true });
+      }
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, navigate, upgradeIntent, createCheckoutSession]);
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
