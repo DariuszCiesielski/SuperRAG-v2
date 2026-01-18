@@ -1,15 +1,28 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 interface CitationButtonProps {
   chunkIndex: number;
+  sourceTitle?: string;
+  excerpt?: string;
   onClick: () => void;
   className?: string;
 }
 
-const CitationButton = ({ chunkIndex, onClick, className = '' }: CitationButtonProps) => {
-  return (
+const CitationButton = ({
+  chunkIndex,
+  sourceTitle,
+  excerpt,
+  onClick,
+  className = ''
+}: CitationButtonProps) => {
+  const button = (
     <Button
       variant="outline"
       size="sm"
@@ -19,6 +32,35 @@ const CitationButton = ({ chunkIndex, onClick, className = '' }: CitationButtonP
       {chunkIndex + 1}
     </Button>
   );
+
+  // If we have tooltip content, wrap in tooltip
+  if (sourceTitle || excerpt) {
+    return (
+      <Tooltip>
+        <TooltipTrigger asChild>
+          {button}
+        </TooltipTrigger>
+        <TooltipContent
+          side="top"
+          className="max-w-sm p-3 bg-white border shadow-lg"
+        >
+          {sourceTitle && (
+            <p className="text-xs font-semibold text-gray-900 mb-1">
+              {sourceTitle}
+            </p>
+          )}
+          {excerpt && (
+            <p className="text-xs text-gray-600 line-clamp-3">
+              {excerpt}
+            </p>
+          )}
+        </TooltipContent>
+      </Tooltip>
+    );
+  }
+
+  // Fallback without tooltip
+  return button;
 };
 
 export default CitationButton;

@@ -10,12 +10,51 @@ interface MarkdownRendererProps {
   isUserMessage?: boolean;
 }
 
+// Component to display list of sources at the end of AI response
+const CitationsList = ({
+  citations,
+  onCitationClick
+}: {
+  citations: Citation[];
+  onCitationClick?: (citation: Citation) => void;
+}) => {
+  // Get unique sources by source_id
+  const uniqueSources = [...new Map(citations.map(c => [c.source_id, c])).values()];
+
+  if (uniqueSources.length === 0) return null;
+
+  return (
+    <div className="mt-4 pt-3 border-t border-gray-200">
+      <p className="text-xs font-semibold text-gray-500 mb-2">Źródła:</p>
+      <div className="flex flex-wrap gap-2">
+        {uniqueSources.map((citation, index) => (
+          <button
+            key={citation.source_id}
+            onClick={() => onCitationClick?.(citation)}
+            className="inline-flex items-center px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded text-xs transition-colors cursor-pointer"
+          >
+            <span className="w-4 h-4 bg-blue-500 text-white rounded-full text-[10px] flex items-center justify-center mr-1.5 flex-shrink-0">
+              {index + 1}
+            </span>
+            <span className="text-gray-700 truncate max-w-[200px]">
+              {citation.source_title}
+            </span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 const MarkdownRenderer = ({ content, className = '', onCitationClick, isUserMessage = false }: MarkdownRendererProps) => {
   // Handle enhanced content with citations
   if (typeof content === 'object' && 'segments' in content) {
     return (
       <div className={className}>
         {processMarkdownWithCitations(content.segments, content.citations, onCitationClick, isUserMessage)}
+        {!isUserMessage && content.citations.length > 0 && (
+          <CitationsList citations={content.citations} onCitationClick={onCitationClick} />
+        )}
       </div>
     );
   }
@@ -45,20 +84,17 @@ const processMarkdownWithCitations = (
         {segments.map((segment, index) => (
           <span key={index}>
             {processInlineMarkdown(segment.text)}
-            {segment.citation_id && onCitationClick && (
-              <CitationButton
-                chunkIndex={(() => {
-                  const citation = citations.find(c => c.citation_id === segment.citation_id);
-                  return citation?.chunk_index || 0;
-                })()}
-                onClick={() => {
-                  const citation = citations.find(c => c.citation_id === segment.citation_id);
-                  if (citation) {
-                    onCitationClick(citation);
-                  }
-                }}
-              />
-            )}
+            {segment.citation_id && onCitationClick && (() => {
+              const citation = citations.find(c => c.citation_id === segment.citation_id);
+              return citation ? (
+                <CitationButton
+                  chunkIndex={citation.chunk_index || 0}
+                  sourceTitle={citation.source_title}
+                  excerpt={citation.excerpt}
+                  onClick={() => onCitationClick(citation)}
+                />
+              ) : null;
+            })()}
           </span>
         ))}
       </span>
@@ -90,15 +126,28 @@ const processRichMarkdown = (
     return <p className="mb-4 leading-relaxed text-gray-700"></p>;
   }
 
-  // Pre-process: convert inline numbered lists to proper format
-  // Matches patterns like "1) text [] 2) text" or "1) text 2) text"
-  let processedText = text.replace(/(\d+\))\s+/g, '\n$1 ');
+  // Pre-process: normalize markdown structure
+  let processedText = text;
+
+  // Remove ALL ## markers - n8n uses them incorrectly as separators
+  processedText = processedText.replace(/\s*##\s*/g, ' ');
+
   // Clean up any empty brackets that might be citation placeholders
   processedText = processedText.replace(/\[\]\s*/g, ' ');
-  // Clean up excessive spaces
-  processedText = processedText.replace(/\s{2,}/g, ' ');
 
-  // Split by double newlines first to get blocks
+  // Split before numbered items like "2)" or "3)" or "2." when preceded by text
+  // Use single newline to keep list items grouped together
+  processedText = processedText.replace(/(\S)\s+(\d+)\)\s+/g, '$1\n$2) ');
+  processedText = processedText.replace(/(\S)\s+(\d+)\.\s+/g, '$1\n$2. ');
+
+  // Normalize multiple newlines to double newlines (but keep single newlines for lists)
+  processedText = processedText.replace(/\n{3,}/g, '\n\n');
+
+  // Ensure there's a paragraph break before the first list item if preceded by non-list text
+  // But keep consecutive list items together with single newlines
+  processedText = processedText.replace(/([^\n])\n(1[\.\)])\s+/g, '$1\n\n$2 ');
+
+  // Split by double newlines to get blocks
   const blocks = processedText.split(/\n\n+/);
 
   blocks.forEach((block, blockIndex) => {
@@ -149,18 +198,37 @@ const processRichMarkdown = (
     // Check for ordered list (lines starting with number. or number))
     const orderedListMatch = trimmedBlock.match(/^\d+[\.\)]\s+/m);
     if (orderedListMatch) {
-      const listItems = trimmedBlock.split('\n').filter(line => line.trim() && line.match(/^\d+[\.\)]/));
+      // Split by newlines and filter for list items
+      const lines = trimmedBlock.split('\n');
+      const listItems: string[] = [];
+      let currentItem = '';
+
+      lines.forEach(line => {
+        const trimmedLine = line.trim();
+        if (trimmedLine.match(/^\d+[\.\)]\s+/)) {
+          // New list item - save previous if exists
+          if (currentItem) {
+            listItems.push(currentItem);
+          }
+          currentItem = trimmedLine.replace(/^\d+[\.\)]\s*/, '').trim();
+        } else if (currentItem && trimmedLine) {
+          // Continuation of current item
+          currentItem += ' ' + trimmedLine;
+        }
+      });
+      // Don't forget the last item
+      if (currentItem) {
+        listItems.push(currentItem);
+      }
+
       if (listItems.length > 0) {
         elements.push(
           <ol key={blockIndex} className="list-decimal list-outside ml-5 mb-4 space-y-2">
-            {listItems.map((item, itemIndex) => {
-              const itemText = item.replace(/^\d+[\.\)]\s*/, '').trim();
-              return (
-                <li key={itemIndex} className="text-gray-700 leading-relaxed pl-1">
-                  {processInlineFormatting(itemText)}
-                </li>
-              );
-            })}
+            {listItems.map((itemText, itemIndex) => (
+              <li key={itemIndex} className="text-gray-700 leading-relaxed pl-1">
+                {processInlineFormatting(itemText)}
+              </li>
+            ))}
           </ol>
         );
         return;
@@ -213,6 +281,8 @@ const processRichMarkdown = (
           <CitationButton
             key={idx}
             chunkIndex={cm.citation.chunk_index || 0}
+            sourceTitle={cm.citation.source_title}
+            excerpt={cm.citation.excerpt}
             onClick={() => onCitationClick(cm.citation!)}
           />
         ))}
