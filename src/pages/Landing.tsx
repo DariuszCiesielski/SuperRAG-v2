@@ -114,25 +114,25 @@ const Landing = () => {
     <div className="min-h-screen bg-white">
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
+        <div className="max-w-7xl mx-auto px-3 md:px-6 py-2 md:py-4 flex items-center justify-between">
+          <div className="flex items-center gap-1 md:gap-2 flex-shrink-0">
             <Logo size="sm" />
-            <span className="text-xl font-bold text-gray-900">SuperRAG</span>
+            <span className="text-sm md:text-xl font-bold text-gray-900 hidden sm:inline">SuperRAG</span>
           </div>
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}>
+          <div className="flex items-center gap-1 sm:gap-2 md:gap-4">
+            <Button variant="ghost" size="sm" className="text-xs sm:text-sm px-2 sm:px-3 md:px-4 hidden sm:inline-flex" onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}>
               {t('navPricing')}
             </Button>
             {user ? (
-              <Button className="bg-brand hover:bg-brand-700" onClick={() => navigate('/dashboard')}>
+              <Button size="sm" className="bg-brand hover:bg-brand-700 text-xs sm:text-sm px-2 sm:px-3 md:px-4" onClick={() => navigate('/dashboard')}>
                 {t('navDashboard')}
               </Button>
             ) : (
               <>
-                <Button variant="ghost" onClick={() => navigate('/auth')}>
+                <Button variant="ghost" size="sm" className="text-xs sm:text-sm px-2 sm:px-3 md:px-4" onClick={() => navigate('/auth')}>
                   {t('navLogin')}
                 </Button>
-                <Button className="bg-brand hover:bg-brand-700" onClick={handleGetStarted}>
+                <Button size="sm" className="bg-brand hover:bg-brand-700 text-xs sm:text-sm px-2 sm:px-3 md:px-4" onClick={handleGetStarted}>
                   {t('navGetStarted')}
                 </Button>
               </>
@@ -299,9 +299,8 @@ const Landing = () => {
                   variant="outline"
                   className="w-full h-12 text-lg border-brand text-brand hover:bg-brand-50"
                   onClick={handleSelectFree}
-                  disabled={isFree && !!user}
                 >
-                  {isFree && user ? tPricing('currentPlan') : tPricing('getStarted')}
+                  {user ? tPricing('goToDashboard') : tPricing('getStarted')}
                 </Button>
               </CardFooter>
             </Card>

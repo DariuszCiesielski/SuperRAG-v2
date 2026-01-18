@@ -106,9 +106,8 @@ const Pricing = () => {
                 variant="outline"
                 className="w-full h-12 text-lg"
                 onClick={handleSelectFree}
-                disabled={isFree && user}
               >
-                {isFree && user ? t('currentPlan') : t('getStarted')}
+                {user ? t('goToDashboard') : t('getStarted')}
               </Button>
             </CardFooter>
           </Card>
