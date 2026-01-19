@@ -14,6 +14,8 @@ import Profile from "./pages/Profile";
 import Pricing from "./pages/Pricing";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
+import Legal from "./pages/Legal";
+import LegalCase from "./pages/LegalCase";
 
 const queryClient = new QueryClient();
 
@@ -62,6 +64,23 @@ const AppContent = () => {
       />
       <Route path="/auth" element={<Auth />} />
       <Route path="/pricing" element={<Pricing />} />
+      {/* Legal Assistant routes */}
+      <Route
+        path="/legal"
+        element={
+          <ProtectedRoute fallback={<Auth />}>
+            <Legal />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/legal/case/:id"
+        element={
+          <ProtectedRoute fallback={<Auth />}>
+            <LegalCase />
+          </ProtectedRoute>
+        }
+      />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

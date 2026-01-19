@@ -1,0 +1,153 @@
+{
+  "title": "Legal Assistant",
+  "subtitle": "Manage your legal cases",
+  "brandName": "Legal Assistant",
+  "loading": "Loading...",
+  "error": "An error occurred",
+  "retry": "Try again",
+
+  "nav": {
+    "cases": "My Cases",
+    "library": "Legal Library",
+    "switchToInsights": "InsightsLM",
+    "settings": "Settings",
+    "pricing": "Pricing",
+    "signOut": "Sign Out"
+  },
+
+  "library": "Legal Library",
+  "newCase": "New Case",
+  "activeCases": "Active",
+  "archivedCases": "Archived",
+  "allCases": "All",
+  "browseLibrary": "Browse Legal Library",
+
+  "empty": {
+    "title": "You don't have any cases yet",
+    "description": "Create your first case to start using the legal assistant. You can add documents, track proceedings, and get help preparing legal documents."
+  },
+
+  "features": {
+    "documents": {
+      "title": "Document Management",
+      "description": "Store all documents related to your case in one place."
+    },
+    "tracking": {
+      "title": "Case Tracking",
+      "description": "Monitor case stages from police through prosecution to court."
+    },
+    "ai": {
+      "title": "AI Assistance",
+      "description": "Ask questions and get answers based on legal regulations."
+    }
+  },
+
+  "createCase": {
+    "title": "New Case",
+    "description": "Create a new legal case. You can add documents and track proceedings.",
+    "titleLabel": "Case Name",
+    "titlePlaceholder": "e.g., Rent Payment Dispute",
+    "categoryLabel": "Category",
+    "categoryPlaceholder": "Select category",
+    "descriptionLabel": "Description (optional)",
+    "descriptionPlaceholder": "Brief description of the case...",
+    "opponentLabel": "Opponent (optional)",
+    "opponentPlaceholder": "Name",
+    "opponentTypeLabel": "Type",
+    "selectType": "Select",
+    "deadlineLabel": "Deadline (optional)",
+    "deadlineDescription": "e.g., deadline for filing or court date"
+  },
+
+  "opponentTypes": {
+    "person": "Individual",
+    "company": "Company",
+    "office": "Government/Institution"
+  },
+
+  "opponent": "Opponent",
+  "deadline": "Deadline",
+  "documentsCount": "documents",
+
+  "confirmArchive": "Are you sure you want to archive this case?",
+  "confirmDelete": "Are you sure you want to delete this case? This action is irreversible.",
+  "archive": "Archive",
+  "delete": "Delete",
+  "cancel": "Cancel",
+  "create": "Create Case",
+  "creating": "Creating...",
+
+  "toast": {
+    "caseCreated": "Case Created",
+    "caseCreatedDesc": "You can now add documents and track proceedings.",
+    "error": "Error",
+    "createError": "Failed to create case. Please try again.",
+    "proceedingCreated": "Stage Added",
+    "proceedingCreatedDesc": "New proceeding stage has been added to the case.",
+    "proceedingCreateError": "Failed to add stage. Please try again."
+  },
+
+  "caseNotFound": "Case Not Found",
+  "caseNotFoundDesc": "The case doesn't exist or you don't have access to it.",
+  "backToDashboard": "Back to Cases",
+  "settings": "Settings",
+
+  "chat": "Chat",
+  "documents": "Documents",
+  "proceedings": "Stages",
+
+  "chatTitle": "Legal Assistant",
+  "chatSubtitle": "Ask a question about case: {{caseName}}",
+  "chatEmpty": {
+    "title": "Start a Conversation",
+    "description": "Ask a question about your case. The assistant will search legal regulations, court rulings, and your documents to provide answers."
+  },
+  "exampleQuestions": "Example Questions",
+  "example1": "What are my rights in this case?",
+  "example2": "What documents should I prepare?",
+  "example3": "What is the deadline for filing an appeal?",
+  "chatPlaceholder": "Ask a question...",
+  "send": "Send",
+
+  "noDocuments": "No documents",
+  "addDocument": "Add Document",
+  "documentsListPlaceholder": "Document list will appear here...",
+
+  "proceedings": {
+    "title": "Case Proceedings",
+    "subtitle": "History of case numbers and stages",
+    "empty": {
+      "title": "No proceedings yet",
+      "description": "Add the first proceeding stage, e.g., police investigation or court case."
+    },
+    "addFirst": "Add Stage"
+  },
+
+  "caseNumber": "Case No.",
+  "startDate": "Start Date",
+  "endDate": "End Date",
+  "notSet": "Not set",
+  "ongoing": "Ongoing",
+  "notes": "Notes",
+  "mergedFrom": "Merged Cases",
+  "edit": "Edit",
+
+  "addProceeding": {
+    "title": "Add Proceeding Stage",
+    "description": "Add a new case stage with case number and institution details.",
+    "stageType": "Stage Type",
+    "institutionName": "Institution Name",
+    "institutionPlaceholder": "e.g., District Court in Krakow, 2nd Civil Division",
+    "caseNumber": "Case Number (optional)",
+    "caseNumberPlaceholder": "e.g., II K 123/24",
+    "caseNumberDesc": "Case number assigned by the institution for this stage",
+    "startDate": "Start Date",
+    "endDate": "End Date (optional)",
+    "outcome": "Status",
+    "notes": "Notes (optional)",
+    "notesPlaceholder": "Additional information about this stage..."
+  },
+
+  "adding": "Adding...",
+  "add": "Add Stage"
+}

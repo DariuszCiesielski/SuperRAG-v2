@@ -1,0 +1,153 @@
+{
+  "title": "Pomoc Prawna",
+  "subtitle": "Zarządzaj swoimi sprawami prawnymi",
+  "brandName": "Pomoc Prawna",
+  "loading": "Ładowanie...",
+  "error": "Wystąpił błąd",
+  "retry": "Spróbuj ponownie",
+
+  "nav": {
+    "cases": "Moje sprawy",
+    "library": "Baza prawna",
+    "switchToInsights": "InsightsLM",
+    "settings": "Ustawienia",
+    "pricing": "Cennik",
+    "signOut": "Wyloguj się"
+  },
+
+  "library": "Baza prawna",
+  "newCase": "Nowa sprawa",
+  "activeCases": "Aktywne",
+  "archivedCases": "Archiwum",
+  "allCases": "Wszystkie",
+  "browseLibrary": "Przeglądaj bazę prawną",
+
+  "empty": {
+    "title": "Nie masz jeszcze żadnych spraw",
+    "description": "Utwórz swoją pierwszą sprawę, aby rozpocząć korzystanie z narzędzia pomocy prawnej. Możesz dodawać dokumenty, śledzić etapy postępowania i otrzymywać pomoc w przygotowaniu pism."
+  },
+
+  "features": {
+    "documents": {
+      "title": "Zarządzanie dokumentami",
+      "description": "Przechowuj wszystkie dokumenty związane ze sprawą w jednym miejscu."
+    },
+    "tracking": {
+      "title": "Śledzenie postępowania",
+      "description": "Monitoruj etapy sprawy od policji przez prokuraturę do sądu."
+    },
+    "ai": {
+      "title": "Pomoc AI",
+      "description": "Zadawaj pytania i otrzymuj odpowiedzi oparte na przepisach prawa."
+    }
+  },
+
+  "createCase": {
+    "title": "Nowa sprawa",
+    "description": "Utwórz nową sprawę prawną. Będziesz mógł dodać dokumenty i śledzić postępowanie.",
+    "titleLabel": "Nazwa sprawy",
+    "titlePlaceholder": "np. Sprawa o zapłatę czynszu",
+    "categoryLabel": "Kategoria",
+    "categoryPlaceholder": "Wybierz kategorię",
+    "descriptionLabel": "Opis (opcjonalnie)",
+    "descriptionPlaceholder": "Krótki opis sprawy...",
+    "opponentLabel": "Przeciwnik (opcjonalnie)",
+    "opponentPlaceholder": "Nazwa/imię",
+    "opponentTypeLabel": "Typ",
+    "selectType": "Wybierz",
+    "deadlineLabel": "Termin (opcjonalnie)",
+    "deadlineDescription": "Np. termin na wniesienie pisma lub data rozprawy"
+  },
+
+  "opponentTypes": {
+    "person": "Osoba fizyczna",
+    "company": "Firma",
+    "office": "Urząd/Instytucja"
+  },
+
+  "opponent": "Przeciwnik",
+  "deadline": "Termin",
+  "documentsCount": "dokumentów",
+
+  "confirmArchive": "Czy na pewno chcesz zarchiwizować tę sprawę?",
+  "confirmDelete": "Czy na pewno chcesz usunąć tę sprawę? Ta operacja jest nieodwracalna.",
+  "archive": "Archiwizuj",
+  "delete": "Usuń",
+  "cancel": "Anuluj",
+  "create": "Utwórz sprawę",
+  "creating": "Tworzenie...",
+
+  "toast": {
+    "caseCreated": "Sprawa utworzona",
+    "caseCreatedDesc": "Możesz teraz dodawać dokumenty i śledzić postępowanie.",
+    "error": "Błąd",
+    "createError": "Nie udało się utworzyć sprawy. Spróbuj ponownie.",
+    "proceedingCreated": "Etap dodany",
+    "proceedingCreatedDesc": "Nowy etap postępowania został dodany do sprawy.",
+    "proceedingCreateError": "Nie udało się dodać etapu. Spróbuj ponownie."
+  },
+
+  "caseNotFound": "Nie znaleziono sprawy",
+  "caseNotFoundDesc": "Sprawa nie istnieje lub nie masz do niej dostępu.",
+  "backToDashboard": "Wróć do listy spraw",
+  "settings": "Ustawienia",
+
+  "chat": "Chat",
+  "documents": "Dokumenty",
+  "proceedings": "Etapy",
+
+  "chatTitle": "Asystent prawny",
+  "chatSubtitle": "Zadaj pytanie dotyczące sprawy: {{caseName}}",
+  "chatEmpty": {
+    "title": "Rozpocznij rozmowę",
+    "description": "Zadaj pytanie dotyczące Twojej sprawy. Asystent przeszuka przepisy prawne, orzecznictwa oraz Twoje dokumenty, aby udzielić odpowiedzi."
+  },
+  "exampleQuestions": "Przykładowe pytania",
+  "example1": "Jakie mam prawa w tej sprawie?",
+  "example2": "Jakie dokumenty powinienem przygotować?",
+  "example3": "Jaki jest termin na wniesienie odwołania?",
+  "chatPlaceholder": "Zadaj pytanie...",
+  "send": "Wyślij",
+
+  "noDocuments": "Brak dokumentów",
+  "addDocument": "Dodaj dokument",
+  "documentsListPlaceholder": "Lista dokumentów będzie tutaj...",
+
+  "proceedings": {
+    "title": "Etapy postępowania",
+    "subtitle": "Historia sygnatur i instancji",
+    "empty": {
+      "title": "Brak etapów postępowania",
+      "description": "Dodaj pierwszy etap postępowania, np. dochodzenie policyjne lub sprawę w sądzie."
+    },
+    "addFirst": "Dodaj etap"
+  },
+
+  "caseNumber": "Sygn.",
+  "startDate": "Rozpoczęcie",
+  "endDate": "Zakończenie",
+  "notSet": "Nie ustawiono",
+  "ongoing": "W toku",
+  "notes": "Notatki",
+  "mergedFrom": "Połączone sprawy",
+  "edit": "Edytuj",
+
+  "addProceeding": {
+    "title": "Dodaj etap postępowania",
+    "description": "Dodaj nowy etap sprawy z sygnaturą akt i informacjami o instytucji.",
+    "stageType": "Typ etapu",
+    "institutionName": "Nazwa instytucji",
+    "institutionPlaceholder": "np. Sąd Rejonowy w Krakowie, II Wydział Cywilny",
+    "caseNumber": "Sygnatura akt (opcjonalnie)",
+    "caseNumberPlaceholder": "np. II K 123/24",
+    "caseNumberDesc": "Sygnatura nadana przez instytucję dla tego etapu sprawy",
+    "startDate": "Data rozpoczęcia",
+    "endDate": "Data zakończenia (opcj.)",
+    "outcome": "Status",
+    "notes": "Notatki (opcjonalnie)",
+    "notesPlaceholder": "Dodatkowe informacje o tym etapie..."
+  },
+
+  "adding": "Dodawanie...",
+  "add": "Dodaj etap"
+}
