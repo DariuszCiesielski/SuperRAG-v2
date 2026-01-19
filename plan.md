@@ -485,6 +485,144 @@ Implementacja zapewnia:
 
 ---
 
-*Ostatnia aktualizacja: 2026-01-06*
-*Wersja: 2.0*
+## 14. System Płatności Stripe (v1.5.0)
+
+### Cel
+Dodać system subskrypcji z wykorzystaniem Stripe, pozwalający użytkownikom na upgrade do planu Pro.
+
+### Plany cenowe
+- **Free** - 0 PLN/miesiąc, podstawowe funkcjonalności
+- **Pro** - 1 PLN/miesiąc, priorytetowe wsparcie + wszystkie funkcjonalności
+
+### Implementacja
+
+#### Faza 1: Konfiguracja Stripe
+**Wymagane:**
+1. Utworzyć konto Stripe i uzyskać klucze API
+2. Utworzyć produkt "SuperRAG Pro" w Stripe Dashboard
+3. Utworzyć cenę (Price) 1 PLN/miesiąc
+4. Skonfigurować webhook endpoint w Stripe Dashboard
+
+**Sekrety w Supabase:**
+- `STRIPE_SECRET_KEY` - klucz API Stripe (sk_live_... lub sk_test_...)
+- `STRIPE_WEBHOOK_SECRET` - secret do weryfikacji webhooków (whsec_...)
+
+#### Faza 2: Migracja Bazy Danych
+**Plik:** `supabase/migrations/20260117000000_add_subscriptions.sql`
+
+**Tabela `subscriptions`:**
+```sql
+CREATE TABLE subscriptions (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
+  stripe_customer_id text,
+  stripe_subscription_id text,
+  plan_id text DEFAULT 'free',
+  status text DEFAULT 'active',
+  current_period_start timestamptz,
+  current_period_end timestamptz,
+  cancel_at_period_end boolean DEFAULT false,
+  created_at timestamptz DEFAULT now(),
+  updated_at timestamptz DEFAULT now()
+);
+```
+
+**RLS Policies:**
+- Użytkownik może tylko odczytywać swoją subskrypcję
+- Aktualizacje tylko przez service role (webhooks)
+
+#### Faza 3: Edge Functions
+**Pliki:**
+- `supabase/functions/create-checkout-session/index.ts`
+- `supabase/functions/stripe-webhook/index.ts`
+
+**create-checkout-session:**
+1. Pobierz user_id z JWT
+2. Sprawdź/utwórz Stripe Customer
+3. Utwórz Checkout Session z priceId
+4. Zwróć URL do przekierowania
+
+**stripe-webhook:**
+1. Zweryfikuj sygnaturę webhook (STRIPE_WEBHOOK_SECRET)
+2. Obsłuż eventy:
+   - `checkout.session.completed` - aktywuj subskrypcję
+   - `customer.subscription.updated` - aktualizuj status
+   - `customer.subscription.deleted` - anuluj subskrypcję
+3. Zaktualizuj tabelę `subscriptions`
+
+#### Faza 4: Frontend Hook
+**Plik:** `src/hooks/useSubscription.tsx`
+
+**Funkcjonalność:**
+- Pobieranie danych subskrypcji użytkownika
+- Sprawdzanie planu (isPro, isFree)
+- Tworzenie sesji płatności (createCheckoutSession)
+- Stan ładowania i obsługa błędów
+
+#### Faza 5: Strona Pricing
+**Plik:** `src/pages/Pricing.tsx`
+
+**Funkcjonalność:**
+- Wyświetlanie planów cenowych (Free, Pro)
+- Przycisk "Upgrade to Pro" wywołujący createCheckoutSession
+- Wyświetlanie aktualnego planu użytkownika
+- Obsługa parametrów URL (?subscription=success/canceled)
+
+#### Faza 6: Landing Page
+**Plik:** `src/pages/Landing.tsx`
+
+**Funkcjonalność:**
+- Strona główna z opisem produktu
+- Sekcja "How It Works"
+- Sekcja "Features"
+- Sekcja "Pricing" (integracja z Stripe)
+- CTA do rejestracji/logowania
+
+### Pliki tłumaczeń
+- `src/locales/en/pricing.json`
+- `src/locales/pl/pricing.json`
+- `src/locales/en/landing.json`
+- `src/locales/pl/landing.json`
+
+### Flow użytkownika
+1. Użytkownik wchodzi na stronę `/pricing` lub `/`
+2. Klika "Upgrade to Pro"
+3. Jeśli niezalogowany → przekierowanie do `/auth`
+4. Jeśli zalogowany → wywołanie `createCheckoutSession`
+5. Przekierowanie do Stripe Checkout
+6. Płatność w Stripe
+7. Webhook aktualizuje subskrypcję
+8. Przekierowanie do `/dashboard?subscription=success`
+9. Toast z potwierdzeniem sukcesu
+
+### Kolejność Deployment
+1. Migracja bazy danych (`supabase db push`)
+2. Dodać sekrety Stripe w Supabase Dashboard
+3. Deploy Edge Functions (`supabase functions deploy`)
+4. Skonfigurować webhook URL w Stripe Dashboard
+5. Deploy frontend
+
+### Test Plan
+1. Utworzyć testowe konto
+2. Przejść do `/pricing`
+3. Kliknąć "Upgrade to Pro"
+4. Użyć testowej karty Stripe (4242 4242 4242 4242)
+5. Sprawdzić przekierowanie do dashboard
+6. Sprawdzić toast sukcesu
+7. Sprawdzić czy `isPro` zwraca `true`
+8. Sprawdzić tabelę `subscriptions` w Supabase
+
+### Status: ✅ Zaimplementowane
+- [x] Tabela subscriptions
+- [x] Edge Function create-checkout-session
+- [x] Edge Function stripe-webhook
+- [x] Hook useSubscription
+- [x] Strona Pricing
+- [x] Strona Landing
+- [x] Tłumaczenia (en/pl)
+
+---
+
+*Ostatnia aktualizacja: 2026-01-17*
+*Wersja: 2.1*
 

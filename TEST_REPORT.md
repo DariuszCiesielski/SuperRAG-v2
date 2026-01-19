@@ -1,6 +1,6 @@
 # Raport z testów aplikacji SuperRAG
 
-## Data testów: 2025-01-06
+## Data testów: 2025-01-06 (aktualizacja: 2026-01-17)
 
 ## 1. Przygotowanie środowiska
 
@@ -113,6 +113,43 @@
 - **Edge Function**: `send-chat-message` - wywołuje webhook N8N do generowania odpowiedzi
 - **Integracja**: Używa dokumentów z notatnika do generowania kontekstowych odpowiedzi
 
+### 4.6 Test systemu subskrypcji Stripe
+✅ **Funkcjonalność dostępna** - System płatności Stripe działa
+- **Implementacja**: `useSubscription` hook + Edge Functions
+- **Lokalizacja kodu**:
+  - `src/hooks/useSubscription.tsx` - zarządzanie subskrypcjami
+  - `src/pages/Pricing.tsx` - strona z planami cenowymi
+  - `src/pages/Landing.tsx` - strona główna z sekcją pricing
+  - `supabase/functions/create-checkout-session/index.ts` - tworzenie sesji płatności
+  - `supabase/functions/stripe-webhook/index.ts` - obsługa webhooków Stripe
+- **Funkcjonalność**:
+  - Wyświetlanie planów cenowych (Free, Pro)
+  - Tworzenie sesji Stripe Checkout
+  - Przekierowanie do płatności Stripe
+  - Obsługa webhooków po płatności
+  - Aktualizacja statusu subskrypcji
+  - Wyświetlanie aktualnego planu użytkownika
+- **Tabela bazy**: `subscriptions`
+- **Pola**: `id`, `user_id`, `stripe_customer_id`, `stripe_subscription_id`, `plan_id`, `status`, `current_period_start`, `current_period_end`, `cancel_at_period_end`
+- **Edge Functions**:
+  - `create-checkout-session` - tworzy sesję płatności Stripe
+  - `stripe-webhook` - obsługuje eventy z Stripe
+- **Plany cenowe**:
+  - Free: 0 PLN/miesiąc
+  - Pro: 1 PLN/miesiąc (Price ID: `price_1SqZvp9tEVOvn6llJo0AKA4o`)
+
+### 4.7 Test strony Landing
+✅ **Funkcjonalność dostępna** - Landing page działa
+- **Implementacja**: `src/pages/Landing.tsx`
+- **Funkcjonalność**:
+  - Hero section z CTA
+  - Sekcja "Features" z opisem funkcjonalności
+  - Sekcja "How It Works" z krokami użycia
+  - Sekcja "Pricing" z planami cenowymi
+  - Nawigacja do logowania/rejestracji
+  - Integracja z systemem płatności Stripe
+- **Tłumaczenia**: `src/locales/{en,pl}/landing.json`
+
 ## 5. Architektura aplikacji
 
 ### 5.1 Frontend
@@ -135,6 +172,7 @@
 2. **sources** - Źródła/dokumenty w notatnikach
 3. **n8n_chat_histories** - Historia czatu
 4. **documents** - Przetworzone dokumenty z embeddingami
+5. **subscriptions** - Subskrypcje użytkowników (Stripe)
 
 ### 5.4 Edge Functions
 1. `generate-notebook-content` - Generowanie tytułu i opisu notatnika
@@ -142,6 +180,8 @@
 3. `send-chat-message` - Wysyłanie wiadomości czatu
 4. `generate-audio-overview` - Generowanie audio (podcast)
 5. `process-additional-sources` - Przetwarzanie dodatkowych źródeł
+6. `create-checkout-session` - Tworzenie sesji płatności Stripe
+7. `stripe-webhook` - Obsługa webhooków Stripe
 
 ## 6. Podsumowanie
 
@@ -153,6 +193,9 @@
 4. **Dodawanie dokumentów** - ✅ Działa
 5. **Usuwanie dokumentów** - ✅ Działa
 6. **Działanie czatu** - ✅ Działa
+7. **System subskrypcji Stripe** - ✅ Działa
+8. **Strona Landing** - ✅ Działa
+9. **Strona Pricing** - ✅ Działa
 
 ### Uwagi techniczne:
 
@@ -161,6 +204,8 @@
 3. **Edge Functions** - wymagają poprawnej konfiguracji webhooków N8N (już skonfigurowane)
 4. **Autentykacja** - wymaga potwierdzenia emaila dla nowych użytkowników (standardowe zachowanie Supabase)
 5. **Przetwarzanie dokumentów** - odbywa się asynchronicznie przez N8N workflows
+6. **Płatności Stripe** - wymagają konfiguracji sekretów STRIPE_SECRET_KEY i STRIPE_WEBHOOK_SECRET
+7. **Wielojęzyczność** - aplikacja obsługuje język polski i angielski (i18next)
 
 ### Rekomendacje:
 
@@ -181,7 +226,7 @@
 ---
 
 **Status**: ✅ Wszystkie testy zakończone sukcesem
-**Data**: 2025-01-06
+**Data**: 2025-01-06 (aktualizacja: 2026-01-17)
 
 
 

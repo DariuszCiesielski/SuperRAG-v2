@@ -23,7 +23,15 @@
       "Bash(netstat:*)",
       "Bash(taskkill:*)",
       "Bash(ls:*)",
-      "Bash(npx supabase functions deploy:*)"
+      "Bash(npx supabase functions deploy:*)",
+      "Bash(tasklist:*)",
+      "Bash(findstr:*)",
+      "WebSearch",
+      "Bash(git clone:*)",
+      "Bash(git init:*)",
+      "Bash(git reset:*)",
+      "Bash(gh repo create:*)"
     ]
-  }
+  },
+  "outputStyle": "Explanatory"
 }

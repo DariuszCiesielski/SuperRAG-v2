@@ -25,6 +25,8 @@ VITE_SUPABASE_ANON_KEY=your_anon_key_here
 - `ADDITIONAL_SOURCES_WEBHOOK_URL` - webhook dla dodatkowych źródeł
 - `NOTEBOOK_GENERATION_AUTH` - hasło Header Auth dla webhooków N8N
 - `OPENAI_API_KEY` - używany w `generate-note-title`
+- `STRIPE_SECRET_KEY` - klucz API Stripe (sk_live_... lub sk_test_...)
+- `STRIPE_WEBHOOK_SECRET` - secret do weryfikacji webhooków Stripe (whsec_...)
 
 ## Deployment
 
@@ -64,10 +66,11 @@ VITE_SUPABASE_ANON_KEY=your_anon_key_here
 - Chat: `useChatMessages`, `useAudioOverview`
 - Documents: `useDocumentProcessing`, `useFileUpload`
 - User: `useProfile`, `useAccountDelete`, `useNotes`
+- Subscription: `useSubscription` - zarządzanie subskrypcjami Stripe (isPro, isFree, createCheckoutSession)
 - UI: `use-mobile`, `useIsDesktop`
 
 **i18n:**
-- Pliki w `src/locales/{en,pl}/` (auth.json, common.json, dashboard.json, notebook.json, profile.json, errors.json, toasts.json)
+- Pliki w `src/locales/{en,pl}/` (auth.json, common.json, dashboard.json, notebook.json, profile.json, errors.json, toasts.json, landing.json, pricing.json)
 - Formatowanie dat: `src/lib/i18n-dates.ts`
 
 **Kluczowe zależności:**
@@ -90,6 +93,8 @@ VITE_SUPABASE_ANON_KEY=your_anon_key_here
 9. `audio-generation-callback`
 10. `refresh-audio-url`
 11. `webhook-handler`
+12. `create-checkout-session` - verify_jwt: **false** - tworzenie sesji płatności Stripe
+13. `stripe-webhook` - verify_jwt: **false** - obsługa webhooków Stripe (aktualizacja subskrypcji)
 
 **Wdrożenie:**
 ```bash
@@ -134,16 +139,16 @@ Workflow w katalogu `n8n/`:
 src/
 ├── components/     # auth/, chat/, dashboard/, notebook/, profile/, ui/
 ├── contexts/       # AuthContext.tsx
-├── hooks/          # Custom hooks (useNotebooks, useChatMessages, etc.)
-├── pages/          # Dashboard, Notebook, Auth, Profile, NotFound
+├── hooks/          # Custom hooks (useNotebooks, useChatMessages, useSubscription, etc.)
+├── pages/          # Dashboard, Notebook, Auth, Profile, Landing, Pricing, NotFound
 ├── integrations/   # supabase/client.ts, supabase/types.ts
 ├── lib/            # utils.ts (cn), i18n-dates.ts
 ├── locales/        # en/, pl/ (JSON files)
 └── services/       # authService.ts
 
 supabase/
-├── functions/      # Edge Functions
-├── migrations/     # SQL migrations
+├── functions/      # Edge Functions (w tym create-checkout-session, stripe-webhook)
+├── migrations/     # SQL migrations (w tym tabela subscriptions)
 └── config.toml     # Supabase config
 ```
 
@@ -168,3 +173,59 @@ supabase/
 - Tłumaczenia są importowane **statycznie** w `src/i18n/config.ts`
 - Vite HMR nie odświeża automatycznie zmienionych plików JSON
 - **Workaround**: `rm -rf node_modules/.vite && npm run dev` lub hard refresh `Ctrl + Shift + R`
+
+## System Płatności Stripe
+
+### Przegląd
+Projekt używa Stripe do obsługi subskrypcji. Dostępne są dwa plany:
+- **Free** - darmowy, podstawowe funkcjonalności
+- **Pro** - 1 PLN/miesiąc, priorytetowe wsparcie
+
+### Konfiguracja Stripe
+
+**Wymagane sekrety w Supabase:**
+- `STRIPE_SECRET_KEY` - klucz API Stripe
+- `STRIPE_WEBHOOK_SECRET` - secret do weryfikacji webhooków
+
+**Price ID:**
+- Pro plan: `price_1SqZvp9tEVOvn6llJo0AKA4o`
+
+### Architektura
+
+**Tabela bazy danych: `subscriptions`**
+```sql
+- id: uuid
+- user_id: uuid (FK do auth.users)
+- stripe_customer_id: text
+- stripe_subscription_id: text
+- plan_id: 'free' | 'pro'
+- status: 'active' | 'canceled' | 'past_due' | 'trialing' | etc.
+- current_period_start: timestamp
+- current_period_end: timestamp
+- cancel_at_period_end: boolean
+- created_at, updated_at: timestamp
+```
+
+**Edge Functions:**
+1. `create-checkout-session` - tworzy sesję płatności Stripe Checkout
+2. `stripe-webhook` - obsługuje eventy z Stripe (checkout.session.completed, customer.subscription.updated, etc.)
+
+**Hook: `useSubscription`**
+- `subscription` - dane subskrypcji użytkownika
+- `isPro` - czy użytkownik ma aktywny plan Pro
+- `isFree` - czy użytkownik ma plan Free
+- `createCheckoutSession(priceId)` - rozpoczyna proces płatności
+- `isCreatingCheckout` - stan ładowania
+
+### Flow płatności
+1. Użytkownik klika "Upgrade to Pro" na stronie `/pricing` lub `/` (Landing)
+2. `createCheckoutSession` wywołuje Edge Function `create-checkout-session`
+3. Edge Function tworzy sesję Stripe Checkout i zwraca URL
+4. Użytkownik jest przekierowywany do Stripe Checkout
+5. Po płatności, Stripe wywołuje webhook `stripe-webhook`
+6. Webhook aktualizuje tabelę `subscriptions`
+7. Użytkownik jest przekierowywany do `/dashboard?subscription=success`
+
+### Strony związane z płatnościami
+- `/` - Landing page z sekcją pricing
+- `/pricing` - Dedykowana strona z planami cenowymi

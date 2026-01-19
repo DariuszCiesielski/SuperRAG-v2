@@ -96,6 +96,112 @@
    npm install
    ```
 
+## Problem: Płatności Stripe nie działają
+
+### Możliwe przyczyny:
+
+1. **Brak sekretów Stripe w Supabase**
+   - Sprawdź czy `STRIPE_SECRET_KEY` jest ustawiony
+   - Sprawdź czy `STRIPE_WEBHOOK_SECRET` jest ustawiony
+
+2. **Edge Functions nie są wdrożone**
+   - Sprawdź czy `create-checkout-session` jest wdrożone
+   - Sprawdź czy `stripe-webhook` jest wdrożone
+
+3. **Webhook nie jest skonfigurowany w Stripe**
+   - Sprawdź Stripe Dashboard → Developers → Webhooks
+   - URL webhook powinien być: `https://sfqsuysimebkdeayxmmi.supabase.co/functions/v1/stripe-webhook`
+
+4. **Użytkownik nie jest zalogowany**
+   - Sprawdź czy sesja użytkownika jest aktywna
+   - Sprawdź konsolę przeglądarki pod kątem błędów
+
+### Rozwiązania:
+
+1. **Dodanie sekretów Stripe:**
+   - W Supabase Dashboard: Edge Functions → Secrets
+   - Dodaj `STRIPE_SECRET_KEY` (sk_live_... lub sk_test_...)
+   - Dodaj `STRIPE_WEBHOOK_SECRET` (whsec_...)
+
+2. **Wdrożenie Edge Functions:**
+   ```bash
+   supabase functions deploy create-checkout-session --project-ref sfqsuysimebkdeayxmmi
+   supabase functions deploy stripe-webhook --project-ref sfqsuysimebkdeayxmmi
+   ```
+
+3. **Konfiguracja webhook w Stripe:**
+   - Wejdź na https://dashboard.stripe.com/webhooks
+   - Kliknij "Add endpoint"
+   - URL: `https://sfqsuysimebkdeayxmmi.supabase.co/functions/v1/stripe-webhook`
+   - Wybierz eventy:
+     - `checkout.session.completed`
+     - `customer.subscription.updated`
+     - `customer.subscription.deleted`
+   - Skopiuj "Signing secret" i dodaj jako `STRIPE_WEBHOOK_SECRET`
+
+4. **Testowanie z kartą testową:**
+   - Użyj karty testowej: `4242 4242 4242 4242`
+   - Data: dowolna przyszła data
+   - CVC: dowolne 3 cyfry
+
+## Problem: Subskrypcja nie aktualizuje się po płatności
+
+### Możliwe przyczyny:
+
+1. **Webhook nie dociera do Supabase**
+   - Sprawdź logi w Stripe Dashboard → Developers → Webhooks → Events
+   - Sprawdź logi Edge Function w Supabase
+
+2. **Błędna sygnatura webhook**
+   - `STRIPE_WEBHOOK_SECRET` może być nieprawidłowy
+   - Użyj secret z Stripe Dashboard, nie z CLI
+
+3. **Brak tabeli subscriptions**
+   - Sprawdź czy migracja została zastosowana
+
+### Rozwiązania:
+
+1. **Sprawdzenie logów webhook:**
+   - Stripe Dashboard → Developers → Webhooks → Events
+   - Sprawdź czy eventy mają status "Succeeded"
+
+2. **Sprawdzenie logów Edge Function:**
+   - Supabase Dashboard → Edge Functions → stripe-webhook → Logs
+   - Szukaj błędów typu "Invalid signature" lub "Table not found"
+
+3. **Ręczna aktualizacja subskrypcji (tymczasowo):**
+   ```sql
+   UPDATE subscriptions
+   SET plan_id = 'pro', status = 'active'
+   WHERE user_id = 'user-uuid-here';
+   ```
+
+## Problem: Strona Pricing nie wyświetla aktualnego planu
+
+### Możliwe przyczyny:
+
+1. **Brak rekordu w tabeli subscriptions**
+   - Nowi użytkownicy mogą nie mieć jeszcze rekordu
+
+2. **Cache React Query**
+   - Dane mogą być cache'owane
+
+### Rozwiązania:
+
+1. **Odśwież stronę:**
+   - Hard refresh: `Ctrl + Shift + R`
+
+2. **Sprawdź tabelę subscriptions:**
+   ```sql
+   SELECT * FROM subscriptions WHERE user_id = 'user-uuid-here';
+   ```
+
+3. **Utwórz rekord dla użytkownika (jeśli brakuje):**
+   ```sql
+   INSERT INTO subscriptions (user_id, plan_id, status)
+   VALUES ('user-uuid-here', 'free', 'active');
+   ```
+
 
 
 
