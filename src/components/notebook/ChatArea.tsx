@@ -252,7 +252,7 @@ const ChatArea = ({
   return <div className="flex-1 flex flex-col h-full overflow-hidden">
       {hasSource ? <div className="flex-1 flex flex-col h-full overflow-hidden">
           {/* Chat Header */}
-          <div className="p-4 border-b border-gray-200 flex-shrink-0">
+          <div className="p-2 md:p-4 border-b border-gray-200 flex-shrink-0">
             <div className="max-w-4xl mx-auto flex items-center justify-between">
               <h2 className="text-lg font-medium text-gray-900">{t('chat.title')}</h2>
               {shouldShowRefreshButton && <Button variant="ghost" size="sm" onClick={handleRefreshChat} disabled={isDeletingChatHistory || isChatDisabled} className="flex items-center space-x-2">
@@ -264,21 +264,21 @@ const ChatArea = ({
 
           <ScrollArea className="flex-1 h-full" ref={scrollAreaRef}>
             {/* Document Summary */}
-            <div className="p-8 border-b border-gray-200">
+            <div className="p-3 md:p-8 border-b border-gray-200">
               <div className="max-w-4xl mx-auto">
-                <div className="flex items-center space-x-4 mb-6">
-                  <div className="w-10 h-10 flex items-center justify-center bg-transparent">
-                    {isGenerating ? <Loader2 className="text-black font-normal w-10 h-10 animate-spin" /> : <span className="text-[40px] leading-none">{notebook?.icon || '☕'}</span>}
+                <div className="flex items-center space-x-2 md:space-x-4 mb-3 md:mb-6">
+                  <div className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-transparent">
+                    {isGenerating ? <Loader2 className="text-black font-normal w-8 h-8 md:w-10 md:h-10 animate-spin" /> : <span className="text-[28px] md:text-[40px] leading-none">{notebook?.icon || '☕'}</span>}
                   </div>
                   <div>
-                    <h1 className="text-2xl font-medium text-gray-900">
+                    <h1 className="text-lg md:text-2xl font-medium text-gray-900">
                       {isGenerating ? t('chat.generating') : notebook?.title || t('chat.untitledNotebook')}
                     </h1>
                     <p className="text-sm text-gray-600">{t('common:sources.count', { count: sourceCount })}</p>
                   </div>
                 </div>
                 
-                <div className="bg-gray-50 rounded-lg p-6 mb-6">
+                <div className="bg-gray-50 rounded-lg p-3 md:p-6 mb-3 md:mb-6">
                   {isGenerating ? <div className="flex items-center space-x-2 text-gray-600">
 
                       <p>{t('chat.aiAnalyzing')}</p>
@@ -299,7 +299,7 @@ const ChatArea = ({
                               <RotateCcw className="h-3 w-3" />
                             </button>
                             {/* Message bubble */}
-                            <div className="max-w-xs lg:max-w-md px-4 py-2 bg-blue-500 text-white rounded-lg">
+                            <div className="max-w-[85%] md:max-w-xs lg:max-w-md px-4 py-2 bg-blue-500 text-white rounded-lg">
                               <MarkdownRenderer content={msg.message.content} className="" onCitationClick={handleCitationClick} isUserMessage={true} />
                             </div>
                             {/* Timestamp */}
@@ -324,7 +324,7 @@ const ChatArea = ({
                     {/* Pending user message */}
                     {pendingUserMessage && <div className="flex justify-end">
                         <div className="flex flex-col items-end">
-                          <div className="max-w-xs lg:max-w-md px-4 py-2 bg-blue-500 text-white rounded-lg">
+                          <div className="max-w-[85%] md:max-w-xs lg:max-w-md px-4 py-2 bg-blue-500 text-white rounded-lg">
                             <MarkdownRenderer content={pendingUserMessage} className="" isUserMessage={true} />
                           </div>
                           {/* Timestamp for pending message */}
@@ -368,9 +368,9 @@ const ChatArea = ({
           </div>
 
           {/* Chat Input - Fixed at bottom */}
-          <div className="px-6 pb-6 pt-4 flex-shrink-0">
+          <div className="px-3 pb-3 pt-2 md:px-6 md:pb-6 md:pt-4 flex-shrink-0">
             <div className="max-w-4xl mx-auto">
-              <div className="flex space-x-4 items-end">
+              <div className="flex space-x-2 md:space-x-4 items-end">
                 <div className="flex-1 relative">
                   <Textarea
                     placeholder={getPlaceholderText()}

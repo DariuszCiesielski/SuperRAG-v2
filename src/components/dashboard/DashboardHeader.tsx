@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { User, LogOut, Settings } from 'lucide-react';
+import { User, LogOut, Settings, CreditCard } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { useLogout } from '@/services/authService';
 import Logo from '@/components/ui/Logo';
@@ -39,6 +39,10 @@ const DashboardHeader = ({ userEmail }: DashboardHeaderProps) => {
               <DropdownMenuItem onClick={() => navigate('/profile')} className="cursor-pointer">
                 <Settings className="h-4 w-4 mr-2" />
                 {t('navigation.profile')}
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => navigate('/pricing')} className="cursor-pointer">
+                <CreditCard className="h-4 w-4 mr-2" />
+                {t('navigation.pricing')}
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={logout} className="cursor-pointer">

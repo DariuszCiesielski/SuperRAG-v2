@@ -1,0 +1,60 @@
+{
+  "navPricing": "Cennik",
+  "navLogin": "Zaloguj",
+  "navGetStarted": "Rozpocznij",
+  "navDashboard": "Panel",
+
+  "heroBadge": "Asystent badawczy oparty na AI",
+  "heroTitle": "Zamień swoje dokumenty w",
+  "heroTitleHighlight": "inteligentną wiedzę",
+  "heroSubtitle": "Wgraj PDF-y, strony internetowe, filmy z YouTube i teksty. Zadawaj pytania, otrzymuj natychmiastowe odpowiedzi z cytatami. Twój osobisty asystent badawczy AI.",
+  "heroCtaPrimary": "Zacznij za darmo",
+  "heroCtaSecondary": "Zobacz jak działa",
+
+  "demoQuestion": "Jakie są główne wnioski z moich dokumentów badawczych?",
+  "demoAnswer": "Na podstawie przesłanych dokumentów, główne wnioski to: 1) Prognozowany wzrost rynku wynosi 15% rocznie, 2) Satysfakcja klientów wzrosła o 23% po wdrożeniu nowych funkcji, 3) Rekomendowana strategia koncentruje się na podejściu mobile-first...",
+
+  "featuresTitle": "Wszystko czego potrzebujesz do badań",
+  "featuresSubtitle": "Potężne funkcje, które pomogą Ci wydobyć wiedzę z każdego źródła",
+
+  "feature1Title": "Analiza PDF i dokumentów",
+  "feature1Description": "Wgraj PDF-y, dokumenty Word i pliki tekstowe. Nasza AI wyodrębnia i indeksuje całą zawartość do inteligentnego wyszukiwania.",
+
+  "feature2Title": "Integracja z YouTube",
+  "feature2Description": "Wklej dowolny URL z YouTube. Automatycznie transkrybujemy i analizujemy treść wideo, abyś mógł zadawać pytania.",
+
+  "feature3Title": "Import stron internetowych",
+  "feature3Description": "Dodaj dowolną stronę jako źródło. Wyodrębnij i analizuj treść z artykułów, dokumentacji i innych.",
+
+  "feature4Title": "Czat AI z cytatami",
+  "feature4Description": "Zadawaj pytania w naturalnym języku. Otrzymuj dokładne odpowiedzi z bezpośrednimi cytatami z materiałów źródłowych.",
+
+  "feature5Title": "Inteligentne notatki",
+  "feature5Description": "Twórz i organizuj notatki. Zapisuj ważne wnioski i buduj swoją bazę wiedzy.",
+
+  "feature6Title": "Multi-źródłowy RAG",
+  "feature6Description": "Łącz wiele źródeł w jednym notatniku. Otrzymuj kompleksowe odpowiedzi syntezujące informacje ze wszystkich materiałów.",
+
+  "howItWorksTitle": "Jak to działa",
+  "howItWorksSubtitle": "Zacznij w trzech prostych krokach",
+
+  "step1Title": "Wgraj swoje źródła",
+  "step1Description": "Dodaj PDF-y, wklej linki z YouTube lub zaimportuj strony. Obsługujemy wiele formatów i źródeł.",
+
+  "step2Title": "AI przetwarza wszystko",
+  "step2Description": "Nasza AI analizuje, indeksuje i rozumie Twoje treści. Gotowe do inteligentnych zapytań w kilka sekund.",
+
+  "step3Title": "Pytaj i odkrywaj",
+  "step3Description": "Rozmawiaj naturalnie ze swoimi dokumentami. Otrzymuj natychmiastowe odpowiedzi z cytatami i zapisuj wnioski do notatek.",
+
+  "pricingTitle": "Prosty, przejrzysty cennik",
+  "pricingSubtitle": "Wybierz plan dopasowany do Twoich potrzeb. Zacznij za darmo, uaktualnij w dowolnym momencie.",
+
+  "ctaTitle": "Gotowy zmienić swoje badania?",
+  "ctaSubtitle": "Dołącz do tysięcy badaczy, studentów i profesjonalistów, którzy oszczędzają godziny każdego dnia z SuperRAG.",
+  "ctaButton": "Zacznij za darmo",
+
+  "footerContact": "Kontakt",
+  "footerPricing": "Cennik",
+  "footerRights": "Wszelkie prawa zastrzeżone."
+}

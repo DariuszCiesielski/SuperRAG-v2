@@ -40,6 +40,33 @@ interface N8nAiResponseContent {
   }>;
 }
 
+// Helper function to generate excerpt from source content
+const generateExcerpt = (
+  sourceContent: string | null | undefined,
+  linesFrom: number,
+  linesTo: number,
+  maxLength: number = 150
+): string => {
+  if (!sourceContent) {
+    return `Lines ${linesFrom}-${linesTo}`;
+  }
+
+  const lines = sourceContent.split('\n');
+  const startLine = Math.max(0, (linesFrom || 1) - 1);
+  const endLine = Math.min(lines.length, linesTo || linesFrom || 1);
+
+  const excerptLines = lines.slice(startLine, endLine);
+  const excerptText = excerptLines.join(' ').trim().replace(/\s+/g, ' ');
+
+  if (excerptText.length === 0) {
+    return `Lines ${linesFrom}-${linesTo}`;
+  }
+
+  return excerptText.length > maxLength
+    ? excerptText.substring(0, maxLength) + '...'
+    : excerptText;
+};
+
 // Utility function to detect raw citation JSON in text
 const detectRawCitations = (text: string): RawCitationMatch[] => {
   try {
@@ -159,7 +186,11 @@ const cleanAndExtractCitations = (
           chunk_lines_from: parsedCitation.chunk_lines_from,
           chunk_lines_to: parsedCitation.chunk_lines_to,
           chunk_index: parsedCitation.chunk_index,
-          excerpt: `Lines ${parsedCitation.chunk_lines_from}-${parsedCitation.chunk_lines_to}`
+          excerpt: generateExcerpt(
+            sourceInfo?.content,
+            parsedCitation.chunk_lines_from,
+            parsedCitation.chunk_lines_to
+          )
         });
 
         // Remove raw JSON from text
@@ -249,7 +280,11 @@ const transformMessage = (item: any, sourceMap: Map<string, any>): EnhancedChatM
                   chunk_lines_from: citation.chunk_lines_from,
                   chunk_lines_to: citation.chunk_lines_to,
                   chunk_index: citation.chunk_index,
-                  excerpt: `Lines ${citation.chunk_lines_from}-${citation.chunk_lines_to}`
+                  excerpt: generateExcerpt(
+                    sourceInfo?.content,
+                    citation.chunk_lines_from,
+                    citation.chunk_lines_to
+                  )
                 });
               });
               citationIdCounter++;
@@ -366,10 +401,10 @@ export const useChatMessages = (notebookId?: string) => {
 
       if (error) throw error;
       
-      // Also fetch sources to get proper source titles
+      // Also fetch sources to get proper source titles and content for excerpts
       const { data: sourcesData } = await supabase
         .from('sources')
-        .select('id, title, type')
+        .select('id, title, type, content')
         .eq('notebook_id', notebookId);
       
       const sourceMap = new Map(sourcesData?.map(s => [s.id, s]) || []);
@@ -407,7 +442,7 @@ export const useChatMessages = (notebookId?: string) => {
           // Fetch sources for proper transformation
           const { data: sourcesData } = await supabase
             .from('sources')
-            .select('id, title, type')
+            .select('id, title, type, content')
             .eq('notebook_id', notebookId);
           
           const sourceMap = new Map(sourcesData?.map(s => [s.id, s]) || []);
