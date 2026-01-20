@@ -1,0 +1,361 @@
+{
+  "name": "InsightsLM - Legal Chat",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "legal-chat-webhook",
+        "authentication": "headerAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 400],
+      "id": "webhook-legal-chat",
+      "name": "Webhook Legal Chat",
+      "webhookId": "legal-chat-webhook",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "YOUR_AUTH_CREDENTIAL_ID",
+          "name": "MyNoteBookLM Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## InsightsLM - Legal Chat\n\n### Konfiguracja:\n1. Ustaw credentials dla Supabase\n2. Ustaw credentials dla OpenAI (embeddings)\n3. Ustaw credentials dla LLM (Gemini/OpenAI/Anthropic)\n4. Ustaw credentials dla Postgres (memory)\n5. Zmień webhook path na unikalny UUID\n\n### Parametry wejściowe:\n```json\n{\n  \"session_id\": \"case_id\",\n  \"message\": \"pytanie użytkownika\",\n  \"user_id\": \"uuid\",\n  \"case_id\": \"uuid\",\n  \"categories\": [\"cywilne\"],\n  \"include_regulations\": true,\n  \"include_rulings\": true,\n  \"include_case_docs\": true\n}\n```",
+        "height": 400,
+        "width": 350,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-400, 100],
+      "id": "sticky-config",
+      "name": "Konfiguracja"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT\n  source,\n  id,\n  content,\n  metadata,\n  similarity\nFROM public.hybrid_legal_search(\n  $1::vector,\n  $2::uuid,\n  $3::legal_category[],\n  $4::boolean,\n  $5::boolean,\n  $6::boolean,\n  $7::boolean,\n  10,\n  5\n)\nORDER BY similarity DESC\nLIMIT 15;",
+        "options": {
+          "queryParams": "={{ [$json.embedding, $json.body.case_id, $json.body.categories || null, $json.body.include_regulations ?? true, $json.body.include_rulings ?? true, false, $json.body.include_case_docs ?? true] }}"
+        }
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [440, 400],
+      "id": "postgres-hybrid-search",
+      "name": "Hybrid Legal Search",
+      "credentials": {
+        "postgres": {
+          "id": "YOUR_POSTGRES_CREDENTIAL_ID",
+          "name": "Supabase Postgres"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "text-embedding-3-small",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [200, 600],
+      "id": "embeddings-openai",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "YOUR_OPENAI_CREDENTIAL_ID",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Prepare embedding for the query\nconst message = $input.first().json.body.message;\n\n// This will be replaced with actual embedding from OpenAI node\nreturn {\n  ...items[0].json,\n  message_for_embedding: message\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [200, 400],
+      "id": "code-prepare",
+      "name": "Prepare Query"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Format retrieved documents as context for LLM\nconst results = $input.all();\nconst body = $('Webhook Legal Chat').first().json.body;\n\nconst contextChunks = results.map((item, index) => {\n  const data = item.json;\n  const metadata = typeof data.metadata === 'string' ? JSON.parse(data.metadata) : data.metadata;\n  \n  let sourceInfo = '';\n  if (data.source === 'legal_library') {\n    if (metadata.source_type === 'regulation') {\n      sourceInfo = `[PRZEPIS] ${metadata.title || 'Przepis prawny'}`;\n      if (metadata.article) sourceInfo += ` Art. ${metadata.article}`;\n      if (metadata.paragraph) sourceInfo += ` § ${metadata.paragraph}`;\n    } else if (metadata.source_type === 'ruling') {\n      sourceInfo = `[ORZECZENIE] ${metadata.court_name || ''} - ${metadata.case_number || ''}`;\n    } else {\n      sourceInfo = `[${metadata.source_type?.toUpperCase() || 'DOKUMENT'}] ${metadata.title || ''}`;\n    }\n  } else {\n    sourceInfo = `[DOKUMENT SPRAWY] ${metadata.title || metadata.filename || 'Dokument'}`;\n  }\n  \n  return {\n    index: index,\n    source_type: data.source === 'legal_library' ? metadata.source_type : 'case_document',\n    source_id: metadata.source_id || metadata.id || data.id,\n    source_title: metadata.title || metadata.filename || 'Unknown',\n    article: metadata.article || null,\n    paragraph: metadata.paragraph || null,\n    content: data.content,\n    similarity: data.similarity,\n    formatted: `--- Źródło [${index}]: ${sourceInfo} (similarity: ${(data.similarity * 100).toFixed(1)}%) ---\\n${data.content}\\n`\n  };\n});\n\nconst contextText = contextChunks.map(c => c.formatted).join('\\n');\n\nreturn {\n  body: body,\n  context: contextText,\n  sources: contextChunks,\n  sources_count: contextChunks.length\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [660, 400],
+      "id": "code-format-context",
+      "name": "Format Context"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body.message }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "Jesteś asystentem prawnym pomagającym osobom w sprawach prawnych w Polsce.\n\nTwoje zadania:\n1. Odpowiadaj na podstawie polskiego prawa i dostarczonych źródeł\n2. ZAWSZE cytuj konkretne artykuły i paragrafy przepisów\n3. Używaj formatu cytowań: [Art. X § Y KC] lub [Wyrok SN z dnia... sygn. ...]\n4. Jeśli nie jesteś pewien, poinformuj użytkownika\n5. NIE udzielaj porad prawnych - jedynie informuj o przepisach i orzecznictwie\n\n## Dostępne źródła:\n{{ $json.context }}\n\n## Zasady cytowania:\n- Dla przepisów: podaj source_type='regulation', article i paragraph\n- Dla orzeczeń: podaj source_type='ruling' i sygnaturę\n- Dla dokumentów sprawy: podaj source_type='case_document'\n- Każde stwierdzenie poparte źródłem MUSI mieć cytowanie\n\n## Format odpowiedzi:\nOdpowiedź podziel na segmenty. Każdy segment to osobny akapit lub punkt.\nDla każdego segmentu podaj cytowania do źródeł, z których korzystałeś.\n\nWażne:\n- Odpowiadaj w języku polskim\n- Bądź precyzyjny i rzeczowy\n- Rozróżniaj między prawem materialnym a procesowym\n- Przy terminach podawaj podstawę prawną"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [880, 320],
+      "id": "ai-agent-legal",
+      "name": "AI Agent Legal",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "=legal_{{ $json.body.case_id }}",
+        "contextWindowLength": 20
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [800, 700],
+      "id": "postgres-memory",
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "YOUR_POSTGRES_CREDENTIAL_ID",
+          "name": "Supabase Postgres"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"output\": [\n    {\n      \"text\": \"Zgodnie z przepisami Kodeksu Cywilnego, w tej sprawie zastosowanie mają następujące regulacje:\",\n      \"citations\": [\n        {\n          \"source_index\": 0,\n          \"source_type\": \"regulation\",\n          \"source_id\": \"uuid-kodeks-cywilny\",\n          \"source_title\": \"Kodeks Cywilny\",\n          \"article\": \"23\",\n          \"paragraph\": \"1\",\n          \"excerpt\": \"Art. 23 § 1 KC stanowi, że...\"\n        }\n      ]\n    },\n    {\n      \"text\": \"1. Termin przedawnienia wynosi 3 lata zgodnie z art. 118 KC.\",\n      \"citations\": [\n        {\n          \"source_index\": 1,\n          \"source_type\": \"regulation\",\n          \"source_id\": \"uuid-kodeks-cywilny\",\n          \"source_title\": \"Kodeks Cywilny\",\n          \"article\": \"118\",\n          \"paragraph\": null,\n          \"excerpt\": \"Jeżeli przepis szczególny nie stanowi inaczej, termin przedawnienia wynosi lat sześć...\"\n        }\n      ]\n    },\n    {\n      \"text\": \"2. Sąd Najwyższy w swoim orzecznictwie potwierdził tę interpretację.\",\n      \"citations\": [\n        {\n          \"source_index\": 2,\n          \"source_type\": \"ruling\",\n          \"source_id\": \"uuid-wyrok-sn\",\n          \"source_title\": \"Wyrok SN z dnia 15.03.2023, sygn. III CZP 12/23\",\n          \"article\": null,\n          \"paragraph\": null,\n          \"excerpt\": \"SN stwierdził, że termin przedawnienia rozpoczyna bieg od dnia...\"\n        }\n      ]\n    },\n    {\n      \"text\": \"Na podstawie dokumentów z Twojej sprawy, warto zwrócić uwagę na datę zawarcia umowy.\",\n      \"citations\": [\n        {\n          \"source_index\": 3,\n          \"source_type\": \"case_document\",\n          \"source_id\": \"uuid-dokument-umowa\",\n          \"source_title\": \"Umowa z dnia 01.01.2024\",\n          \"article\": null,\n          \"paragraph\": null,\n          \"excerpt\": \"Umowa została zawarta w dniu...\"\n        }\n      ]\n    }\n  ]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [1100, 520],
+      "id": "output-parser",
+      "name": "Legal Output Parser"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash-preview-04-17-thinking",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [680, 700],
+      "id": "llm-gemini",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "YOUR_GEMINI_CREDENTIAL_ID",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "schema": {
+          "__rl": true,
+          "value": "public",
+          "mode": "list"
+        },
+        "table": {
+          "__rl": true,
+          "value": "legal_chat_histories",
+          "mode": "list"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "session_id": "={{ $('Webhook Legal Chat').first().json.body.case_id }}",
+            "user_id": "={{ $('Webhook Legal Chat').first().json.body.user_id }}",
+            "message": "={{ JSON.stringify({ type: 'ai', content: JSON.stringify($json.output) }) }}",
+            "sources_used": "={{ JSON.stringify($('Format Context').first().json.sources.map(s => ({ source_type: s.source_type, source_id: s.source_id, similarity: s.similarity }))) }}"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [1320, 320],
+      "id": "postgres-save-response",
+      "name": "Save AI Response",
+      "credentials": {
+        "postgres": {
+          "id": "YOUR_POSTGRES_CREDENTIAL_ID",
+          "name": "Supabase Postgres"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { success: true, output: $json.output, sources_count: $('Format Context').first().json.sources_count } }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1540, 320],
+      "id": "respond-webhook",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "content": "## Schemat przepływu:\n\n1. **Webhook** - odbiera zapytanie z edge function\n2. **Prepare Query** - przygotowuje dane\n3. **Embeddings OpenAI** - generuje embedding pytania\n4. **Hybrid Legal Search** - wywołuje funkcję SQL\n   - Szuka w `legal_regulations` (przepisy)\n   - Szuka w `legal_rulings` (orzeczenia)\n   - Szuka w `case_documents_embeddings` (dokumenty sprawy)\n5. **Format Context** - formatuje wyniki jako kontekst\n6. **AI Agent Legal** - generuje odpowiedź z cytowaniami\n7. **Save AI Response** - zapisuje do `legal_chat_histories`\n8. **Respond to Webhook** - zwraca odpowiedź",
+        "height": 350,
+        "width": 350,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-400, 550],
+      "id": "sticky-flow",
+      "name": "Przepływ"
+    },
+    {
+      "parameters": {
+        "content": "[![The AI Automators](https://www.theaiautomators.com/wp-content/uploads/2025/03/gray-logo.png)](https://www.theaiautomators.com/)\n## InsightsLM - Legal Chat\nhttps://github.com/theaiautomators/insights-lm-public\n\n### Moduł: Pomoc Prawna\nHybrydowe wyszukiwanie w:\n- Przepisach prawnych\n- Orzecznictwie\n- Dokumentach sprawy użytkownika",
+        "height": 280,
+        "width": 350,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-400, -200],
+      "id": "sticky-header",
+      "name": "Header"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook Legal Chat": {
+      "main": [
+        [
+          {
+            "node": "Prepare Query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Query": {
+      "main": [
+        [
+          {
+            "node": "Hybrid Legal Search",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Hybrid Legal Search": {
+      "main": [
+        [
+          {
+            "node": "Format Context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Context": {
+      "main": [
+        [
+          {
+            "node": "AI Agent Legal",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent Legal": {
+      "main": [
+        [
+          {
+            "node": "Save AI Response",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Save AI Response": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Prepare Query",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent Legal",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Legal Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent Legal",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent Legal",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "legal-chat-v1",
+  "meta": {
+    "instanceId": "legal-assistant-workflow"
+  },
+  "id": "legal-chat-workflow",
+  "tags": [
+    {
+      "id": "legal-assistant",
+      "name": "Legal Assistant"
+    }
+  ]
+}

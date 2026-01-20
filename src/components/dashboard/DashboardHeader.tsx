@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { User, LogOut, Settings, CreditCard } from 'lucide-react';
+import { User, LogOut, Settings, CreditCard, Scale } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { useLogout } from '@/services/authService';
 import Logo from '@/components/ui/Logo';
@@ -26,6 +26,15 @@ const DashboardHeader = ({ userEmail }: DashboardHeaderProps) => {
         </div>
 
         <div className="flex items-center space-x-4">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => navigate('/legal')}
+            className="flex items-center gap-2"
+          >
+            <Scale className="h-4 w-4" />
+            {t('navigation.legal', 'Asystent Prawny')}
+          </Button>
           <LanguageSwitcher />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

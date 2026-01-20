@@ -7,12 +7,15 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
-import type { LegalCase, LegalCategory, CaseStatus } from '@/types/legal';
+import type { LegalCase, LegalCategory, CaseStatus, ProceedingStageType, PartyType } from '@/types/legal';
 
 export interface CreateCaseData {
   title: string;
   description?: string;
   category: LegalCategory;
+  case_number?: string;
+  current_stage?: ProceedingStageType;
+  user_role?: PartyType;
   opponent_name?: string;
   opponent_type?: string;
   deadline_date?: string;
@@ -142,6 +145,9 @@ export const useLegalCases = () => {
           title: caseData.title,
           description: caseData.description,
           category: caseData.category,
+          case_number: caseData.case_number,
+          current_stage: caseData.current_stage,
+          user_role: caseData.user_role,
           opponent_name: caseData.opponent_name,
           opponent_type: caseData.opponent_type,
           deadline_date: caseData.deadline_date,

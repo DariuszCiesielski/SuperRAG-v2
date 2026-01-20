@@ -3,19 +3,21 @@
 ## Status projektu
 
 **Branch:** `feature/legal-assistant`
-**Ukończone:** Faza 1 (Fundament)
-**Pozostało:** Fazy 2-6
+**Ukończone:** Faza 1 (Fundament), Faza 2 (RAG prawny), Faza 3.1-3.3 (Biblioteka prawna), Faza 4 (Generator dokumentów), Faza 5 (Monetyzacja)
+**W trakcie:** Faza 3.4-3.5 (Panel admin) - opcjonalnie
+**Pozostało:** Faza 6 (Automatyzacja i polish)
+**N8N:** Odłożone na koniec (wszystkie workflow N8N będą implementowane po zakończeniu UI)
 
 ---
 
-## Faza 2: RAG prawny
+## Faza 2: RAG prawny ✅ UKOŃCZONA
 
 ### Cel
 Implementacja chatu AI z hybrydowym wyszukiwaniem w bazie prawnej i dokumentach użytkownika.
 
 ### Zadania
 
-#### 2.1 Edge Function `legal-chat-message`
+#### 2.1 Edge Function `legal-chat-message` ✅
 **Plik:** `supabase/functions/legal-chat-message/index.ts`
 
 ```typescript
@@ -40,7 +42,7 @@ Implementacja chatu AI z hybrydowym wyszukiwaniem w bazie prawnej i dokumentach 
 }
 ```
 
-#### 2.2 N8N Workflow `InsightsLM___Legal_Chat.json`
+#### 2.2 N8N Workflow `InsightsLM___Legal_Chat.json` 📋 (Przygotowane, wdrożenie na końcu)
 **Plik:** `n8n/InsightsLM___Legal_Chat.json`
 
 **Flow:**
@@ -66,25 +68,24 @@ Jeśli nie jesteś pewien, poinformuj użytkownika.
 NIE udzielaj porad prawnych - jedynie informuj o przepisach.
 ```
 
-#### 2.3 Hook `useLegalChat.tsx`
+#### 2.3 Hook `useLegalChat.tsx` ✅
 **Plik:** `src/hooks/legal/useLegalChat.tsx`
 
 ```typescript
-// Wzoruj się na: src/hooks/useChatMessages.tsx
-// Różnice:
-// - Wywołuje legal-chat-message zamiast send-chat-message
-// - Parsuje cytowania prawne (LegalCitation)
-// - Subskrypcja na legal_chat_histories
+// Wrapper nad useUnifiedChat z obsługą:
+// - Parametrów prawnych (categories, includeRegulations, etc.)
+// - Backward compatibility dla SendLegalMessageParams
 ```
 
-#### 2.4 Komponent `LegalChatArea.tsx`
-**Plik:** `src/components/legal/LegalChatArea.tsx` (rozbudowa istniejącego)
+#### 2.4 Komponent `LegalChatArea.tsx` ✅
+**Plik:** `src/components/legal/LegalChatArea.tsx`
 
-Dodać:
-- Checkboxy do wyboru źródeł (przepisy, orzeczenia, dokumenty)
-- Renderowanie cytowań z linkami do artykułów
-- Podgląd źródła po kliknięciu cytowania
-- Loading state z informacją "Przeszukuję przepisy..."
+Zaimplementowane:
+- ✅ Checkboxy do wyboru źródeł (przepisy, orzeczenia, dokumenty)
+- ✅ Renderowanie cytowań z linkami do artykułów
+- ✅ Podgląd źródła po kliknięciu cytowania (rozwijane karty)
+- ✅ Loading state z informacją "Przeszukuję przepisy..."
+- ✅ Możliwość czyszczenia historii chatu
 
 #### 2.5 Konfiguracja Supabase
 **Plik:** `supabase/config.toml`
@@ -106,44 +107,59 @@ Utworzyć skrypt lub N8N workflow do importu przykładowych danych:
 
 ---
 
-## Faza 3: Baza prawna i panel admin
+## Faza 3: Baza prawna i panel admin (częściowo ukończona)
 
 ### Cel
 Panel administracyjny do zarządzania bazą przepisów + strona przeglądania bazy prawnej.
 
 ### Zadania
 
-#### 3.1 Strona `/legal/library`
+#### 3.1 Strona `/legal/library` ✅
 **Plik:** `src/pages/LegalLibrary.tsx`
 
-Layout:
-- Tabs: Przepisy | Orzecznictwa | Wzory pism
-- Filtry: kategoria, typ dokumentu, data
-- Wyszukiwarka (full-text + semantic)
-- Lista wyników z podglądem
+Zaimplementowane:
+- ✅ Tabs: Przepisy | Orzecznictwa | Wzory pism
+- ✅ Filtry: kategoria (multi-select)
+- ✅ Wyszukiwarka (full-text)
+- ✅ Lista wyników z podglądem w dialogu
+- ✅ Paginacja
 
-#### 3.2 Komponenty biblioteki
+#### 3.2 Komponenty biblioteki ✅
 **Pliki w `src/components/legal/LegalLibrary/`:**
-- `LegalLibraryBrowser.tsx` - główny kontener
-- `RegulationsTab.tsx` - lista przepisów
-- `RulingsTab.tsx` - lista orzeczeń
-- `TemplatesTab.tsx` - galeria wzorów
-- `LegalSearchBar.tsx` - wyszukiwarka
-- `RegulationViewer.tsx` - podgląd przepisu z artykułami
+- ✅ `LegalLibraryBrowser.tsx` - główny kontener z zakładkami
+- ✅ `RegulationsTab.tsx` - lista przepisów z paginacją
+- ✅ `RulingsTab.tsx` - lista orzeczeń z paginacją
+- ✅ `TemplatesTab.tsx` - galeria szablonów (grid) z oznaczeniem Premium
+- ✅ `LegalSearchBar.tsx` - wyszukiwarka z popover filtrów kategorii
+- ✅ `RegulationViewer.tsx` - podgląd przepisu z artykułami (JSON)
+- ✅ `index.ts` - eksporty
 
-#### 3.3 Hook `useLegalLibrary.tsx`
+#### 3.3 Hook `useLegalLibrary.tsx` ✅
 **Plik:** `src/hooks/legal/useLegalLibrary.tsx`
 
-```typescript
-// Funkcje:
-// - searchRegulations(query, filters)
-// - searchRulings(query, filters)
-// - getTemplates(category, isPremium)
-// - getRegulationById(id)
-// - getRulingById(id)
+Zaimplementowane funkcje:
+- ✅ `useRegulations(filters, page, pageSize)` - lista przepisów z paginacją
+- ✅ `useRegulationById(id)` - pojedynczy przepis
+- ✅ `useRulings(filters, page, pageSize)` - lista orzeczeń
+- ✅ `useRulingById(id)` - pojedyncze orzeczenie
+- ✅ `useTemplates(filters, page, pageSize)` - lista szablonów
+- ✅ `useTemplateById(id)` - pojedynczy szablon
+- ✅ `useIncrementTemplatePopularity()` - zwiększanie popularności
+
+#### 3.8 Routing ✅
+Dodano do `App.tsx`:
+```tsx
+<Route path="/legal/library" element={<ProtectedRoute><LegalLibrary /></ProtectedRoute>} />
 ```
 
-#### 3.4 Strona `/legal/admin`
+#### 3.9 Tłumaczenia ✅ (częściowo)
+Rozszerzono `legal.json` (PL i EN) o:
+- ✅ `library.*` - teksty biblioteki (tabs, search, pagination)
+- ✅ `library.regulations.*` - teksty przepisów
+- ✅ `library.rulings.*` - teksty orzeczeń
+- ✅ `library.templates.*` - teksty szablonów
+
+#### 3.4 Strona `/legal/admin` ⏳ (opcjonalnie)
 **Plik:** `src/pages/LegalAdmin.tsx`
 
 Dostęp tylko dla użytkowników w `legal_admins`.
@@ -155,7 +171,7 @@ Tabs:
 - Import
 - Statystyki
 
-#### 3.5 Komponenty admin
+#### 3.5 Komponenty admin ⏳ (opcjonalnie)
 **Pliki w `src/components/legal/admin/`:**
 - `LegalAdminDashboard.tsx`
 - `RegulationsManager.tsx` - tabela + formularz
@@ -164,7 +180,7 @@ Tabs:
 - `ImporterPanel.tsx` - import z ISAP
 - `EmbeddingsManager.tsx` - regeneracja embeddingów
 
-#### 3.6 Edge Function `import-legal-content`
+#### 3.6 Edge Function `import-legal-content` 📋 (odłożone - N8N na końcu)
 **Plik:** `supabase/functions/import-legal-content/index.ts`
 
 ```typescript
@@ -175,7 +191,7 @@ Tabs:
 // - Generowanie embeddingów
 ```
 
-#### 3.7 N8N Workflow `InsightsLM___Import_ISAP.json`
+#### 3.7 N8N Workflow `InsightsLM___Import_ISAP.json` 📋 (odłożone - N8N na końcu)
 **Plik:** `n8n/InsightsLM___Import_ISAP.json`
 
 Flow:
@@ -187,180 +203,138 @@ Flow:
 6. Upsert do `legal_documents_embeddings`
 7. Log do `legal_import_logs`
 
-#### 3.8 Routing
-Dodać do `App.tsx`:
-```tsx
-<Route path="/legal/library" element={<ProtectedRoute><LegalLibrary /></ProtectedRoute>} />
-<Route path="/legal/admin" element={<ProtectedRoute><LegalAdmin /></ProtectedRoute>} />
-```
-
-#### 3.9 Tłumaczenia
-Rozszerzyć `legal.json` o:
-- `library.*` - teksty biblioteki
-- `admin.*` - teksty panelu admin
-
 ---
 
-## Faza 4: Generator dokumentów
+## Faza 4: Generator dokumentów ✅ UKOŃCZONA
 
 ### Cel
 Kreator pism prawnych z eksportem do .docx.
 
 ### Zadania
 
-#### 4.1 Komponenty generatora
+#### 4.1 Komponenty generatora ✅
 **Pliki w `src/components/legal/DocumentGenerator/`:**
-- `DocumentWizard.tsx` - główny kreator (stepper)
-- `TemplateSelector.tsx` - wybór szablonu
-- `FormFiller.tsx` - dynamiczny formularz z pól `template_fields`
-- `DocumentPreview.tsx` - podgląd wygenerowanego pisma
-- `DocumentExporter.tsx` - przyciski eksportu
+- ✅ `DocumentWizard.tsx` - główny kreator (stepper)
+- ✅ `TemplateSelector.tsx` - wybór szablonu
+- ✅ `FormFiller.tsx` - dynamiczny formularz z pól `template_fields`
+- ✅ `DocumentPreview.tsx` - podgląd wygenerowanego pisma
+- ✅ `DocumentExporter.tsx` - przyciski eksportu
+- ✅ `index.ts` - eksporty
 
-#### 4.2 Hook `useDocumentGenerator.tsx`
+#### 4.2 Hook `useDocumentGenerator.tsx` ✅
 **Plik:** `src/hooks/legal/useDocumentGenerator.tsx`
 
-```typescript
-interface UseDocumentGenerator {
-  templates: LegalTemplate[];
-  selectedTemplate: LegalTemplate | null;
-  formData: Record<string, any>;
-  generatedContent: string;
+Zaimplementowane funkcje:
+- ✅ `selectTemplate(template)` - wybór szablonu
+- ✅ `updateFormField(name, value)` - aktualizacja pól formularza
+- ✅ `generatePreview()` - generowanie podglądu
+- ✅ `saveDocument(caseId?)` - zapisywanie dokumentu
+- ✅ `exportToDocx()` - eksport do DOCX
 
-  selectTemplate(id: string): void;
-  updateFormField(name: string, value: any): void;
-  generatePreview(): Promise<string>;
-  exportToDocx(): Promise<string>; // returns download URL
-  saveDocument(caseId?: string): Promise<GeneratedLegalDocument>;
-}
-```
-
-#### 4.3 Edge Function `generate-legal-document`
+#### 4.3 Edge Function `generate-legal-document` ✅
 **Plik:** `supabase/functions/generate-legal-document/index.ts`
 
-```typescript
-import { Document, Paragraph, TextRun, Packer, HeadingLevel } from 'docx';
+Zaimplementowane:
+- ✅ Parsowanie treści dokumentu (nagłówki, wyrównanie, podpisy)
+- ✅ Generowanie DOCX z biblioteką docx
+- ✅ Upload do Supabase Storage
+- ✅ Aktualizacja rekordu w bazie danych
 
-// 1. Pobierz szablon z DB
-// 2. Zamień placeholdery {{field}} na wartości
-// 3. Parsuj markdown na strukturę docx
-// 4. Zastosuj formatowanie prawnicze:
-//    - Nagłówek z datą i miejscowością (wyrównanie prawe)
-//    - Numeracja paragrafów
-//    - Stopka z numerem strony
-//    - Podpisy stron
-// 5. Packer.toBlob() → upload do storage
-// 6. Zapisz rekord w generated_legal_documents
-// 7. Zwróć URL do pobrania
-```
-
-**Zależności (deno):**
-```typescript
-import { Document, Packer, Paragraph } from "https://esm.sh/docx@8.5.0";
-```
-
-#### 4.4 Storage bucket
+#### 4.4 Storage bucket ✅
 Bucket `generated-documents` już istnieje (z migracji).
 
-Struktura plików:
-```
-generated-documents/
-└── {user_id}/
-    └── {document_id}.docx
-```
-
-#### 4.5 Hook `useLegalTemplates.tsx`
+#### 4.5 Hook `useLegalTemplates.tsx` ✅
 **Plik:** `src/hooks/legal/useLegalTemplates.tsx`
 
-```typescript
-// Pobieranie szablonów z filtrowaniem
-// - getTemplates(category?, isPremium?)
-// - getTemplateById(id)
-// - incrementPopularity(id)
-```
+Zaimplementowane funkcje:
+- ✅ `getTemplates(filters, page, pageSize)` - lista szablonów
+- ✅ `getTemplateById(id)` - pojedynczy szablon
+- ✅ `incrementPopularity` - zwiększanie popularności
+- ✅ `useGeneratedDocuments(caseId?)` - lista wygenerowanych dokumentów
+- ✅ `useDeleteGeneratedDocument()` - usuwanie dokumentu
 
-#### 4.6 Widok wygenerowanych dokumentów
-Dodać do `LegalCase.tsx` panel z historią wygenerowanych pism:
-- Lista dokumentów
-- Podgląd
-- Ponowne pobranie
-- Edycja (nowa wersja)
+#### 4.6 Widok wygenerowanych dokumentów ✅
+**Plik:** `src/components/legal/GeneratedDocumentsList.tsx`
 
-#### 4.7 Tłumaczenia
-Rozszerzyć `legal.json` o:
-- `generator.*` - teksty kreatora
-- `templates.*` - opisy szablonów
+Zaimplementowane:
+- ✅ Lista dokumentów z podglądem
+- ✅ Dialog podglądu treści
+- ✅ Pobieranie pliku DOCX
+- ✅ Usuwanie dokumentu z potwierdzeniem
+- ✅ Zakładka "Pisma" w LegalCase.tsx
+
+#### 4.7 Tłumaczenia ✅
+Rozszerzono `legal.json` (PL i EN) o:
+- ✅ `generator.steps.*` - kroki kreatora
+- ✅ `generator.selectTemplate*` - wybór szablonu
+- ✅ `generator.requiredFields*` - pola formularza
+- ✅ `generator.preview*` - podgląd
+- ✅ `generator.export*` - eksport
+- ✅ `generator.delete*` - usuwanie
+
+#### 4.8 Routing ✅
+Dodano trasę `/legal/generator` w `App.tsx`
 
 ---
 
-## Faza 5: Monetyzacja
+## Faza 5: Monetyzacja ✅ UKOŃCZONA
 
 ### Cel
 Integracja z Stripe dla planów prawnych (Free/Pro Legal).
 
 ### Zadania
 
-#### 5.1 Stripe - nowe produkty
+#### 5.1 Stripe - nowe produkty ⏳
 W Stripe Dashboard utworzyć:
 - Produkt: "Legal Assistant Pro"
 - Price: 29.99 PLN/miesiąc (recurring)
-- Zapisać `price_id`
+- Zapisać `price_id` i zaktualizować stałą `STRIPE_PRICE_ID_LEGAL_PRO` w `useLegalSubscription.tsx`
 
-#### 5.2 Hook `useLegalSubscription.tsx`
+#### 5.2 Hook `useLegalSubscription.tsx` ✅
 **Plik:** `src/hooks/legal/useLegalSubscription.tsx`
 
-```typescript
-// Rozszerzenie useSubscription o:
-// - legalPlan: 'free' | 'pro_legal'
-// - legalLimits: UserLegalLimits (z check_legal_limits)
-// - canCreateCase: boolean
-// - canGenerateDocument: boolean
-// - canExportDocx: boolean
-// - createLegalCheckout(priceId): Promise<string>
-```
+Zaimplementowane:
+- ✅ Pobieranie limitów z funkcji SQL `check_legal_limits`
+- ✅ Flagi: `canCreateCase`, `canGenerateDocument`, `canExportDocx`, `fullRagAccess`
+- ✅ Liczniki: `casesCount`, `casesLimit`, `documentsThisMonth`, `documentsLimit`
+- ✅ Mutacja `createLegalCheckout(priceId)` do tworzenia sesji Stripe
+- ✅ Hook pomocniczy `useLegalLimitsDisplay()` do wyświetlania
 
-#### 5.3 Edge Function `legal-checkout-session`
+#### 5.3 Edge Function `legal-checkout-session` ✅
 **Plik:** `supabase/functions/legal-checkout-session/index.ts`
 
-```typescript
-// Podobne do create-checkout-session
-// Różnice:
-// - Obsługuje price_id dla pro_legal
-// - Success URL: /legal?subscription=success
-// - Metadata: { product: 'legal_assistant' }
-```
+Zaimplementowane:
+- ✅ Weryfikacja JWT i pobieranie użytkownika
+- ✅ Tworzenie/pobieranie Stripe Customer
+- ✅ Tworzenie sesji checkout z metadata `{ product: 'legal_assistant', plan_type }`
+- ✅ Success URL: `/legal?subscription=success`
 
-#### 5.4 Edge Function `legal-stripe-webhook`
-**Plik:** `supabase/functions/legal-stripe-webhook/index.ts`
+#### 5.4 Rozszerzenie `stripe-webhook` o obsługę Legal ✅
+**Plik:** `supabase/functions/stripe-webhook/index.ts`
 
-```typescript
-// Obsługa eventów:
-// - checkout.session.completed → update subscriptions.legal_plan_id
-// - customer.subscription.updated
-// - customer.subscription.deleted → reset to 'free'
-// - invoice.payment_failed
-```
+Zaimplementowane:
+- ✅ Funkcja `isLegalProduct()` do rozpoznawania subskrypcji Legal
+- ✅ Obsługa `checkout.session.completed` - aktualizacja `legal_plan_id`, `legal_cases_limit`, `legal_documents_limit`
+- ✅ Obsługa `customer.subscription.updated` - aktualizacja statusu
+- ✅ Obsługa `customer.subscription.deleted` - powrót do planu free
+- ✅ Obsługa `invoice.payment_failed`
 
-#### 5.5 Komponenty paywall
+#### 5.5 Komponenty paywall ✅
 **Pliki:**
-- `LegalUpgradeDialog.tsx` - dialog zachęcający do upgrade
-- `LegalPricingCard.tsx` - karta planu na stronie pricing
+- ✅ `LegalUpgradeDialog.tsx` - dialog zachęcający do upgrade z wyświetlaniem limitów
+- ✅ `LegalPricingCard.tsx` - karty planów (Free, Pro Legal, Business Legal)
+- ✅ `LegalPricingBanner` - baner do embedowania na stronach
 
-#### 5.6 Sprawdzanie limitów w UI
-Dodać sprawdzanie limitów przed:
-- Tworzeniem nowej sprawy (`CreateCaseDialog`)
-- Generowaniem dokumentu (`DocumentWizard`)
-- Eksportem do .docx
+#### 5.6 Sprawdzanie limitów w UI ✅
+Dodane sprawdzanie limitów:
+- ✅ `CreateCaseDialog` - sprawdzanie `canCreateCase`, wyświetlanie postępu i dialog upgrade
+- ✅ `DocumentWizard` - sprawdzanie `canGenerateDocument` i `canExportDocx`
 
-```tsx
-const { canCreateCase, legalLimits } = useLegalSubscription();
+#### 5.7 Strona pricing ✅
+- ✅ Dodano sekcję "Asystent Prawny" z `LegalPricingCards` do `Pricing.tsx`
 
-if (!canCreateCase) {
-  return <LegalUpgradeDialog reason="cases_limit" />;
-}
-```
-
-#### 5.7 Strona pricing
-Dodać do `Pricing.tsx` sekcję z planami Legal Assistant.
+#### 5.8 Tłumaczenia ✅
+- ✅ Dodano `subscription.*` i `pricing.*` do `legal.json` (PL i EN)
 
 ---
 
@@ -412,40 +386,46 @@ Dodać obsługę błędów:
 ## Sekwencja realizacji
 
 ```
-Faza 2 (RAG) ──────────────────────────────────────────────┐
+Faza 2 (RAG) ✅ UKOŃCZONA ─────────────────────────────────┐
   │                                                         │
-  ├─ 2.1 Edge Function legal-chat-message                   │
-  ├─ 2.2 N8N Workflow Legal_Chat                            │
-  ├─ 2.3 Hook useLegalChat                                  │
-  ├─ 2.4 Rozbudowa LegalChatArea                            │
-  └─ 2.5-2.6 Konfiguracja + przykładowe dane                │
+  ├─ ✅ 2.1 Edge Function legal-chat-message                │
+  ├─ 📋 2.2 N8N Workflow Legal_Chat (odłożone)              │
+  ├─ ✅ 2.3 Hook useLegalChat                               │
+  ├─ ✅ 2.4 Rozbudowa LegalChatArea                         │
+  └─ ⏳ 2.5-2.6 Konfiguracja + przykładowe dane             │
                                                             │
-Faza 3 (Baza prawna) ──────────────────────────────────────┤
+Faza 3 (Baza prawna) ✅ CZĘŚCIOWO ─────────────────────────┤
   │                                                         │
-  ├─ 3.1 Strona LegalLibrary                                │
-  ├─ 3.2-3.3 Komponenty + hook                              │
-  ├─ 3.4-3.5 Panel admin                                    │
-  └─ 3.6-3.7 Import z ISAP                                  │
+  ├─ ✅ 3.1 Strona LegalLibrary                             │
+  ├─ ✅ 3.2-3.3 Komponenty + hook                           │
+  ├─ ⏳ 3.4-3.5 Panel admin (opcjonalnie)                   │
+  └─ 📋 3.6-3.7 Import z ISAP (odłożone)                    │
                                                             │
-Faza 4 (Generator) ────────────────────────────────────────┤
+Faza 4 (Generator) ✅ UKOŃCZONA ───────────────────────────┤
   │                                                         │
-  ├─ 4.1-4.2 Komponenty + hook                              │
-  ├─ 4.3 Edge Function generate-legal-document              │
-  └─ 4.4-4.7 Storage + UI + tłumaczenia                     │
+  ├─ ✅ 4.1-4.2 Komponenty + hooki                          │
+  ├─ ✅ 4.3 Edge Function generate-legal-document           │
+  └─ ✅ 4.4-4.8 Storage + UI + tłumaczenia + routing        │
                                                             │
 Faza 5 (Monetyzacja) ──────────────────────────────────────┤
   │                                                         │
-  ├─ 5.1 Stripe produkty                                    │
-  ├─ 5.2-5.4 Hooki + Edge Functions                         │
-  └─ 5.5-5.7 UI paywall                                     │
+  ├─ ⏳ 5.1 Stripe produkty                                 │
+  ├─ ⏳ 5.2-5.4 Hooki + Edge Functions                      │
+  └─ ⏳ 5.5-5.7 UI paywall                                  │
                                                             │
-Faza 6 (Polish) ───────────────────────────────────────────┘
+Faza 6 (Polish + N8N) ─────────────────────────────────────┘
   │
-  ├─ 6.1 Auto-import ISAP
-  ├─ 6.2 Responsywność
-  ├─ 6.3 Testy E2E
-  └─ 6.4-6.6 Error handling + optymalizacja
+  ├─ 📋 6.1 Auto-import ISAP (N8N)
+  ├─ ⏳ 6.2 Responsywność
+  ├─ ⏳ 6.3 Testy E2E
+  ├─ ⏳ 6.4-6.6 Error handling + optymalizacja
+  └─ 📋 Wszystkie workflow N8N (Legal_Chat, Import_ISAP)
 ```
+
+**Legenda:**
+- ✅ Ukończone
+- ⏳ Do zrobienia
+- 📋 Odłożone (N8N na końcu)
 
 ---
 
@@ -484,3 +464,76 @@ STRIPE_LEGAL_PRICE_ID=price_xxx
 | `useLegalSubscription` | `useSubscription` |
 | `legal-checkout-session` | `create-checkout-session` |
 | `Legal_Chat.json` (N8N) | `InsightsLM___Chat.json` |
+
+---
+
+## Utworzone pliki (Faza 2 + 3.1-3.3)
+
+### Faza 2 - RAG prawny
+| Plik | Opis |
+|------|------|
+| `supabase/functions/legal-chat-message/index.ts` | Edge Function do wysyłania wiadomości do N8N |
+| `src/hooks/legal/useLegalChat.tsx` | Hook do obsługi chatu prawnego |
+| `src/components/legal/LegalChatArea.tsx` | Komponent obszaru czatu z cytowaniami |
+
+### Faza 3.1-3.3 - Biblioteka prawna
+| Plik | Opis |
+|------|------|
+| `src/pages/LegalLibrary.tsx` | Strona biblioteki prawnej `/legal/library` |
+| `src/hooks/legal/useLegalLibrary.tsx` | Hook z funkcjami useRegulations, useRulings, useTemplates |
+| `src/components/legal/LegalLibrary/LegalLibraryBrowser.tsx` | Główny kontener z zakładkami |
+| `src/components/legal/LegalLibrary/LegalSearchBar.tsx` | Wyszukiwarka z filtrami kategorii |
+| `src/components/legal/LegalLibrary/RegulationsTab.tsx` | Lista przepisów z paginacją |
+| `src/components/legal/LegalLibrary/RulingsTab.tsx` | Lista orzeczeń z paginacją |
+| `src/components/legal/LegalLibrary/TemplatesTab.tsx` | Galeria szablonów pism |
+| `src/components/legal/LegalLibrary/RegulationViewer.tsx` | Podgląd przepisu z artykułami |
+| `src/components/legal/LegalLibrary/index.ts` | Eksporty komponentów |
+
+### Zmodyfikowane pliki (Faza 3)
+| Plik | Zmiana |
+|------|--------|
+| `src/App.tsx` | Dodana trasa `/legal/library` |
+| `src/locales/pl/legal.json` | Dodane tłumaczenia `library.*` |
+| `src/locales/en/legal.json` | Dodane tłumaczenia angielskie |
+
+### Faza 4 - Generator dokumentów
+| Plik | Opis |
+|------|------|
+| `src/components/legal/DocumentGenerator/index.ts` | Eksporty komponentów generatora |
+| `src/components/legal/DocumentGenerator/DocumentWizard.tsx` | Główny kreator ze stepper'em |
+| `src/components/legal/DocumentGenerator/TemplateSelector.tsx` | Wybór szablonu dokumentu |
+| `src/components/legal/DocumentGenerator/FormFiller.tsx` | Dynamiczny formularz z polami szablonu |
+| `src/components/legal/DocumentGenerator/DocumentPreview.tsx` | Podgląd wygenerowanego dokumentu |
+| `src/components/legal/DocumentGenerator/DocumentExporter.tsx` | Opcje eksportu (DOCX, druk, kopiowanie) |
+| `src/components/legal/GeneratedDocumentsList.tsx` | Lista wygenerowanych dokumentów w sprawie |
+| `src/hooks/legal/useDocumentGenerator.tsx` | Hook do zarządzania procesem generowania |
+| `src/hooks/legal/useLegalTemplates.tsx` | Hook do obsługi szablonów i wygenerowanych dokumentów |
+| `src/pages/LegalDocumentGenerator.tsx` | Strona generatora `/legal/generator` |
+| `supabase/functions/generate-legal-document/index.ts` | Edge Function do generowania DOCX |
+
+### Zmodyfikowane pliki (Faza 4)
+| Plik | Zmiana |
+|------|--------|
+| `src/App.tsx` | Dodana trasa `/legal/generator` |
+| `src/pages/LegalCase.tsx` | Dodana zakładka "Pisma" z GeneratedDocumentsList |
+| `src/locales/pl/legal.json` | Dodane tłumaczenia `generator.*` |
+| `src/locales/en/legal.json` | Dodane tłumaczenia angielskie dla generatora |
+
+### Faza 5 - Monetyzacja
+| Plik | Opis |
+|------|------|
+| `src/hooks/legal/useLegalSubscription.tsx` | Hook do obsługi subskrypcji i limitów Legal |
+| `src/components/legal/LegalUpgradeDialog.tsx` | Dialog zachęcający do upgrade z wyświetlaniem limitów |
+| `src/components/legal/LegalPricingCard.tsx` | Karty planów + banner do embedowania |
+| `supabase/functions/legal-checkout-session/index.ts` | Edge Function do tworzenia sesji checkout Stripe |
+
+### Zmodyfikowane pliki (Faza 5)
+| Plik | Zmiana |
+|------|--------|
+| `supabase/functions/stripe-webhook/index.ts` | Dodana obsługa subskrypcji Legal (isLegalProduct, getLegalPlanType) |
+| `src/components/legal/CreateCaseDialog.tsx` | Sprawdzanie limitu spraw, wyświetlanie postępu, dialog upgrade |
+| `src/components/legal/DocumentGenerator/DocumentWizard.tsx` | Sprawdzanie limitów dokumentów i eksportu DOCX |
+| `src/pages/Pricing.tsx` | Dodana sekcja "Asystent Prawny" z LegalPricingCards |
+| `src/locales/pl/legal.json` | Dodane tłumaczenia `subscription.*`, `pricing.*` |
+| `src/locales/en/legal.json` | Dodane tłumaczenia angielskie dla monetyzacji |
+| `supabase/config.toml` | Dodana konfiguracja `legal-checkout-session`|

@@ -163,6 +163,9 @@ export interface LegalCase {
   description: string | null;
   category: LegalCategory;
   status: CaseStatus;
+  case_number: string | null;
+  current_stage: ProceedingStageType | null;
+  user_role: PartyType | null;
   opponent_name: string | null;
   opponent_type: string | null;
   parent_case_id: string | null;

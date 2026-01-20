@@ -6,6 +6,14 @@
   "error": "Wystąpił błąd",
   "retry": "Spróbuj ponownie",
 
+  "errorBoundary": {
+    "title": "Wystąpił błąd",
+    "description": "Przepraszamy, wystąpił nieoczekiwany błąd. Spróbuj odświeżyć stronę lub wróć do strony głównej.",
+    "details": "Szczegóły błędu",
+    "retry": "Spróbuj ponownie",
+    "goHome": "Strona główna"
+  },
+
   "nav": {
     "cases": "Moje sprawy",
     "library": "Baza prawna",
@@ -15,7 +23,75 @@
     "signOut": "Wyloguj się"
   },
 
-  "library": "Baza prawna",
+  "library": {
+    "title": "Baza prawna",
+    "subtitle": "Przeglądaj przepisy, orzecznictwo i szablony pism",
+    "tabs": {
+      "regulations": "Przepisy",
+      "rulings": "Orzecznictwo",
+      "templates": "Wzory pism"
+    },
+    "search": {
+      "placeholder": "Szukaj przepisów, orzeczeń, szablonów...",
+      "filter": "Filtry",
+      "categories": "Kategorie",
+      "clearFilters": "Wyczyść"
+    },
+    "resultsCount": "Znaleziono: {{count}} przepisów",
+    "resultsCountRulings": "Znaleziono: {{count}} orzeczeń",
+    "resultsCountTemplates": "Znaleziono: {{count}} szablonów",
+    "pagination": {
+      "prev": "Poprzednia",
+      "next": "Następna",
+      "page": "Strona {{current}} z {{total}}"
+    },
+    "regulations": {
+      "empty": "Brak przepisów",
+      "noResults": "Nie znaleziono przepisów pasujących do zapytania.",
+      "noData": "Baza przepisów jest pusta.",
+      "published": "Opublikowano: {{date}}",
+      "typeLabel": "Typ",
+      "shortNameLabel": "Skrót",
+      "publishedLabel": "Opublikowano",
+      "effectiveLabel": "Obowiązuje od",
+      "categoriesLabel": "Kategorie",
+      "identifierLabel": "Identyfikator",
+      "articlesLabel": "Artykuły",
+      "contentLabel": "Treść",
+      "fullContentLabel": "Pełna treść",
+      "viewSource": "Zobacz źródło (ISAP)"
+    },
+    "rulings": {
+      "empty": "Brak orzeczeń",
+      "noResults": "Nie znaleziono orzeczeń pasujących do zapytania.",
+      "noData": "Baza orzeczeń jest pusta.",
+      "caseNumber": "Sygn. {{number}}",
+      "date": "Data orzeczenia: {{date}}",
+      "courtLabel": "Sąd",
+      "caseNumberLabel": "Sygnatura",
+      "dateLabel": "Data orzeczenia",
+      "typeLabel": "Typ",
+      "categoriesLabel": "Kategorie",
+      "summaryLabel": "Streszczenie",
+      "keywordsLabel": "Słowa kluczowe",
+      "contentLabel": "Treść orzeczenia",
+      "viewSource": "Zobacz źródło"
+    },
+    "templates": {
+      "empty": "Brak szablonów",
+      "noResults": "Nie znaleziono szablonów pasujących do zapytania.",
+      "noData": "Baza szablonów jest pusta.",
+      "typeLabel": "Typ dokumentu",
+      "popularityLabel": "Popularność",
+      "categoriesLabel": "Kategorie",
+      "legalBasisLabel": "Podstawa prawna",
+      "instructionsLabel": "Instrukcja użycia",
+      "fieldsLabel": "Wymagane pola",
+      "exampleLabel": "Przykład wypełnienia",
+      "required": "Wymagane",
+      "useTemplate": "Użyj szablonu"
+    }
+  },
   "newCase": "Nowa sprawa",
   "activeCases": "Aktywne",
   "archivedCases": "Archiwum",
@@ -49,6 +125,12 @@
     "titlePlaceholder": "np. Sprawa o zapłatę czynszu",
     "categoryLabel": "Kategoria",
     "categoryPlaceholder": "Wybierz kategorię",
+    "caseNumberLabel": "Sygnatura (opcjonalnie)",
+    "caseNumberPlaceholder": "np. II K 123/24",
+    "currentStageLabel": "Etap postępowania",
+    "selectStage": "Wybierz etap",
+    "userRoleLabel": "Twoja rola w sprawie",
+    "selectRole": "Wybierz rolę",
     "descriptionLabel": "Opis (opcjonalnie)",
     "descriptionPlaceholder": "Krótki opis sprawy...",
     "opponentLabel": "Przeciwnik (opcjonalnie)",
@@ -56,7 +138,11 @@
     "opponentTypeLabel": "Typ",
     "selectType": "Wybierz",
     "deadlineLabel": "Termin (opcjonalnie)",
-    "deadlineDescription": "Np. termin na wniesienie pisma lub data rozprawy"
+    "deadlineDescription": "Np. termin na wniesienie pisma lub data rozprawy",
+    "casesUsed": "Wykorzystane sprawy",
+    "limitReached": "Osiągnąłeś limit spraw. Ulepsz do planu Pro, aby tworzyć więcej.",
+    "almostAtLimit": "Pozostała {{count}} sprawa",
+    "upgradeToPro": "Ulepsz do Pro"
   },
 
   "opponentTypes": {
@@ -109,6 +195,19 @@
   "chatPlaceholder": "Zadaj pytanie...",
   "send": "Wyślij",
 
+  "chat": {
+    "clearHistory": "Wyczyść historię?",
+    "clearHistoryDesc": "Ta operacja usunie całą historię rozmowy z asystentem dla tej sprawy. Tej operacji nie można cofnąć.",
+    "searching": "Przeszukuję przepisy...",
+    "citations": "Źródła",
+    "viewSource": "Zobacz pełne źródło",
+    "sources": {
+      "regulations": "Przepisy",
+      "rulings": "Orzeczenia",
+      "documents": "Dokumenty sprawy"
+    }
+  },
+
   "noDocuments": "Brak dokumentów",
   "addDocument": "Dodaj dokument",
   "documentsListPlaceholder": "Lista dokumentów będzie tutaj...",
@@ -149,5 +248,177 @@
   },
 
   "adding": "Dodawanie...",
-  "add": "Dodaj etap"
+  "add": "Dodaj etap",
+
+  "generator": {
+    "title": "Generator dokumentów",
+    "tab": "Pisma",
+    "documents": "Wygenerowane dokumenty",
+    "documentsCount": "dokumentów",
+    "new": "Nowy",
+    "noDocuments": "Brak wygenerowanych dokumentów",
+    "createFirst": "Utwórz pierwszy dokument",
+
+    "steps": {
+      "select": "Wybór szablonu",
+      "fill": "Wypełnianie",
+      "preview": "Podgląd",
+      "export": "Eksport"
+    },
+
+    "selectTemplate": "Wybierz szablon",
+    "selectTemplateDesc": "Wybierz szablon dokumentu, który chcesz wygenerować.",
+    "searchTemplates": "Szukaj szablonów...",
+    "allCategories": "Wszystkie kategorie",
+    "noTemplatesFound": "Nie znaleziono szablonów.",
+    "noTemplates": "Brak dostępnych szablonów.",
+    "templatesCount": "Znaleziono {{count}} szablonów",
+
+    "requiredFields": "Pola wymagane",
+    "optionalFields": "Pola opcjonalne",
+    "instructions": "Instrukcje",
+    "selectDate": "Wybierz datę",
+    "select": "Wybierz",
+    "addressPlaceholder": "Ulica, numer\nKod pocztowy, miejscowość",
+
+    "back": "Wstecz",
+    "preview": "Podgląd",
+    "generating": "Generowanie...",
+    "generatingPreview": "Generowanie podglądu dokumentu...",
+    "previewError": "Błąd generowania",
+    "noPreview": "Brak podglądu dokumentu.",
+    "previewDesc": "Sprawdź wygenerowany dokument przed zapisaniem.",
+    "previewHint": "Możesz jeszcze wrócić i edytować dane formularza. Po kliknięciu \"Zapisz dokument\" dokument zostanie zapisany w systemie.",
+    "copyText": "Kopiuj tekst",
+    "copied": "Skopiowano",
+    "documentPreview": "Podgląd dokumentu",
+
+    "save": "Zapisz dokument",
+    "saving": "Zapisywanie...",
+    "finish": "Zakończ",
+    "documentSaved": "Dokument zapisany!",
+    "documentSavedDesc": "Twój dokument został wygenerowany i zapisany. Możesz go teraz pobrać.",
+
+    "exportOptions": "Opcje eksportu",
+    "docxDesc": "Edytowalny dokument Word",
+    "download": "Pobierz",
+    "downloaded": "Pobrano",
+    "downloadDocx": "Pobierz DOCX",
+    "copyToClipboard": "Kopiuj do schowka",
+    "copyDesc": "Skopiuj tekst dokumentu",
+    "copy": "Kopiuj",
+    "print": "Drukuj",
+    "printDesc": "Wydrukuj dokument",
+    "exportInfo": "Wygenerowany dokument został zapisany w Twojej sprawie. Możesz do niego wrócić w każdej chwili z poziomu widoku sprawy.",
+
+    "noFile": "Brak pliku",
+    "noFileDesc": "Plik DOCX nie został wygenerowany.",
+    "deleted": "Usunięto",
+    "deletedDesc": "Dokument został usunięty.",
+    "deleteError": "Nie udało się usunąć dokumentu.",
+    "deleteConfirmTitle": "Usunąć dokument?",
+    "deleteConfirmDesc": "Ta operacja jest nieodwracalna. Dokument zostanie trwale usunięty.",
+    "draft": "Szkic",
+    "close": "Zamknij",
+    "documentsUsed": "Dokumenty w tym miesiącu",
+    "limitReachedTitle": "Limit osiągnięty",
+    "limitReached": "Osiągnąłeś miesięczny limit dokumentów. Ulepsz do planu Pro, aby generować więcej.",
+    "almostAtLimit": "Pozostał {{count}} dokument do wygenerowania"
+  },
+
+  "subscription": {
+    "proLegal": "Legal Pro",
+    "casesUsed": "Wykorzystane sprawy",
+    "casesLimitReached": "Osiągnąłeś limit spraw",
+    "documentsUsed": "Dokumenty w tym miesiącu",
+    "documentsLimitReached": "Osiągnąłeś miesięczny limit dokumentów",
+    "whatYouGet": "Co otrzymujesz:",
+    "cancelAnytime": "Możesz anulować w dowolnym momencie",
+    "upgradeToPro": "Ulepsz do Pro",
+    "processing": "Przetwarzanie...",
+    "features": {
+      "unlimitedCases": "Nieograniczona liczba spraw",
+      "unlimitedDocs": "Nieograniczone generowanie dokumentów",
+      "exportDocx": "Eksport do DOCX",
+      "fullRag": "Pełny dostęp do AI i bazy prawnej",
+      "premiumTemplates": "Szablony Premium",
+      "prioritySupport": "Priorytetowe wsparcie"
+    },
+    "titles": {
+      "casesLimit": "Osiągnąłeś limit spraw",
+      "documentsLimit": "Osiągnąłeś limit dokumentów",
+      "exportDocx": "Eksport do DOCX wymaga planu Pro",
+      "generateDocuments": "Generowanie dokumentów wymaga planu Pro",
+      "fullRag": "Pełny dostęp do AI wymaga planu Pro",
+      "premiumTemplate": "Ten szablon jest dostępny w planie Pro",
+      "general": "Odblokuj pełne możliwości"
+    },
+    "descriptions": {
+      "casesLimit": "Ulepsz do planu Pro, aby tworzyć nieograniczoną liczbę spraw i śledzić wszystkie swoje postępowania.",
+      "documentsLimit": "Ulepsz do planu Pro, aby generować nieograniczoną liczbę dokumentów miesięcznie.",
+      "exportDocx": "Eksportuj wygenerowane pisma do edytowalnych dokumentów Word (.docx).",
+      "generateDocuments": "Automatycznie generuj profesjonalne pisma prawne na podstawie szablonów.",
+      "fullRag": "Uzyskaj pełny dostęp do asystenta AI z zaawansowanym wyszukiwaniem w bazie prawnej.",
+      "premiumTemplate": "Ten profesjonalny szablon jest dostępny wyłącznie dla użytkowników Pro.",
+      "general": "Przejdź na plan Pro i uzyskaj pełny dostęp do wszystkich funkcji Asystenta Prawnego."
+    }
+  },
+
+  "pricing": {
+    "free": {
+      "name": "Darmowy",
+      "period": "PLN",
+      "description": "Podstawowe funkcje dla początkujących",
+      "features": {
+        "cases": "Do 2 aktywnych spraw",
+        "documents": "3 dokumenty miesięcznie",
+        "search": "Podstawowe wyszukiwanie",
+        "regulations": "Dostęp do przepisów",
+        "chat": "Podstawowy chat AI"
+      }
+    },
+    "proLegal": {
+      "name": "Legal Pro",
+      "period": "PLN/mies.",
+      "description": "Pełny pakiet dla wymagających użytkowników",
+      "badge": "Najpopularniejszy",
+      "features": {
+        "cases": "Nieograniczona liczba spraw",
+        "documents": "Nieograniczone dokumenty",
+        "export": "Eksport do DOCX",
+        "rag": "Pełny dostęp do AI i RAG",
+        "templates": "Wszystkie szablony Premium",
+        "rulings": "Dostęp do orzecznictwa",
+        "support": "Priorytetowe wsparcie"
+      }
+    },
+    "businessLegal": {
+      "name": "Legal Business",
+      "period": "PLN/mies.",
+      "description": "Dla kancelarii i firm",
+      "badge": "Dla firm",
+      "features": {
+        "all": "Wszystko z planu Pro",
+        "api": "Dostęp do API",
+        "team": "Do 5 użytkowników",
+        "templates": "Własne szablony",
+        "priority": "Dedykowane wsparcie",
+        "sla": "Gwarancja SLA"
+      }
+    },
+    "currentPlan": "Aktualny plan",
+    "manageSubscription": "Zarządzaj subskrypcją",
+    "upgrade": "Ulepsz",
+    "select": "Wybierz",
+    "processing": "Przetwarzanie...",
+    "banner": {
+      "title": "Odblokuj pełne możliwości",
+      "description": "Ulepsz do planu Pro i korzystaj bez ograniczeń",
+      "cta": "Ulepsz do Pro - 29,99 PLN/mies."
+    }
+  },
+
+  "common": {
+    "cancel": "Anuluj"
+  }
 }

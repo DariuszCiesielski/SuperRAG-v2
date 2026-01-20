@@ -31,9 +31,9 @@ const Legal = () => {
     return (
       <div className="min-h-screen bg-gray-50">
         <LegalDashboardHeader userEmail={user?.email} />
-        <main className="max-w-7xl mx-auto px-6 py-8">
+        <main className="max-w-7xl mx-auto px-4 md:px-6 py-8">
           <div className="mb-8">
-            <h1 className="text-4xl font-medium text-gray-900 mb-2">
+            <h1 className="text-2xl md:text-4xl font-medium text-gray-900 mb-2">
               {t('title', 'Pomoc Prawna')}
             </h1>
           </div>
@@ -51,9 +51,9 @@ const Legal = () => {
     return (
       <div className="min-h-screen bg-gray-50">
         <LegalDashboardHeader userEmail={user?.email} />
-        <main className="max-w-7xl mx-auto px-6 py-8">
+        <main className="max-w-7xl mx-auto px-4 md:px-6 py-8">
           <div className="mb-8">
-            <h1 className="text-4xl font-medium text-gray-900 mb-2">
+            <h1 className="text-2xl md:text-4xl font-medium text-gray-900 mb-2">
               {t('title', 'Pomoc Prawna')}
             </h1>
           </div>
@@ -84,11 +84,11 @@ const Legal = () => {
     <div className="min-h-screen bg-white">
       <LegalDashboardHeader userEmail={user?.email} />
 
-      <main className="max-w-7xl mx-auto px-6 py-[60px]">
+      <main className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-[60px]">
         {/* Header z tytułem i przyciskami */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
           <div>
-            <h1 className="font-medium text-gray-900 mb-2 text-5xl">
+            <h1 className="font-medium text-gray-900 mb-2 text-3xl md:text-5xl">
               {t('title', 'Pomoc Prawna')}
             </h1>
             <p className="text-gray-600">
@@ -103,7 +103,7 @@ const Legal = () => {
               className="flex items-center gap-2"
             >
               <BookOpen className="h-4 w-4" />
-              {t('library', 'Baza prawna')}
+              {t('nav.library', 'Baza prawna')}
             </Button>
             <Button
               onClick={() => setIsCreateDialogOpen(true)}

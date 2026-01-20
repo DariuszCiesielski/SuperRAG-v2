@@ -6,6 +6,14 @@
   "error": "An error occurred",
   "retry": "Try again",
 
+  "errorBoundary": {
+    "title": "An error occurred",
+    "description": "Sorry, an unexpected error occurred. Try refreshing the page or return to the main page.",
+    "details": "Error details",
+    "retry": "Try again",
+    "goHome": "Main page"
+  },
+
   "nav": {
     "cases": "My Cases",
     "library": "Legal Library",
@@ -15,7 +23,75 @@
     "signOut": "Sign Out"
   },
 
-  "library": "Legal Library",
+  "library": {
+    "title": "Legal Library",
+    "subtitle": "Browse regulations, court rulings, and document templates",
+    "tabs": {
+      "regulations": "Regulations",
+      "rulings": "Court Rulings",
+      "templates": "Document Templates"
+    },
+    "search": {
+      "placeholder": "Search regulations, rulings, templates...",
+      "filter": "Filters",
+      "categories": "Categories",
+      "clearFilters": "Clear"
+    },
+    "resultsCount": "Found: {{count}} regulations",
+    "resultsCountRulings": "Found: {{count}} rulings",
+    "resultsCountTemplates": "Found: {{count}} templates",
+    "pagination": {
+      "prev": "Previous",
+      "next": "Next",
+      "page": "Page {{current}} of {{total}}"
+    },
+    "regulations": {
+      "empty": "No regulations",
+      "noResults": "No regulations found matching your query.",
+      "noData": "Regulations database is empty.",
+      "published": "Published: {{date}}",
+      "typeLabel": "Type",
+      "shortNameLabel": "Abbreviation",
+      "publishedLabel": "Published",
+      "effectiveLabel": "Effective from",
+      "categoriesLabel": "Categories",
+      "identifierLabel": "Identifier",
+      "articlesLabel": "Articles",
+      "contentLabel": "Content",
+      "fullContentLabel": "Full content",
+      "viewSource": "View source (ISAP)"
+    },
+    "rulings": {
+      "empty": "No rulings",
+      "noResults": "No rulings found matching your query.",
+      "noData": "Rulings database is empty.",
+      "caseNumber": "Case No. {{number}}",
+      "date": "Ruling date: {{date}}",
+      "courtLabel": "Court",
+      "caseNumberLabel": "Case number",
+      "dateLabel": "Ruling date",
+      "typeLabel": "Type",
+      "categoriesLabel": "Categories",
+      "summaryLabel": "Summary",
+      "keywordsLabel": "Keywords",
+      "contentLabel": "Ruling content",
+      "viewSource": "View source"
+    },
+    "templates": {
+      "empty": "No templates",
+      "noResults": "No templates found matching your query.",
+      "noData": "Templates database is empty.",
+      "typeLabel": "Document type",
+      "popularityLabel": "Popularity",
+      "categoriesLabel": "Categories",
+      "legalBasisLabel": "Legal basis",
+      "instructionsLabel": "Usage instructions",
+      "fieldsLabel": "Required fields",
+      "exampleLabel": "Filled example",
+      "required": "Required",
+      "useTemplate": "Use template"
+    }
+  },
   "newCase": "New Case",
   "activeCases": "Active",
   "archivedCases": "Archived",
@@ -49,6 +125,12 @@
     "titlePlaceholder": "e.g., Rent Payment Dispute",
     "categoryLabel": "Category",
     "categoryPlaceholder": "Select category",
+    "caseNumberLabel": "Case Number (optional)",
+    "caseNumberPlaceholder": "e.g., II K 123/24",
+    "currentStageLabel": "Current Stage",
+    "selectStage": "Select stage",
+    "userRoleLabel": "Your Role in the Case",
+    "selectRole": "Select role",
     "descriptionLabel": "Description (optional)",
     "descriptionPlaceholder": "Brief description of the case...",
     "opponentLabel": "Opponent (optional)",
@@ -56,7 +138,11 @@
     "opponentTypeLabel": "Type",
     "selectType": "Select",
     "deadlineLabel": "Deadline (optional)",
-    "deadlineDescription": "e.g., deadline for filing or court date"
+    "deadlineDescription": "e.g., deadline for filing or court date",
+    "casesUsed": "Cases used",
+    "limitReached": "You've reached your case limit. Upgrade to Pro to create more.",
+    "almostAtLimit": "{{count}} case remaining",
+    "upgradeToPro": "Upgrade to Pro"
   },
 
   "opponentTypes": {
@@ -109,6 +195,19 @@
   "chatPlaceholder": "Ask a question...",
   "send": "Send",
 
+  "chat": {
+    "clearHistory": "Clear history?",
+    "clearHistoryDesc": "This will delete all conversation history with the assistant for this case. This action cannot be undone.",
+    "searching": "Searching regulations...",
+    "citations": "Sources",
+    "viewSource": "View full source",
+    "sources": {
+      "regulations": "Regulations",
+      "rulings": "Court Rulings",
+      "documents": "Case Documents"
+    }
+  },
+
   "noDocuments": "No documents",
   "addDocument": "Add Document",
   "documentsListPlaceholder": "Document list will appear here...",
@@ -149,5 +248,177 @@
   },
 
   "adding": "Adding...",
-  "add": "Add Stage"
+  "add": "Add Stage",
+
+  "generator": {
+    "title": "Document Generator",
+    "tab": "Documents",
+    "documents": "Generated Documents",
+    "documentsCount": "documents",
+    "new": "New",
+    "noDocuments": "No generated documents",
+    "createFirst": "Create your first document",
+
+    "steps": {
+      "select": "Select Template",
+      "fill": "Fill Form",
+      "preview": "Preview",
+      "export": "Export"
+    },
+
+    "selectTemplate": "Select a template",
+    "selectTemplateDesc": "Choose a document template you want to generate.",
+    "searchTemplates": "Search templates...",
+    "allCategories": "All categories",
+    "noTemplatesFound": "No templates found.",
+    "noTemplates": "No templates available.",
+    "templatesCount": "Found {{count}} templates",
+
+    "requiredFields": "Required fields",
+    "optionalFields": "Optional fields",
+    "instructions": "Instructions",
+    "selectDate": "Select date",
+    "select": "Select",
+    "addressPlaceholder": "Street, number\nPostal code, city",
+
+    "back": "Back",
+    "preview": "Preview",
+    "generating": "Generating...",
+    "generatingPreview": "Generating document preview...",
+    "previewError": "Generation error",
+    "noPreview": "No document preview.",
+    "previewDesc": "Review the generated document before saving.",
+    "previewHint": "You can still go back and edit the form data. After clicking \"Save document\" the document will be saved in the system.",
+    "copyText": "Copy text",
+    "copied": "Copied",
+    "documentPreview": "Document preview",
+
+    "save": "Save document",
+    "saving": "Saving...",
+    "finish": "Finish",
+    "documentSaved": "Document saved!",
+    "documentSavedDesc": "Your document has been generated and saved. You can now download it.",
+
+    "exportOptions": "Export options",
+    "docxDesc": "Editable Word document",
+    "download": "Download",
+    "downloaded": "Downloaded",
+    "downloadDocx": "Download DOCX",
+    "copyToClipboard": "Copy to clipboard",
+    "copyDesc": "Copy document text",
+    "copy": "Copy",
+    "print": "Print",
+    "printDesc": "Print the document",
+    "exportInfo": "The generated document has been saved in your case. You can return to it anytime from the case view.",
+
+    "noFile": "No file",
+    "noFileDesc": "DOCX file was not generated.",
+    "deleted": "Deleted",
+    "deletedDesc": "Document has been deleted.",
+    "deleteError": "Failed to delete document.",
+    "deleteConfirmTitle": "Delete document?",
+    "deleteConfirmDesc": "This action is irreversible. The document will be permanently deleted.",
+    "draft": "Draft",
+    "close": "Close",
+    "documentsUsed": "Documents this month",
+    "limitReachedTitle": "Limit reached",
+    "limitReached": "You've reached your monthly document limit. Upgrade to Pro to generate more.",
+    "almostAtLimit": "{{count}} document remaining"
+  },
+
+  "subscription": {
+    "proLegal": "Legal Pro",
+    "casesUsed": "Cases used",
+    "casesLimitReached": "You've reached your case limit",
+    "documentsUsed": "Documents this month",
+    "documentsLimitReached": "You've reached your monthly document limit",
+    "whatYouGet": "What you get:",
+    "cancelAnytime": "Cancel anytime",
+    "upgradeToPro": "Upgrade to Pro",
+    "processing": "Processing...",
+    "features": {
+      "unlimitedCases": "Unlimited cases",
+      "unlimitedDocs": "Unlimited document generation",
+      "exportDocx": "Export to DOCX",
+      "fullRag": "Full AI and legal database access",
+      "premiumTemplates": "Premium templates",
+      "prioritySupport": "Priority support"
+    },
+    "titles": {
+      "casesLimit": "You've reached your case limit",
+      "documentsLimit": "You've reached your document limit",
+      "exportDocx": "DOCX export requires Pro plan",
+      "generateDocuments": "Document generation requires Pro plan",
+      "fullRag": "Full AI access requires Pro plan",
+      "premiumTemplate": "This template is available in Pro plan",
+      "general": "Unlock full capabilities"
+    },
+    "descriptions": {
+      "casesLimit": "Upgrade to Pro to create unlimited cases and track all your proceedings.",
+      "documentsLimit": "Upgrade to Pro to generate unlimited documents per month.",
+      "exportDocx": "Export your generated documents to editable Word (.docx) files.",
+      "generateDocuments": "Automatically generate professional legal documents from templates.",
+      "fullRag": "Get full access to AI assistant with advanced legal database search.",
+      "premiumTemplate": "This professional template is available exclusively for Pro users.",
+      "general": "Upgrade to Pro and get full access to all Legal Assistant features."
+    }
+  },
+
+  "pricing": {
+    "free": {
+      "name": "Free",
+      "period": "USD",
+      "description": "Basic features to get started",
+      "features": {
+        "cases": "Up to 2 active cases",
+        "documents": "3 documents per month",
+        "search": "Basic search",
+        "regulations": "Access to regulations",
+        "chat": "Basic AI chat"
+      }
+    },
+    "proLegal": {
+      "name": "Legal Pro",
+      "period": "USD/mo",
+      "description": "Full package for demanding users",
+      "badge": "Most Popular",
+      "features": {
+        "cases": "Unlimited cases",
+        "documents": "Unlimited documents",
+        "export": "Export to DOCX",
+        "rag": "Full AI and RAG access",
+        "templates": "All Premium templates",
+        "rulings": "Access to court rulings",
+        "support": "Priority support"
+      }
+    },
+    "businessLegal": {
+      "name": "Legal Business",
+      "period": "USD/mo",
+      "description": "For law firms and businesses",
+      "badge": "For Business",
+      "features": {
+        "all": "Everything in Pro plan",
+        "api": "API access",
+        "team": "Up to 5 users",
+        "templates": "Custom templates",
+        "priority": "Dedicated support",
+        "sla": "SLA guarantee"
+      }
+    },
+    "currentPlan": "Current plan",
+    "manageSubscription": "Manage subscription",
+    "upgrade": "Upgrade",
+    "select": "Select",
+    "processing": "Processing...",
+    "banner": {
+      "title": "Unlock full capabilities",
+      "description": "Upgrade to Pro and use without limits",
+      "cta": "Upgrade to Pro - $29.99/mo"
+    }
+  },
+
+  "common": {
+    "cancel": "Cancel"
+  }
 }

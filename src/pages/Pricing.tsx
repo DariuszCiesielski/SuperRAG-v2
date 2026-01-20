@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Check, Zap, Star } from 'lucide-react';
+import { Check, Zap, Star, Scale } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -9,6 +9,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useSubscription, STRIPE_PRICE_ID_PRO } from '@/hooks/useSubscription';
 import { useToast } from '@/hooks/use-toast';
 import DashboardHeader from '@/components/dashboard/DashboardHeader';
+import { LegalPricingCards } from '@/components/legal/LegalPricingCard';
 
 const Pricing = () => {
   const { t } = useTranslation('pricing');
@@ -165,6 +166,23 @@ const Pricing = () => {
               </Button>
             </CardFooter>
           </Card>
+        </div>
+
+        {/* Legal Assistant Section */}
+        <div className="mt-24">
+          <div className="text-center mb-12">
+            <Badge className="mb-4 bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400">
+              <Scale className="h-4 w-4 mr-1" />
+              {t('legalSection.badge', 'Moduł Prawny')}
+            </Badge>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              {t('legalSection.title', 'Asystent Prawny')}
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              {t('legalSection.description', 'Profesjonalne narzędzie do zarządzania sprawami prawnymi, generowania dokumentów i wyszukiwania w bazie prawnej.')}
+            </p>
+          </div>
+          <LegalPricingCards />
         </div>
 
         {/* FAQ Section */}
