@@ -13,7 +13,10 @@ import {
   BookOpen,
   Brain,
   Upload,
-  Star
+  Star,
+  Scale,
+  Crown,
+  Sparkles
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -48,6 +51,22 @@ const Landing = () => {
       return;
     }
     createCheckoutSession(STRIPE_PRICE_ID_PRO);
+  };
+
+  const handleLegalFree = () => {
+    if (!user) {
+      navigate('/auth');
+      return;
+    }
+    navigate('/legal');
+  };
+
+  const handleLegalPro = () => {
+    if (!user) {
+      navigate('/auth?intent=upgrade_legal_pro');
+      return;
+    }
+    navigate('/legal');
   };
 
   const features = [
@@ -355,6 +374,187 @@ const Landing = () => {
                   ) : (
                     tPricing('upgradeToPro')
                   )}
+                </Button>
+              </CardFooter>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Legal Assistant Pricing Section */}
+      <section className="py-20 px-6 bg-gray-50" id="legal-pricing">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <Badge className="mb-4 bg-amber-100 text-amber-800">
+              <Scale className="h-4 w-4 mr-1" />
+              {t('legalBadge', 'Nowy moduł')}
+            </Badge>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              {t('legalTitle', 'Asystent Prawny')}
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              {t('legalSubtitle', 'Profesjonalne narzędzie do zarządzania sprawami prawnymi, generowania dokumentów i wyszukiwania w bazie prawnej.')}
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {/* Legal Free Plan */}
+            <Card className="relative border-2 border-gray-200 hover:border-gray-300 transition-colors">
+              <CardHeader className="text-center">
+                <div className="flex items-center justify-center gap-2 mb-2">
+                  <Scale className="h-5 w-5 text-gray-500" />
+                  <CardTitle className="text-xl">{t('legalFreeName', 'Darmowy')}</CardTitle>
+                </div>
+                <CardDescription>{t('legalFreeDesc', 'Podstawowe funkcje dla początkujących')}</CardDescription>
+                <div className="mt-4">
+                  <span className="text-4xl font-bold text-gray-900">0</span>
+                  <span className="text-gray-500 ml-2">PLN</span>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-3">
+                  <li className="flex items-start gap-2">
+                    <Check className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
+                    <span className="text-sm">{t('legalFreeFeature1', 'Do 2 aktywnych spraw')}</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
+                    <span className="text-sm">{t('legalFreeFeature2', '3 dokumenty miesięcznie')}</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
+                    <span className="text-sm">{t('legalFreeFeature3', 'Podstawowe wyszukiwanie')}</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
+                    <span className="text-sm">{t('legalFreeFeature4', 'Dostęp do przepisów')}</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
+                    <span className="text-sm">{t('legalFreeFeature5', 'Podstawowy chat AI')}</span>
+                  </li>
+                </ul>
+              </CardContent>
+              <CardFooter>
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  onClick={handleLegalFree}
+                >
+                  {user ? t('legalGoToModule', 'Przejdź do modułu') : t('legalStartFree', 'Zacznij za darmo')}
+                </Button>
+              </CardFooter>
+            </Card>
+
+            {/* Legal Pro Plan */}
+            <Card className="relative border-2 border-amber-500 hover:border-amber-600 transition-colors shadow-lg shadow-amber-500/10">
+              <Badge className="absolute -top-2 right-4 bg-gradient-to-r from-amber-500 to-orange-500">
+                {t('legalProBadge', 'Najpopularniejszy')}
+              </Badge>
+              <CardHeader className="text-center">
+                <div className="flex items-center justify-center gap-2 mb-2">
+                  <Crown className="h-5 w-5 text-amber-500" />
+                  <CardTitle className="text-xl">{t('legalProName', 'Legal Pro')}</CardTitle>
+                </div>
+                <CardDescription>{t('legalProDesc', 'Pełny pakiet dla wymagających użytkowników')}</CardDescription>
+                <div className="mt-4">
+                  <span className="text-4xl font-bold text-gray-900">29,99</span>
+                  <span className="text-gray-500 ml-2">PLN/mies.</span>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-3">
+                  <li className="flex items-start gap-2">
+                    <Check className="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" />
+                    <span className="text-sm">{t('legalProFeature1', 'Nieograniczona liczba spraw')}</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" />
+                    <span className="text-sm">{t('legalProFeature2', 'Nieograniczone dokumenty')}</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" />
+                    <span className="text-sm">{t('legalProFeature3', 'Eksport do DOCX')}</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" />
+                    <span className="text-sm">{t('legalProFeature4', 'Pełny dostęp do AI i RAG')}</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" />
+                    <span className="text-sm">{t('legalProFeature5', 'Wszystkie szablony Premium')}</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" />
+                    <span className="text-sm">{t('legalProFeature6', 'Dostęp do orzecznictwa')}</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" />
+                    <span className="text-sm">{t('legalProFeature7', 'Priorytetowe wsparcie')}</span>
+                  </li>
+                </ul>
+              </CardContent>
+              <CardFooter>
+                <Button
+                  className="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600"
+                  onClick={handleLegalPro}
+                >
+                  {user ? t('legalUpgrade', 'Ulepsz') : t('legalSignUp', 'Zarejestruj się')}
+                </Button>
+              </CardFooter>
+            </Card>
+
+            {/* Legal Business Plan */}
+            <Card className="relative border-2 border-gray-200 hover:border-gray-300 transition-colors">
+              <Badge className="absolute -top-2 right-4 bg-gray-200 text-gray-700">
+                {t('legalBusinessBadge', 'Dla firm')}
+              </Badge>
+              <CardHeader className="text-center">
+                <div className="flex items-center justify-center gap-2 mb-2">
+                  <Sparkles className="h-5 w-5 text-purple-500" />
+                  <CardTitle className="text-xl">{t('legalBusinessName', 'Legal Business')}</CardTitle>
+                </div>
+                <CardDescription>{t('legalBusinessDesc', 'Dla kancelarii i firm')}</CardDescription>
+                <div className="mt-4">
+                  <span className="text-4xl font-bold text-gray-900">99,99</span>
+                  <span className="text-gray-500 ml-2">PLN/mies.</span>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-3">
+                  <li className="flex items-start gap-2">
+                    <Check className="h-5 w-5 text-purple-500 flex-shrink-0 mt-0.5" />
+                    <span className="text-sm">{t('legalBusinessFeature1', 'Wszystko z planu Pro')}</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="h-5 w-5 text-purple-500 flex-shrink-0 mt-0.5" />
+                    <span className="text-sm">{t('legalBusinessFeature2', 'Dostęp do API')}</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="h-5 w-5 text-purple-500 flex-shrink-0 mt-0.5" />
+                    <span className="text-sm">{t('legalBusinessFeature3', 'Do 5 użytkowników')}</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="h-5 w-5 text-purple-500 flex-shrink-0 mt-0.5" />
+                    <span className="text-sm">{t('legalBusinessFeature4', 'Własne szablony')}</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="h-5 w-5 text-purple-500 flex-shrink-0 mt-0.5" />
+                    <span className="text-sm">{t('legalBusinessFeature5', 'Dedykowane wsparcie')}</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="h-5 w-5 text-purple-500 flex-shrink-0 mt-0.5" />
+                    <span className="text-sm">{t('legalBusinessFeature6', 'Gwarancja SLA')}</span>
+                  </li>
+                </ul>
+              </CardContent>
+              <CardFooter>
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  onClick={handleLegalPro}
+                >
+                  {user ? t('legalUpgrade', 'Ulepsz') : t('legalSignUp', 'Zarejestruj się')}
                 </Button>
               </CardFooter>
             </Card>
