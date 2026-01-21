@@ -319,12 +319,14 @@ const AuthForm = () => {
           </Alert>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4" autoComplete="on">
           <div className="space-y-2">
             <Label htmlFor="email">{t('fields.email')}</Label>
             <Input
               id="email"
+              name="email"
               type="email"
+              autoComplete="email"
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
@@ -341,7 +343,9 @@ const AuthForm = () => {
               <Label htmlFor="password">{t('fields.password')}</Label>
               <Input
                 id="password"
+                name="password"
                 type="password"
+                autoComplete={mode === 'sign-in' ? 'current-password' : 'new-password'}
                 value={password}
                 onChange={(e) => {
                   setPassword(e.target.value);
@@ -360,7 +364,9 @@ const AuthForm = () => {
               <Label htmlFor="confirmPassword">{t('fields.confirmPassword')}</Label>
               <Input
                 id="confirmPassword"
+                name="confirmPassword"
                 type="password"
+                autoComplete="new-password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
