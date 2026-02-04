@@ -8,9 +8,7 @@ export default defineConfig(({ mode }) => ({
     host: "0.0.0.0",
     port: 8080,
     strictPort: false,
-    hmr: {
-      clientPort: 8080,
-    },
+    // HMR bez clientPort - Vite automatycznie wykryje właściwy port
   },
   plugins: [
     react(),

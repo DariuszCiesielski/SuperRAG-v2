@@ -36,7 +36,7 @@ const Notebook = () => {
   const chatWidth = isSourceDocumentOpen ? 'w-[35%]' : 'w-[45%]';
 
   return (
-    <div className="h-screen bg-white flex flex-col overflow-hidden">
+    <div className="h-screen flex flex-col overflow-hidden" style={{ backgroundColor: 'var(--bg-primary)' }}>
       <NotebookHeader 
         title={notebook?.title || 'Untitled Notebook'} 
         notebookId={notebookId} 

@@ -72,6 +72,8 @@ export const DeleteAccountDialog = () => {
               </Label>
               <Input
                 id="confirmation"
+                name="confirmation"
+                autoComplete="off"
                 value={confirmationText}
                 onChange={(e) => setConfirmationText(e.target.value)}
                 placeholder={t('dangerZone.deleteAccount.confirmPlaceholder')}

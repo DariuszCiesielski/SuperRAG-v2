@@ -216,19 +216,19 @@ const StudioSidebar = ({
   };
 
   if (isEditingMode) {
-    return <div className="w-full bg-gray-50 border-l border-gray-200 flex flex-col h-full overflow-hidden">
+    return <div className="w-full flex flex-col h-full overflow-hidden" style={{ backgroundColor: 'var(--bg-secondary)', borderLeft: '1px solid var(--border-primary)' }}>
         <NoteEditor note={editingNote || undefined} onSave={handleSaveNote} onDelete={editingNote ? handleDeleteNote : undefined} onCancel={handleCancel} isLoading={isCreating || isUpdating || isDeleting} onCitationClick={onCitationClick} />
       </div>;
   }
 
-  return <div className="w-full bg-gray-50 border-l border-gray-200 flex flex-col h-full overflow-hidden">
-      <div className="p-4 border-b border-gray-200 flex-shrink-0">
-        <h2 className="text-lg font-medium text-gray-900 mb-4">{t('studio.title')}</h2>
+  return <div className="w-full flex flex-col h-full overflow-hidden" style={{ backgroundColor: 'var(--bg-secondary)', borderLeft: '1px solid var(--border-primary)' }}>
+      <div className="p-4 flex-shrink-0" style={{ borderBottom: '1px solid var(--border-primary)' }}>
+        <h2 className="text-lg font-medium mb-4" style={{ color: 'var(--text-primary)' }}>{t('studio.title')}</h2>
 
         {/* Audio Overview - Hidden until future release */}
-        {ENABLE_AUDIO_OVERVIEW && <Card className="p-4 mb-4 border border-gray-200">
+        {ENABLE_AUDIO_OVERVIEW && <Card className="p-4 mb-4" style={{ border: '1px solid var(--border-primary)' }}>
           <div className="flex items-center justify-between mb-3">
-            <h3 className="font-medium text-gray-900">{t('studio.audioOverview.title')}</h3>
+            <h3 className="font-medium" style={{ color: 'var(--text-primary)' }}>{t('studio.audioOverview.title')}</h3>
           </div>
 
           {hasValidAudio && !audioError && currentStatus !== 'generating' && !isAutoRefreshing ? <AudioPlayer
@@ -240,17 +240,17 @@ const StudioSidebar = ({
               onRetry={handleAudioRetry}
               onDeleted={handleAudioDeleted}
               onUrlRefresh={handleUrlRefresh}
-            /> : <Card className="p-3 border border-gray-200">
+            /> : <Card className="p-3" style={{ border: '1px solid var(--border-primary)' }}>
               {/* Hide this div when generating or auto-refreshing */}
               {currentStatus !== 'generating' && !isGenerating && !isAutoRefreshing && <div className="flex items-center space-x-3 mb-3">
                   <div className="w-8 h-8 rounded flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#111827">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" style={{ fill: 'var(--text-primary)' }}>
                       <path d="M280-120v-123q-104-14-172-93T40-520h80q0 83 58.5 141.5T320-320h10q5 0 10-1 13 20 28 37.5t32 32.5q-10 3-19.5 4.5T360-243v123h-80Zm20-282q-43-8-71.5-40.5T200-520v-240q0-50 35-85t85-35q50 0 85 35t35 85v160H280v80q0 31 5 60.5t15 57.5Zm340 2q-50 0-85-35t-35-85v-240q0-50 35-85t85-35q50 0 85 35t35 85v240q0 50-35 85t-85 35Zm-40 280v-123q-104-14-172-93t-68-184h80q0 83 58.5 141.5T640-320q83 0 141.5-58.5T840-520h80q0 105-68 184t-172 93v123h-80Zm40-360q17 0 28.5-11.5T680-520v-240q0-17-11.5-28.5T640-800q-17 0-28.5 11.5T600-760v240q0 17 11.5 28.5T640-480Zm0-160Z" />
                     </svg>
                   </div>
                   <div className="flex-1">
-                    <h4 className="font-medium text-gray-900">{t('studio.audioOverview.deepDive')}</h4>
-                    <p className="text-sm text-gray-600">{t('studio.audioOverview.twoHosts')}</p>
+                    <h4 className="font-medium" style={{ color: 'var(--text-primary)' }}>{t('studio.audioOverview.deepDive')}</h4>
+                    <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>{t('studio.audioOverview.twoHosts')}</p>
                   </div>
                 </div>}
               
@@ -258,25 +258,25 @@ const StudioSidebar = ({
               {getStatusDisplay() && <div className="flex items-center space-x-2 mb-3 p-2 rounded-md bg-transparent">
                   {getStatusDisplay()!.icon}
                   <div className="flex-1">
-                    <p className="text-sm font-medium text-slate-900">{getStatusDisplay()!.text}</p>
-                    <p className="text-xs text-slate-900">{getStatusDisplay()!.description}</p>
+                    <p className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>{getStatusDisplay()!.text}</p>
+                    <p className="text-xs" style={{ color: 'var(--text-primary)' }}>{getStatusDisplay()!.description}</p>
                   </div>
                 </div>}
-              
+
               {/* Audio error div */}
-              {audioError && <div className="flex items-center space-x-2 mb-3 p-2 bg-red-50 rounded-md">
-                  <AlertCircle className="h-4 w-4 text-red-600" />
+              {audioError && <div className="flex items-center space-x-2 mb-3 p-2 rounded-md" style={{ backgroundColor: 'var(--error-light)' }}>
+                  <AlertCircle className="h-4 w-4" style={{ color: 'var(--error)' }} />
                   <div className="flex-1">
-                    <p className="text-sm text-red-600">{t('studio.audioOverview.status.unavailable')}</p>
+                    <p className="text-sm" style={{ color: 'var(--error)' }}>{t('studio.audioOverview.status.unavailable')}</p>
                   </div>
-                  <Button size="sm" variant="outline" onClick={handleAudioRetry} className="text-red-600 border-red-300 hover:bg-red-50">
+                  <Button size="sm" variant="outline" onClick={handleAudioRetry} style={{ color: 'var(--error)', borderColor: 'var(--error)' }} className="hover:opacity-80">
                     <RefreshCw className="h-4 w-4 mr-1" />
                     {t('common:buttons.retry')}
                   </Button>
                 </div>}
 
               <div className="flex space-x-2">
-                <Button size="sm" onClick={handleGenerateAudio} disabled={isGenerating || currentStatus === 'generating' || !hasProcessedSource || isAutoRefreshing} className="flex-1 text-white bg-slate-900 hover:bg-slate-800">
+                <Button size="sm" onClick={handleGenerateAudio} disabled={isGenerating || currentStatus === 'generating' || !hasProcessedSource || isAutoRefreshing} className="flex-1" style={{ backgroundColor: 'var(--accent-primary)', color: 'var(--text-inverse)' }}>
                   {isGenerating || currentStatus === 'generating' ? <>
                       <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                       {t('studio.audioOverview.generating')}
@@ -289,11 +289,11 @@ const StudioSidebar = ({
         {/* Notes Section */}
         <div className="mb-4">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="font-medium text-gray-900">{t('studio.notes.title')}</h3>
+            <h3 className="font-medium" style={{ color: 'var(--text-primary)' }}>{t('studio.notes.title')}</h3>
 
           </div>
 
-          <Button variant="default" size="sm" className="w-full mb-4 bg-slate-900 hover:bg-slate-800 text-white" onClick={handleCreateNote}>
+          <Button variant="default" size="sm" className="w-full mb-4" style={{ backgroundColor: 'var(--accent-primary)', color: 'var(--text-inverse)' }} onClick={handleCreateNote}>
             <Plus className="h-4 w-4 mr-2" />
             {t('studio.notes.newNote')}
           </Button>
@@ -304,22 +304,22 @@ const StudioSidebar = ({
       <ScrollArea className="flex-1 h-full">
         <div className="p-4">
           {isLoading ? <div className="text-center py-8">
-              <p className="text-sm text-gray-600">{t('studio.notes.loading')}</p>
+              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>{t('studio.notes.loading')}</p>
             </div> : notes && notes.length > 0 ? <div className="space-y-3">
-              {notes.map(note => <Card key={note.id} className="p-3 border border-gray-200 hover:bg-gray-50 cursor-pointer" onClick={() => handleEditNote(note)}>
+              {notes.map(note => <Card key={note.id} className="p-3 cursor-pointer transition-colors" style={{ border: '1px solid var(--border-primary)' }} onClick={() => handleEditNote(note)}>
                   <div className="flex items-start justify-between">
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center space-x-2 mb-1">
-                        {note.source_type === 'ai_response' ? <Bot className="h-3 w-3 text-blue-600" /> : <User className="h-3 w-3 text-gray-600" />}
-                        <span className="text-xs text-gray-500 uppercase">
+                        {note.source_type === 'ai_response' ? <Bot className="h-3 w-3" style={{ color: 'var(--info)' }} /> : <User className="h-3 w-3" style={{ color: 'var(--text-secondary)' }} />}
+                        <span className="text-xs uppercase" style={{ color: 'var(--text-muted)' }}>
                           {note.source_type === 'ai_response' ? t('studio.notes.types.aiResponse') : t('studio.notes.types.note')}
                         </span>
                       </div>
-                      <h4 className="font-medium text-gray-900 truncate">{note.title}</h4>
-                      <p className="text-sm text-gray-600 line-clamp-2 mt-1">
+                      <h4 className="font-medium truncate" style={{ color: 'var(--text-primary)' }}>{note.title}</h4>
+                      <p className="text-sm line-clamp-2 mt-1" style={{ color: 'var(--text-secondary)' }}>
                         {getPreviewText(note)}
                       </p>
-                      <p className="text-xs text-gray-500 mt-2">
+                      <p className="text-xs mt-2" style={{ color: 'var(--text-muted)' }}>
                         {formatShortDate(new Date(note.updated_at))}
                       </p>
                     </div>
@@ -329,11 +329,11 @@ const StudioSidebar = ({
                   </div>
                 </Card>)}
             </div> : <div className="text-center py-8">
-              <div className="w-16 h-16 bg-gray-200 rounded-lg mx-auto mb-4 flex items-center justify-center">
-                <span className="text-gray-400 text-2xl">📄</span>
+              <div className="w-16 h-16 rounded-lg mx-auto mb-4 flex items-center justify-center" style={{ backgroundColor: 'var(--bg-tertiary)' }}>
+                <span className="text-2xl" style={{ color: 'var(--text-muted)' }}>📄</span>
               </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">{t('studio.notes.empty.title')}</h3>
-              <p className="text-sm text-gray-600">
+              <h3 className="text-lg font-medium mb-2" style={{ color: 'var(--text-primary)' }}>{t('studio.notes.empty.title')}</h3>
+              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
                 {t('studio.notes.empty.description')}
               </p>
             </div>}

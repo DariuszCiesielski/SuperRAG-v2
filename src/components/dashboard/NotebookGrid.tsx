@@ -67,24 +67,24 @@ const NotebookGrid = () => {
 
   if (isLoading) {
     return <div className="text-center py-16">
-        <p className="text-gray-600">{t('dashboard:loading')}</p>
+        <p style={{ color: 'var(--text-secondary)' }}>{t('dashboard:loading')}</p>
       </div>;
   }
 
   return <div>
       <div className="flex items-center justify-between mb-8">
-        <Button className="bg-black hover:bg-gray-800 text-white rounded-full px-6" onClick={handleCreateNotebook} disabled={isCreating}>
+        <Button className="rounded-full px-6" style={{ backgroundColor: 'var(--accent-primary)', color: 'var(--text-inverse)' }} onClick={handleCreateNotebook} disabled={isCreating}>
           {isCreating ? t('common:loading.creating') : t('dashboard:createNew')}
         </Button>
 
         <div className="flex items-center space-x-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <div className="flex items-center space-x-2 bg-white rounded-lg border px-3 py-2 cursor-pointer hover:bg-gray-50 transition-colors">
-                <span className="text-sm text-gray-600">
+              <div className="flex items-center space-x-2 rounded-lg border px-3 py-2 cursor-pointer transition-colors" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-primary)' }}>
+                <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>
                   {sortBy === 'mostRecent' ? t('dashboard:sorting.mostRecent') : t('dashboard:sorting.title')}
                 </span>
-                <ChevronDown className="h-4 w-4 text-gray-400" />
+                <ChevronDown className="h-4 w-4" style={{ color: 'var(--text-muted)' }} />
               </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">

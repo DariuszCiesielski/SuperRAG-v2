@@ -420,39 +420,42 @@ const AddSourcesDialog = ({
 
           <div className="space-y-6">
             <div>
-              <h2 className="text-xl font-medium mb-2">{t('addSources.title')}</h2>
-              <p className="text-gray-600 text-sm mb-1">{t('addSources.description')}</p>
-              <p className="text-gray-500 text-xs">
+              <h2 className="text-xl font-medium mb-2" style={{ color: 'var(--text-primary)' }}>{t('addSources.title')}</h2>
+              <p className="text-sm mb-1" style={{ color: 'var(--text-secondary)' }}>{t('addSources.description')}</p>
+              <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
                 {t('addSources.examples')}
               </p>
             </div>
 
             {/* File Upload Area */}
-            <div 
-              className={`border-2 border-dashed rounded-lg p-12 text-center transition-colors ${
-                dragActive ? 'border-blue-400 bg-blue-50' : 'border-gray-300 hover:border-gray-400'
-              } ${isProcessingFiles ? 'opacity-50 pointer-events-none' : ''}`}
+            <div
+              className={`border-2 border-dashed rounded-lg p-12 text-center transition-colors ${isProcessingFiles ? 'opacity-50 pointer-events-none' : ''}`}
+              style={{
+                borderColor: dragActive ? 'var(--accent-primary)' : 'var(--border-primary)',
+                backgroundColor: dragActive ? 'var(--accent-light)' : 'transparent'
+              }}
               onDragEnter={handleDrag}
               onDragLeave={handleDrag}
               onDragOver={handleDrag}
               onDrop={handleDrop}
             >
               <div className="flex flex-col items-center space-y-4">
-                <div className="w-12 h-12 rounded-full flex items-center justify-center bg-slate-100">
-                  <Upload className="h-6 w-6 text-slate-600" />
+                <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--bg-tertiary)' }}>
+                  <Upload className="h-6 w-6" style={{ color: 'var(--text-secondary)' }} />
                 </div>
                 <div>
-                  <h3 className="font-medium text-gray-900 mb-2">
+                  <h3 className="font-medium mb-2" style={{ color: 'var(--text-primary)' }}>
                     {isProcessingFiles ? t('addSources.uploadArea.processing') : t('addSources.uploadArea.title')}
                   </h3>
-                  <p className="text-gray-600 text-sm">
+                  <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
                     {isProcessingFiles ? (
                       t('addSources.uploadArea.processingDesc')
                     ) : (
                       <>
                         {t('addSources.uploadArea.dragDrop')}{' '}
                         <button
-                          className="text-blue-600 hover:underline"
+                          className="hover:underline"
+                          style={{ color: 'var(--accent-primary)' }}
                           onClick={() => document.getElementById('file-upload')?.click()}
                           disabled={isProcessingFiles}
                         >
@@ -463,7 +466,7 @@ const AddSourcesDialog = ({
                     )}
                   </p>
                 </div>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
                   {t('addSources.uploadArea.supportedTypes')}
                 </p>
                 <input
@@ -486,9 +489,9 @@ const AddSourcesDialog = ({
                 onClick={() => setShowMultipleWebsiteDialog(true)}
                 disabled={isProcessingFiles}
               >
-                <Link className="h-6 w-6 text-green-600" />
-                <span className="font-medium">{t('addSources.integrations.website.title')}</span>
-                <span className="text-sm text-gray-500">{t('addSources.integrations.website.description')}</span>
+                <Link className="h-6 w-6" style={{ color: 'var(--success)' }} />
+                <span className="font-medium" style={{ color: 'var(--text-primary)' }}>{t('addSources.integrations.website.title')}</span>
+                <span className="text-sm" style={{ color: 'var(--text-muted)' }}>{t('addSources.integrations.website.description')}</span>
               </Button>
 
               <Button
@@ -497,9 +500,9 @@ const AddSourcesDialog = ({
                 onClick={() => setShowCopiedTextDialog(true)}
                 disabled={isProcessingFiles}
               >
-                <Copy className="h-6 w-6 text-purple-600" />
-                <span className="font-medium">{t('addSources.integrations.text.title')}</span>
-                <span className="text-sm text-gray-500">{t('addSources.integrations.text.description')}</span>
+                <Copy className="h-6 w-6" style={{ color: 'var(--accent-primary)' }} />
+                <span className="font-medium" style={{ color: 'var(--text-primary)' }}>{t('addSources.integrations.text.title')}</span>
+                <span className="text-sm" style={{ color: 'var(--text-muted)' }}>{t('addSources.integrations.text.description')}</span>
               </Button>
             </div>
           </div>

@@ -7,14 +7,22 @@ const Auth = () => {
   const { t } = useTranslation('common');
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-white">
+    <div
+      className="min-h-screen flex items-center justify-center px-4"
+      style={{ backgroundColor: 'var(--bg-primary)' }}
+    >
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
             <Logo size="lg" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">{t('app.name')}</h1>
-          <p className="text-gray-600">{t('app.tagline')}</p>
+          <h1
+            className="text-3xl font-bold mb-2"
+            style={{ color: 'var(--text-primary)' }}
+          >
+            {t('app.name')}
+          </h1>
+          <p style={{ color: 'var(--text-secondary)' }}>{t('app.tagline')}</p>
         </div>
         <AuthForm />
       </div>

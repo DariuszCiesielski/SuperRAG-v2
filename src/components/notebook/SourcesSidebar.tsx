@@ -112,15 +112,15 @@ const SourcesSidebar = ({
   const renderProcessingStatus = (status: string) => {
     switch (status) {
       case 'uploading':
-        return <Upload className="h-4 w-4 animate-pulse text-blue-500" />;
+        return <Upload className="h-4 w-4 animate-pulse" style={{ color: 'var(--info)' }} />;
       case 'processing':
-        return <Loader2 className="h-4 w-4 animate-spin text-blue-500" />;
+        return <Loader2 className="h-4 w-4 animate-spin" style={{ color: 'var(--info)' }} />;
       case 'completed':
-        return <CheckCircle className="h-4 w-4 text-green-500" />;
+        return <CheckCircle className="h-4 w-4" style={{ color: 'var(--success)' }} />;
       case 'failed':
-        return <XCircle className="h-4 w-4 text-red-500" />;
+        return <XCircle className="h-4 w-4" style={{ color: 'var(--error)' }} />;
       case 'pending':
-        return <Loader2 className="h-4 w-4 animate-pulse text-gray-500" />;
+        return <Loader2 className="h-4 w-4 animate-pulse" style={{ color: 'var(--text-muted)' }} />;
       default:
         return null;
     }
@@ -201,10 +201,10 @@ const SourcesSidebar = ({
     const sourceUrl = selectedSourceForViewing ? getSelectedSourceUrl() : getSourceUrl(selectedCitation);
 
     return (
-      <div className="w-full bg-gray-50 border-r border-gray-200 flex flex-col h-full overflow-hidden">
-        <div className="p-4 border-b border-gray-200 flex-shrink-0">
+      <div className="w-full flex flex-col h-full overflow-hidden" style={{ backgroundColor: 'var(--bg-secondary)', borderRight: '1px solid var(--border-primary)' }}>
+        <div className="p-4 flex-shrink-0" style={{ borderBottom: '1px solid var(--border-primary)' }}>
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-medium text-gray-900 cursor-pointer hover:text-gray-700" onClick={handleBackToSources}>
+            <h2 className="text-lg font-medium cursor-pointer" style={{ color: 'var(--text-primary)' }} onClick={handleBackToSources}>
               {t('sources.title')}
             </h2>
             <Button variant="ghost" onClick={handleBackToSources} className="p-2 [&_svg]:!w-6 [&_svg]:!h-6">
@@ -214,13 +214,13 @@ const SourcesSidebar = ({
             </Button>
           </div>
         </div>
-        
-        <SourceContentViewer 
-          citation={displayCitation} 
-          sourceContent={sourceContent} 
+
+        <SourceContentViewer
+          citation={displayCitation}
+          sourceContent={sourceContent}
           sourceSummary={sourceSummary}
           sourceUrl={sourceUrl}
-          className="flex-1 overflow-hidden" 
+          className="flex-1 overflow-hidden"
           isOpenedFromSourceList={selectedCitation.citation_id === -1}
         />
       </div>
@@ -228,10 +228,10 @@ const SourcesSidebar = ({
   }
 
   return (
-    <div className="w-full bg-gray-50 border-r border-gray-200 flex flex-col h-full overflow-hidden">
-      <div className="p-4 border-b border-gray-200 flex-shrink-0">
+    <div className="w-full flex flex-col h-full overflow-hidden" style={{ backgroundColor: 'var(--bg-secondary)', borderRight: '1px solid var(--border-primary)' }}>
+      <div className="p-4 flex-shrink-0" style={{ borderBottom: '1px solid var(--border-primary)' }}>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-medium text-gray-900">{t('sources.title')}</h2>
+          <h2 className="text-lg font-medium" style={{ color: 'var(--text-primary)' }}>{t('sources.title')}</h2>
         </div>
 
         <div className="flex space-x-2">
@@ -246,21 +246,21 @@ const SourcesSidebar = ({
         <div className="p-4">
           {isLoading ? (
             <div className="text-center py-8">
-              <p className="text-sm text-gray-600">{t('sources.loadingList')}</p>
+              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>{t('sources.loadingList')}</p>
             </div>
           ) : sources && sources.length > 0 ? (
             <div className="space-y-4">
               {sources.map((source) => (
                 <ContextMenu key={source.id}>
                   <ContextMenuTrigger>
-                    <Card className="p-3 border border-gray-200 cursor-pointer hover:bg-gray-50" onClick={() => handleSourceClick(source)}>
+                    <Card className="p-3 cursor-pointer transition-colors" style={{ border: '1px solid var(--border-primary)' }} onClick={() => handleSourceClick(source)}>
                       <div className="flex items-start justify-between space-x-3">
                         <div className="flex items-center space-x-2 flex-1 min-w-0">
-                          <div className="w-6 h-6 bg-white rounded border border-gray-200 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                          <div className="w-6 h-6 rounded flex items-center justify-center flex-shrink-0 overflow-hidden" style={{ backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--border-primary)' }}>
                             {renderSourceIcon(source.type)}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <span className="text-sm text-gray-900 truncate block">{source.title}</span>
+                            <span className="text-sm truncate block" style={{ color: 'var(--text-primary)' }}>{source.title}</span>
                           </div>
                         </div>
                         <div className="flex-shrink-0 py-[4px]">
@@ -274,7 +274,7 @@ const SourcesSidebar = ({
                       <Edit className="h-4 w-4 mr-2" />
                       {t('sources.rename')}
                     </ContextMenuItem>
-                    <ContextMenuItem onClick={() => handleRemoveSource(source)} className="text-red-600 focus:text-red-600">
+                    <ContextMenuItem onClick={() => handleRemoveSource(source)} style={{ color: 'var(--error)' }}>
                       <Trash2 className="h-4 w-4 mr-2" />
                       {t('sources.delete')}
                     </ContextMenuItem>
@@ -284,11 +284,11 @@ const SourcesSidebar = ({
             </div>
           ) : (
             <div className="text-center py-8">
-              <div className="w-16 h-16 bg-gray-200 rounded-lg mx-auto mb-4 flex items-center justify-center">
-                <span className="text-gray-400 text-2xl">📄</span>
+              <div className="w-16 h-16 rounded-lg mx-auto mb-4 flex items-center justify-center" style={{ backgroundColor: 'var(--bg-tertiary)' }}>
+                <span className="text-2xl" style={{ color: 'var(--text-muted)' }}>📄</span>
               </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">{t('sources.empty.title')}</h3>
-              <p className="text-sm text-gray-600 mb-4">{t('sources.empty.description')}</p>
+              <h3 className="text-lg font-medium mb-2" style={{ color: 'var(--text-primary)' }}>{t('sources.empty.title')}</h3>
+              <p className="text-sm mb-4" style={{ color: 'var(--text-secondary)' }}>{t('sources.empty.description')}</p>
             </div>
           )}
         </div>
@@ -319,7 +319,8 @@ const SourcesSidebar = ({
             <AlertDialogCancel>{t('common:buttons.cancel')}</AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmDelete}
-              className="bg-red-600 hover:bg-red-700"
+              style={{ backgroundColor: 'var(--error)', color: 'var(--text-inverse)' }}
+              className="hover:opacity-90"
               disabled={isDeleting}
             >
               {isDeleting ? t('common:loading.deleting') : t('common:buttons.delete')}

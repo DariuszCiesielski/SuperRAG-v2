@@ -252,9 +252,9 @@ const ChatArea = ({
   return <div className="flex-1 flex flex-col h-full overflow-hidden">
       {hasSource ? <div className="flex-1 flex flex-col h-full overflow-hidden">
           {/* Chat Header */}
-          <div className="p-2 md:p-4 border-b border-gray-200 flex-shrink-0">
+          <div className="p-2 md:p-4 flex-shrink-0" style={{ borderBottom: '1px solid var(--border-primary)' }}>
             <div className="max-w-4xl mx-auto flex items-center justify-between">
-              <h2 className="text-lg font-medium text-gray-900">{t('chat.title')}</h2>
+              <h2 className="text-lg font-medium" style={{ color: 'var(--text-primary)' }}>{t('chat.title')}</h2>
               {shouldShowRefreshButton && <Button variant="ghost" size="sm" onClick={handleRefreshChat} disabled={isDeletingChatHistory || isChatDisabled} className="flex items-center space-x-2">
                   <RefreshCw className={`h-4 w-4 ${isDeletingChatHistory ? 'animate-spin' : ''}`} />
                   <span>{isDeletingChatHistory ? t('chat.clearing') : t('chat.clearChat')}</span>
@@ -264,25 +264,25 @@ const ChatArea = ({
 
           <ScrollArea className="flex-1 h-full" ref={scrollAreaRef}>
             {/* Document Summary */}
-            <div className="p-3 md:p-8 border-b border-gray-200">
+            <div className="p-3 md:p-8" style={{ borderBottom: '1px solid var(--border-primary)' }}>
               <div className="max-w-4xl mx-auto">
                 <div className="flex items-center space-x-2 md:space-x-4 mb-3 md:mb-6">
                   <div className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-transparent">
-                    {isGenerating ? <Loader2 className="text-black font-normal w-8 h-8 md:w-10 md:h-10 animate-spin" /> : <span className="text-[28px] md:text-[40px] leading-none">{notebook?.icon || '☕'}</span>}
+                    {isGenerating ? <Loader2 className="font-normal w-8 h-8 md:w-10 md:h-10 animate-spin" style={{ color: 'var(--text-primary)' }} /> : <span className="text-[28px] md:text-[40px] leading-none">{notebook?.icon || '☕'}</span>}
                   </div>
                   <div>
-                    <h1 className="text-lg md:text-2xl font-medium text-gray-900">
+                    <h1 className="text-lg md:text-2xl font-medium" style={{ color: 'var(--text-primary)' }}>
                       {isGenerating ? t('chat.generating') : notebook?.title || t('chat.untitledNotebook')}
                     </h1>
-                    <p className="text-sm text-gray-600">{t('common:sources.count', { count: sourceCount })}</p>
+                    <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>{t('common:sources.count', { count: sourceCount })}</p>
                   </div>
                 </div>
-                
-                <div className="bg-gray-50 rounded-lg p-3 md:p-6 mb-3 md:mb-6">
-                  {isGenerating ? <div className="flex items-center space-x-2 text-gray-600">
+
+                <div className="rounded-lg p-3 md:p-6 mb-3 md:mb-6" style={{ backgroundColor: 'var(--bg-secondary)' }}>
+                  {isGenerating ? <div className="flex items-center space-x-2" style={{ color: 'var(--text-secondary)' }}>
 
                       <p>{t('chat.aiAnalyzing')}</p>
-                    </div> : <MarkdownRenderer content={notebook?.description || t('chat.noDescription')} className="prose prose-gray max-w-none text-gray-700 leading-relaxed" />}
+                    </div> : <MarkdownRenderer content={notebook?.description || t('chat.noDescription')} className="max-w-none leading-relaxed" />}
                 </div>
 
                 {/* Chat Messages */}
@@ -293,25 +293,26 @@ const ChatArea = ({
                             {/* Resend button */}
                             <button
                               onClick={() => handleResendMessage(getMessageText(msg.message.content))}
-                              className="mb-1 p-1 text-gray-400 hover:text-gray-600 transition-colors"
+                              className="mb-1 p-1 transition-colors"
+                              style={{ color: 'var(--text-muted)' }}
                               title={t('chat.resend')}
                             >
                               <RotateCcw className="h-3 w-3" />
                             </button>
                             {/* Message bubble */}
-                            <div className="max-w-[85%] md:max-w-xs lg:max-w-md px-4 py-2 bg-blue-500 text-white rounded-lg">
+                            <div className="max-w-[85%] md:max-w-xs lg:max-w-md px-4 py-2 rounded-lg" style={{ backgroundColor: 'var(--accent-primary)', color: 'var(--text-inverse)' }}>
                               <MarkdownRenderer content={msg.message.content} className="" onCitationClick={handleCitationClick} isUserMessage={true} />
                             </div>
                             {/* Timestamp */}
                             {messageTimestamps.get(msg.id) && (
-                              <span className="mt-1 text-xs text-gray-400">
+                              <span className="mt-1 text-xs" style={{ color: 'var(--text-muted)' }}>
                                 {formatTimestamp(messageTimestamps.get(msg.id)!)}
                               </span>
                             )}
                           </div>
                         ) : (
                           <div className="w-full">
-                            <div className="prose prose-gray max-w-none text-gray-800">
+                            <div className="max-w-none">
                               <MarkdownRenderer content={msg.message.content} className="" onCitationClick={handleCitationClick} isUserMessage={false} />
                             </div>
                             <div className="mt-2 flex justify-start">
@@ -324,30 +325,26 @@ const ChatArea = ({
                     {/* Pending user message */}
                     {pendingUserMessage && <div className="flex justify-end">
                         <div className="flex flex-col items-end">
-                          <div className="max-w-[85%] md:max-w-xs lg:max-w-md px-4 py-2 bg-blue-500 text-white rounded-lg">
+                          <div className="max-w-[85%] md:max-w-xs lg:max-w-md px-4 py-2 rounded-lg" style={{ backgroundColor: 'var(--accent-primary)', color: 'var(--text-inverse)' }}>
                             <MarkdownRenderer content={pendingUserMessage} className="" isUserMessage={true} />
                           </div>
                           {/* Timestamp for pending message */}
                           {pendingMessageTimestamp && (
-                            <span className="mt-1 text-xs text-gray-400">
+                            <span className="mt-1 text-xs" style={{ color: 'var(--text-muted)' }}>
                               {formatTimestamp(pendingMessageTimestamp)}
                             </span>
                           )}
                         </div>
                       </div>}
-                    
+
                     {/* AI Loading Indicator */}
                     {showAiLoading && <div className="flex flex-col items-start" ref={latestMessageRef}>
-                        <div className="flex items-center space-x-2 px-4 py-3 bg-gray-100 rounded-lg">
-                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{
-                    animationDelay: '0.1s'
-                  }}></div>
-                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{
-                    animationDelay: '0.2s'
-                  }}></div>
+                        <div className="flex items-center space-x-2 px-4 py-3 rounded-lg" style={{ backgroundColor: 'var(--bg-tertiary)' }}>
+                          <div className="w-2 h-2 rounded-full animate-bounce" style={{ backgroundColor: 'var(--text-muted)' }}></div>
+                          <div className="w-2 h-2 rounded-full animate-bounce" style={{ backgroundColor: 'var(--text-muted)', animationDelay: '0.1s' }}></div>
+                          <div className="w-2 h-2 rounded-full animate-bounce" style={{ backgroundColor: 'var(--text-muted)', animationDelay: '0.2s' }}></div>
                         </div>
-                        <span className="mt-1 text-xs text-gray-400 italic">
+                        <span className="mt-1 text-xs italic" style={{ color: 'var(--text-muted)' }}>
                           {t('chat.generating')}
                         </span>
                       </div>}
@@ -361,10 +358,11 @@ const ChatArea = ({
 
           {/* Draggable Divider */}
           <div
-            className={`h-2 border-t border-gray-200 cursor-ns-resize hover:bg-gray-100 active:bg-gray-200 transition-colors flex items-center justify-center group ${isDragging ? 'bg-gray-200' : ''}`}
+            className={`h-2 cursor-ns-resize transition-colors flex items-center justify-center group`}
+            style={{ borderTop: '1px solid var(--border-primary)', backgroundColor: isDragging ? 'var(--bg-tertiary)' : 'transparent' }}
             onMouseDown={handleDragStart}
           >
-            <div className="w-12 h-1 bg-gray-300 rounded-full group-hover:bg-gray-400 transition-colors" />
+            <div className="w-12 h-1 rounded-full group-hover:opacity-70 transition-colors" style={{ backgroundColor: 'var(--border-secondary)' }} />
           </div>
 
           {/* Chat Input - Fixed at bottom */}
@@ -386,7 +384,7 @@ const ChatArea = ({
                     className="pr-20 resize-none"
                     disabled={isChatDisabled || isSending || !!pendingUserMessage}
                   />
-                  <div className="absolute right-3 bottom-3 text-sm text-gray-500">
+                  <div className="absolute right-3 bottom-3 text-sm" style={{ color: 'var(--text-muted)' }}>
                     {t('common:sources.count', { count: sourceCount })}
                   </div>
                 </div>
@@ -421,10 +419,10 @@ const ChatArea = ({
     // Empty State
     <div className="flex-1 flex flex-col items-center justify-center p-8 overflow-hidden">
           <div className="text-center mb-8">
-            <div className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center bg-gray-100">
-              <Upload className="h-8 w-8 text-slate-600" />
+            <div className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center" style={{ backgroundColor: 'var(--bg-tertiary)' }}>
+              <Upload className="h-8 w-8" style={{ color: 'var(--text-secondary)' }} />
             </div>
-            <h2 className="text-xl font-medium text-gray-900 mb-4">{t('chat.emptyTitle')}</h2>
+            <h2 className="text-xl font-medium mb-4" style={{ color: 'var(--text-primary)' }}>{t('chat.emptyTitle')}</h2>
             <Button onClick={() => setShowAddSourcesDialog(true)}>
               <Upload className="h-4 w-4 mr-2" />
               {t('chat.emptyTitle')}
@@ -435,7 +433,7 @@ const ChatArea = ({
           <div className="w-full max-w-2xl">
             <div className="flex space-x-4">
               <Input placeholder={t('chat.emptyDescription')} disabled className="flex-1" />
-              <div className="flex items-center text-sm text-gray-500">
+              <div className="flex items-center text-sm" style={{ color: 'var(--text-muted)' }}>
                 {t('common:sources.count', { count: 0 })}
               </div>
               <Button disabled>
@@ -444,10 +442,10 @@ const ChatArea = ({
             </div>
           </div>
         </div>}
-      
+
       {/* Footer */}
-      <div className="p-4 border-t border-gray-200 flex-shrink-0">
-        <p className="text-center text-sm text-gray-500">{t('chat.disclaimer')}</p>
+      <div className="p-4 flex-shrink-0" style={{ borderTop: '1px solid var(--border-primary)' }}>
+        <p className="text-center text-sm" style={{ color: 'var(--text-muted)' }}>{t('chat.disclaimer')}</p>
       </div>
       
       {/* Add Sources Dialog */}

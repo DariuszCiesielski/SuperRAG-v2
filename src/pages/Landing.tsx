@@ -7,7 +7,6 @@ import {
   Youtube,
   Globe,
   Zap,
-  Shield,
   ArrowRight,
   Check,
   BookOpen,
@@ -130,28 +129,67 @@ const Landing = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--bg-primary)' }}>
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+      <nav
+        className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b"
+        style={{
+          backgroundColor: 'var(--bg-secondary)',
+          borderColor: 'var(--border-primary)'
+        }}
+      >
         <div className="max-w-7xl mx-auto px-3 md:px-6 py-2 md:py-4 flex items-center justify-between">
           <div className="flex items-center gap-1 md:gap-2 flex-shrink-0">
             <Logo size="sm" />
-            <span className="text-sm md:text-xl font-bold text-gray-900 hidden sm:inline">SuperRAG</span>
+            <span
+              className="text-sm md:text-xl font-bold hidden sm:inline"
+              style={{ color: 'var(--text-primary)' }}
+            >
+              SuperRAG
+            </span>
           </div>
           <div className="flex items-center gap-1 sm:gap-2 md:gap-4">
-            <Button variant="ghost" size="sm" className="text-xs sm:text-sm px-2 sm:px-3 md:px-4 hidden sm:inline-flex" onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-xs sm:text-sm px-2 sm:px-3 md:px-4 hidden sm:inline-flex"
+              style={{ color: 'var(--text-secondary)' }}
+              onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
+            >
               {t('navPricing')}
             </Button>
             {user ? (
-              <Button size="sm" className="bg-brand hover:bg-brand-700 text-xs sm:text-sm px-2 sm:px-3 md:px-4" onClick={() => navigate('/dashboard')}>
+              <Button
+                size="sm"
+                className="text-xs sm:text-sm px-2 sm:px-3 md:px-4"
+                style={{
+                  backgroundColor: 'var(--accent-primary)',
+                  color: 'var(--text-inverse)'
+                }}
+                onClick={() => navigate('/dashboard')}
+              >
                 {t('navDashboard')}
               </Button>
             ) : (
               <>
-                <Button variant="ghost" size="sm" className="text-xs sm:text-sm px-2 sm:px-3 md:px-4" onClick={() => navigate('/auth')}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-xs sm:text-sm px-2 sm:px-3 md:px-4"
+                  style={{ color: 'var(--text-secondary)' }}
+                  onClick={() => navigate('/auth')}
+                >
                   {t('navLogin')}
                 </Button>
-                <Button size="sm" className="bg-brand hover:bg-brand-700 text-xs sm:text-sm px-2 sm:px-3 md:px-4" onClick={handleGetStarted}>
+                <Button
+                  size="sm"
+                  className="text-xs sm:text-sm px-2 sm:px-3 md:px-4"
+                  style={{
+                    backgroundColor: 'var(--accent-primary)',
+                    color: 'var(--text-inverse)'
+                  }}
+                  onClick={handleGetStarted}
+                >
                   {t('navGetStarted')}
                 </Button>
               </>
@@ -161,49 +199,120 @@ const Landing = () => {
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-6 bg-gradient-to-b from-brand-50 to-white">
+      <section
+        className="pt-32 pb-20 px-6"
+        style={{
+          background: `linear-gradient(to bottom, var(--bg-tertiary), var(--bg-primary))`
+        }}
+      >
         <div className="max-w-7xl mx-auto text-center">
-          <Badge className="mb-6 bg-brand-100 text-brand-700 hover:bg-brand-100">
+          <Badge
+            className="mb-6"
+            style={{
+              backgroundColor: 'var(--accent-light)',
+              color: 'var(--accent-primary)'
+            }}
+          >
             {t('heroBadge')}
           </Badge>
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+          <h1
+            className="text-5xl md:text-6xl font-bold mb-6 leading-tight"
+            style={{ color: 'var(--text-primary)' }}
+          >
             {t('heroTitle')}
-            <span className="text-brand"> {t('heroTitleHighlight')}</span>
+            <span style={{ color: 'var(--accent-primary)' }}> {t('heroTitleHighlight')}</span>
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-10">
+          <p
+            className="text-xl max-w-3xl mx-auto mb-10"
+            style={{ color: 'var(--text-secondary)' }}
+          >
             {t('heroSubtitle')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="h-14 px-8 text-lg bg-brand hover:bg-brand-700" onClick={handleGetStarted}>
+            <Button
+              size="lg"
+              className="h-14 px-8 text-lg"
+              style={{
+                backgroundColor: 'var(--accent-primary)',
+                color: 'var(--text-inverse)'
+              }}
+              onClick={handleGetStarted}
+            >
               {t('heroCtaPrimary')}
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-            <Button size="lg" variant="outline" className="h-14 px-8 text-lg border-brand text-brand hover:bg-brand-50" onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}>
+            <Button
+              size="lg"
+              variant="outline"
+              className="h-14 px-8 text-lg"
+              style={{
+                borderColor: 'var(--accent-primary)',
+                color: 'var(--accent-primary)'
+              }}
+              onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
+            >
               {t('heroCtaSecondary')}
             </Button>
           </div>
 
           {/* Hero Image/Demo */}
           <div className="mt-16 relative">
-            <div className="bg-gradient-to-r from-brand to-brand-700 rounded-2xl p-1 shadow-2xl max-w-5xl mx-auto">
-              <div className="bg-gray-900 rounded-xl p-4">
+            <div
+              className="rounded-2xl p-1 shadow-2xl max-w-5xl mx-auto"
+              style={{
+                background: `linear-gradient(to right, var(--accent-primary), var(--accent-hover))`
+              }}
+            >
+              <div
+                className="rounded-xl p-4"
+                style={{ backgroundColor: 'var(--bg-primary)' }}
+              >
                 <div className="flex items-center gap-2 mb-4">
-                  <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                  <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                  <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: 'var(--error)' }}></div>
+                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: 'var(--warning)' }}></div>
+                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: 'var(--success)' }}></div>
                 </div>
-                <div className="bg-gray-800 rounded-lg p-6 text-left">
+                <div
+                  className="rounded-lg p-6 text-left"
+                  style={{ backgroundColor: 'var(--bg-tertiary)' }}
+                >
                   <div className="flex items-start gap-4 mb-4">
-                    <div className="w-8 h-8 rounded-full bg-brand flex items-center justify-center text-white text-sm font-bold">U</div>
-                    <div className="bg-gray-700 rounded-lg p-3 text-gray-200 text-sm">
+                    <div
+                      className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold"
+                      style={{
+                        backgroundColor: 'var(--accent-primary)',
+                        color: 'var(--text-inverse)'
+                      }}
+                    >
+                      U
+                    </div>
+                    <div
+                      className="rounded-lg p-3 text-sm"
+                      style={{
+                        backgroundColor: 'var(--bg-secondary)',
+                        color: 'var(--text-secondary)'
+                      }}
+                    >
                       {t('demoQuestion')}
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-brand to-brand-700 flex items-center justify-center">
-                      <Brain className="w-4 h-4 text-white" />
+                    <div
+                      className="w-8 h-8 rounded-full flex items-center justify-center"
+                      style={{
+                        background: `linear-gradient(to right, var(--accent-primary), var(--accent-hover))`
+                      }}
+                    >
+                      <Brain className="w-4 h-4" style={{ color: 'var(--text-inverse)' }} />
                     </div>
-                    <div className="bg-brand/20 border border-brand/30 rounded-lg p-3 text-gray-200 text-sm flex-1">
+                    <div
+                      className="rounded-lg p-3 text-sm flex-1 border"
+                      style={{
+                        backgroundColor: 'var(--accent-light)',
+                        borderColor: 'var(--border-accent)',
+                        color: 'var(--text-secondary)'
+                      }}
+                    >
                       {t('demoAnswer')}
                     </div>
                   </div>
@@ -215,28 +324,50 @@ const Landing = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 px-6 bg-white" id="features">
+      <section
+        className="py-20 px-6"
+        id="features"
+        style={{ backgroundColor: 'var(--bg-secondary)' }}
+      >
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            <h2
+              className="text-4xl font-bold mb-4"
+              style={{ color: 'var(--text-primary)' }}
+            >
               {t('featuresTitle')}
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p
+              className="text-xl max-w-2xl mx-auto"
+              style={{ color: 'var(--text-secondary)' }}
+            >
               {t('featuresSubtitle')}
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feature, index) => (
-              <Card key={index} className="border-2 border-gray-100 hover:border-brand-200 hover:shadow-lg transition-all duration-300">
+              <Card
+                key={index}
+                className="border-2 hover:shadow-lg transition-all duration-300"
+                style={{
+                  backgroundColor: 'var(--bg-tertiary)',
+                  borderColor: 'var(--border-primary)'
+                }}
+              >
                 <CardHeader>
-                  <div className="w-12 h-12 rounded-lg bg-brand-100 flex items-center justify-center mb-4">
-                    <feature.icon className="w-6 h-6 text-brand" />
+                  <div
+                    className="w-12 h-12 rounded-lg flex items-center justify-center mb-4"
+                    style={{ backgroundColor: 'var(--accent-light)' }}
+                  >
+                    <feature.icon className="w-6 h-6" style={{ color: 'var(--accent-primary)' }} />
                   </div>
-                  <CardTitle className="text-xl">{feature.title}</CardTitle>
+                  <CardTitle className="text-xl" style={{ color: 'var(--text-primary)' }}>
+                    {feature.title}
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-gray-600">{feature.description}</p>
+                  <p style={{ color: 'var(--text-secondary)' }}>{feature.description}</p>
                 </CardContent>
               </Card>
             ))}
@@ -245,13 +376,23 @@ const Landing = () => {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-20 px-6 bg-gray-50" id="how-it-works">
+      <section
+        className="py-20 px-6"
+        id="how-it-works"
+        style={{ backgroundColor: 'var(--bg-tertiary)' }}
+      >
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            <h2
+              className="text-4xl font-bold mb-4"
+              style={{ color: 'var(--text-primary)' }}
+            >
               {t('howItWorksTitle')}
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p
+              className="text-xl max-w-2xl mx-auto"
+              style={{ color: 'var(--text-secondary)' }}
+            >
               {t('howItWorksSubtitle')}
             </p>
           </div>
@@ -260,15 +401,30 @@ const Landing = () => {
             {steps.map((step, index) => (
               <div key={index} className="text-center">
                 <div className="relative inline-block mb-6">
-                  <div className="w-20 h-20 rounded-full bg-brand flex items-center justify-center mx-auto">
-                    <step.icon className="w-10 h-10 text-white" />
+                  <div
+                    className="w-20 h-20 rounded-full flex items-center justify-center mx-auto"
+                    style={{ backgroundColor: 'var(--accent-primary)' }}
+                  >
+                    <step.icon className="w-10 h-10" style={{ color: 'var(--text-inverse)' }} />
                   </div>
-                  <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-white border-2 border-brand flex items-center justify-center text-brand font-bold">
+                  <div
+                    className="absolute -top-2 -right-2 w-8 h-8 rounded-full border-2 flex items-center justify-center font-bold"
+                    style={{
+                      backgroundColor: 'var(--bg-secondary)',
+                      borderColor: 'var(--accent-primary)',
+                      color: 'var(--accent-primary)'
+                    }}
+                  >
                     {index + 1}
                   </div>
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{step.title}</h3>
-                <p className="text-gray-600">{step.description}</p>
+                <h3
+                  className="text-xl font-bold mb-2"
+                  style={{ color: 'var(--text-primary)' }}
+                >
+                  {step.title}
+                </h3>
+                <p style={{ color: 'var(--text-secondary)' }}>{step.description}</p>
               </div>
             ))}
           </div>
@@ -276,39 +432,58 @@ const Landing = () => {
       </section>
 
       {/* Pricing Section */}
-      <section className="py-20 px-6 bg-white" id="pricing">
+      <section
+        className="py-20 px-6"
+        id="pricing"
+        style={{ backgroundColor: 'var(--bg-secondary)' }}
+      >
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            <h2
+              className="text-4xl font-bold mb-4"
+              style={{ color: 'var(--text-primary)' }}
+            >
               {t('pricingTitle')}
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p
+              className="text-xl max-w-2xl mx-auto"
+              style={{ color: 'var(--text-secondary)' }}
+            >
               {t('pricingSubtitle')}
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {/* Free Plan */}
-            <Card className="relative border-2 border-gray-200 hover:border-gray-300 transition-colors">
+            <Card
+              className="relative border-2 transition-colors"
+              style={{
+                backgroundColor: 'var(--bg-tertiary)',
+                borderColor: 'var(--border-primary)'
+              }}
+            >
               <CardHeader className="text-center pb-8">
-                <CardTitle className="text-2xl font-bold text-gray-900 flex items-center justify-center gap-2">
-                  <Zap className="h-6 w-6 text-gray-500" />
+                <CardTitle
+                  className="text-2xl font-bold flex items-center justify-center gap-2"
+                  style={{ color: 'var(--text-primary)' }}
+                >
+                  <Zap className="h-6 w-6" style={{ color: 'var(--text-muted)' }} />
                   {tPricing('freePlan')}
                 </CardTitle>
-                <CardDescription className="text-gray-600">
+                <CardDescription style={{ color: 'var(--text-secondary)' }}>
                   {tPricing('freePlanDescription')}
                 </CardDescription>
                 <div className="mt-4">
-                  <span className="text-4xl font-bold text-gray-900">0 zł</span>
-                  <span className="text-gray-500">/{tPricing('month')}</span>
+                  <span className="text-4xl font-bold" style={{ color: 'var(--text-primary)' }}>0 zł</span>
+                  <span style={{ color: 'var(--text-muted)' }}>/{tPricing('month')}</span>
                 </div>
               </CardHeader>
               <CardContent className="pb-8">
                 <ul className="space-y-3">
                   {pricingFeatures.map((feature, index) => (
                     <li key={index} className="flex items-start gap-3">
-                      <Check className="h-5 w-5 text-brand flex-shrink-0 mt-0.5" />
-                      <span className="text-gray-700">{feature}</span>
+                      <Check className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: 'var(--success)' }} />
+                      <span style={{ color: 'var(--text-secondary)' }}>{feature}</span>
                     </li>
                   ))}
                 </ul>
@@ -316,7 +491,11 @@ const Landing = () => {
               <CardFooter>
                 <Button
                   variant="outline"
-                  className="w-full h-12 text-lg border-brand text-brand hover:bg-brand-50"
+                  className="w-full h-12 text-lg"
+                  style={{
+                    borderColor: 'var(--accent-primary)',
+                    color: 'var(--accent-primary)'
+                  }}
                   onClick={handleSelectFree}
                 >
                   {user ? tPricing('goToDashboard') : tPricing('getStarted')}
@@ -325,48 +504,70 @@ const Landing = () => {
             </Card>
 
             {/* Pro Plan */}
-            <Card className="relative border-2 border-brand hover:border-brand-700 transition-colors shadow-lg">
+            <Card
+              className="relative border-2 transition-colors shadow-lg"
+              style={{
+                backgroundColor: 'var(--bg-tertiary)',
+                borderColor: 'var(--accent-primary)'
+              }}
+            >
               <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                <Badge className="bg-brand text-white px-4 py-1 hover:bg-brand-700">
+                <Badge
+                  className="px-4 py-1"
+                  style={{
+                    backgroundColor: 'var(--accent-primary)',
+                    color: 'var(--text-inverse)'
+                  }}
+                >
                   {tPricing('recommended')}
                 </Badge>
               </div>
               <CardHeader className="text-center pb-8">
-                <CardTitle className="text-2xl font-bold text-gray-900 flex items-center justify-center gap-2">
-                  <Star className="h-6 w-6 text-yellow-500 fill-yellow-500" />
+                <CardTitle
+                  className="text-2xl font-bold flex items-center justify-center gap-2"
+                  style={{ color: 'var(--text-primary)' }}
+                >
+                  <Star className="h-6 w-6" style={{ color: 'var(--warning)', fill: 'var(--warning)' }} />
                   {tPricing('proPlan')}
                 </CardTitle>
-                <CardDescription className="text-gray-600">
+                <CardDescription style={{ color: 'var(--text-secondary)' }}>
                   {tPricing('proPlanDescription')}
                 </CardDescription>
                 <div className="mt-4">
-                  <span className="text-4xl font-bold text-gray-900">1 zł</span>
-                  <span className="text-gray-500">/{tPricing('month')}</span>
+                  <span className="text-4xl font-bold" style={{ color: 'var(--text-primary)' }}>1 zł</span>
+                  <span style={{ color: 'var(--text-muted)' }}>/{tPricing('month')}</span>
                 </div>
               </CardHeader>
               <CardContent className="pb-8">
                 <ul className="space-y-3">
                   {pricingFeatures.map((feature, index) => (
                     <li key={index} className="flex items-start gap-3">
-                      <Check className="h-5 w-5 text-brand flex-shrink-0 mt-0.5" />
-                      <span className="text-gray-700">{feature}</span>
+                      <Check className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: 'var(--success)' }} />
+                      <span style={{ color: 'var(--text-secondary)' }}>{feature}</span>
                     </li>
                   ))}
                   <li className="flex items-start gap-3">
-                    <Check className="h-5 w-5 text-brand flex-shrink-0 mt-0.5" />
-                    <span className="text-brand font-medium">{tPricing('featurePrioritySupport')}</span>
+                    <Check className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: 'var(--accent-primary)' }} />
+                    <span className="font-medium" style={{ color: 'var(--accent-primary)' }}>{tPricing('featurePrioritySupport')}</span>
                   </li>
                 </ul>
               </CardContent>
               <CardFooter>
                 <Button
-                  className="w-full h-12 text-lg bg-brand hover:bg-brand-700"
+                  className="w-full h-12 text-lg"
+                  style={{
+                    backgroundColor: 'var(--accent-primary)',
+                    color: 'var(--text-inverse)'
+                  }}
                   onClick={handleSelectPro}
                   disabled={isPro || isCreatingCheckout}
                 >
                   {isCreatingCheckout ? (
                     <span className="flex items-center gap-2">
-                      <span className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></span>
+                      <span
+                        className="animate-spin rounded-full h-4 w-4 border-b-2"
+                        style={{ borderColor: 'var(--text-inverse)' }}
+                      ></span>
                       {tPricing('processing')}
                     </span>
                   ) : isPro ? (
@@ -382,56 +583,82 @@ const Landing = () => {
       </section>
 
       {/* Legal Assistant Pricing Section */}
-      <section className="py-20 px-6 bg-gray-50" id="legal-pricing">
+      <section
+        className="py-20 px-6"
+        id="legal-pricing"
+        style={{ backgroundColor: 'var(--bg-tertiary)' }}
+      >
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <Badge className="mb-4 bg-amber-100 text-amber-800">
+            <Badge
+              className="mb-4"
+              style={{
+                backgroundColor: 'var(--warning-light)',
+                color: 'var(--warning)'
+              }}
+            >
               <Scale className="h-4 w-4 mr-1" />
               {t('legalBadge', 'Nowy moduł')}
             </Badge>
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            <h2
+              className="text-4xl font-bold mb-4"
+              style={{ color: 'var(--text-primary)' }}
+            >
               {t('legalTitle', 'Asystent Prawny')}
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p
+              className="text-xl max-w-2xl mx-auto"
+              style={{ color: 'var(--text-secondary)' }}
+            >
               {t('legalSubtitle', 'Profesjonalne narzędzie do zarządzania sprawami prawnymi, generowania dokumentów i wyszukiwania w bazie prawnej.')}
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {/* Legal Free Plan */}
-            <Card className="relative border-2 border-gray-200 hover:border-gray-300 transition-colors">
+            <Card
+              className="relative border-2 transition-colors"
+              style={{
+                backgroundColor: 'var(--bg-secondary)',
+                borderColor: 'var(--border-primary)'
+              }}
+            >
               <CardHeader className="text-center">
                 <div className="flex items-center justify-center gap-2 mb-2">
-                  <Scale className="h-5 w-5 text-gray-500" />
-                  <CardTitle className="text-xl">{t('legalFreeName', 'Darmowy')}</CardTitle>
+                  <Scale className="h-5 w-5" style={{ color: 'var(--text-muted)' }} />
+                  <CardTitle className="text-xl" style={{ color: 'var(--text-primary)' }}>
+                    {t('legalFreeName', 'Darmowy')}
+                  </CardTitle>
                 </div>
-                <CardDescription>{t('legalFreeDesc', 'Podstawowe funkcje dla początkujących')}</CardDescription>
+                <CardDescription style={{ color: 'var(--text-secondary)' }}>
+                  {t('legalFreeDesc', 'Podstawowe funkcje dla początkujących')}
+                </CardDescription>
                 <div className="mt-4">
-                  <span className="text-4xl font-bold text-gray-900">0</span>
-                  <span className="text-gray-500 ml-2">PLN</span>
+                  <span className="text-4xl font-bold" style={{ color: 'var(--text-primary)' }}>0</span>
+                  <span className="ml-2" style={{ color: 'var(--text-muted)' }}>PLN</span>
                 </div>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-3">
                   <li className="flex items-start gap-2">
-                    <Check className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm">{t('legalFreeFeature1', 'Do 2 aktywnych spraw')}</span>
+                    <Check className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: 'var(--success)' }} />
+                    <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>{t('legalFreeFeature1', 'Do 2 aktywnych spraw')}</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <Check className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm">{t('legalFreeFeature2', '3 dokumenty miesięcznie')}</span>
+                    <Check className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: 'var(--success)' }} />
+                    <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>{t('legalFreeFeature2', '3 dokumenty miesięcznie')}</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <Check className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm">{t('legalFreeFeature3', 'Podstawowe wyszukiwanie')}</span>
+                    <Check className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: 'var(--success)' }} />
+                    <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>{t('legalFreeFeature3', 'Podstawowe wyszukiwanie')}</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <Check className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm">{t('legalFreeFeature4', 'Dostęp do przepisów')}</span>
+                    <Check className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: 'var(--success)' }} />
+                    <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>{t('legalFreeFeature4', 'Dostęp do przepisów')}</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <Check className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm">{t('legalFreeFeature5', 'Podstawowy chat AI')}</span>
+                    <Check className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: 'var(--success)' }} />
+                    <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>{t('legalFreeFeature5', 'Podstawowy chat AI')}</span>
                   </li>
                 </ul>
               </CardContent>
@@ -439,6 +666,10 @@ const Landing = () => {
                 <Button
                   variant="outline"
                   className="w-full"
+                  style={{
+                    borderColor: 'var(--border-primary)',
+                    color: 'var(--text-primary)'
+                  }}
                   onClick={handleLegalFree}
                 >
                   {user ? t('legalGoToModule', 'Przejdź do modułu') : t('legalStartFree', 'Zacznij za darmo')}
@@ -447,56 +678,76 @@ const Landing = () => {
             </Card>
 
             {/* Legal Pro Plan */}
-            <Card className="relative border-2 border-amber-500 hover:border-amber-600 transition-colors shadow-lg shadow-amber-500/10">
-              <Badge className="absolute -top-2 right-4 bg-gradient-to-r from-amber-500 to-orange-500">
+            <Card
+              className="relative border-2 transition-colors shadow-lg"
+              style={{
+                backgroundColor: 'var(--bg-secondary)',
+                borderColor: 'var(--warning)'
+              }}
+            >
+              <Badge
+                className="absolute -top-2 right-4"
+                style={{
+                  background: 'linear-gradient(to right, var(--warning), var(--error))',
+                  color: 'var(--text-inverse)'
+                }}
+              >
                 {t('legalProBadge', 'Najpopularniejszy')}
               </Badge>
               <CardHeader className="text-center">
                 <div className="flex items-center justify-center gap-2 mb-2">
-                  <Crown className="h-5 w-5 text-amber-500" />
-                  <CardTitle className="text-xl">{t('legalProName', 'Legal Pro')}</CardTitle>
+                  <Crown className="h-5 w-5" style={{ color: 'var(--warning)' }} />
+                  <CardTitle className="text-xl" style={{ color: 'var(--text-primary)' }}>
+                    {t('legalProName', 'Legal Pro')}
+                  </CardTitle>
                 </div>
-                <CardDescription>{t('legalProDesc', 'Pełny pakiet dla wymagających użytkowników')}</CardDescription>
+                <CardDescription style={{ color: 'var(--text-secondary)' }}>
+                  {t('legalProDesc', 'Pełny pakiet dla wymagających użytkowników')}
+                </CardDescription>
                 <div className="mt-4">
-                  <span className="text-4xl font-bold text-gray-900">29,99</span>
-                  <span className="text-gray-500 ml-2">PLN/mies.</span>
+                  <span className="text-4xl font-bold" style={{ color: 'var(--text-primary)' }}>29,99</span>
+                  <span className="ml-2" style={{ color: 'var(--text-muted)' }}>PLN/mies.</span>
                 </div>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-3">
                   <li className="flex items-start gap-2">
-                    <Check className="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm">{t('legalProFeature1', 'Nieograniczona liczba spraw')}</span>
+                    <Check className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: 'var(--warning)' }} />
+                    <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>{t('legalProFeature1', 'Nieograniczona liczba spraw')}</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <Check className="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm">{t('legalProFeature2', 'Nieograniczone dokumenty')}</span>
+                    <Check className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: 'var(--warning)' }} />
+                    <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>{t('legalProFeature2', 'Nieograniczone dokumenty')}</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <Check className="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm">{t('legalProFeature3', 'Eksport do DOCX')}</span>
+                    <Check className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: 'var(--warning)' }} />
+                    <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>{t('legalProFeature3', 'Eksport do DOCX')}</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <Check className="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm">{t('legalProFeature4', 'Pełny dostęp do AI i RAG')}</span>
+                    <Check className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: 'var(--warning)' }} />
+                    <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>{t('legalProFeature4', 'Pełny dostęp do AI i RAG')}</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <Check className="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm">{t('legalProFeature5', 'Wszystkie szablony Premium')}</span>
+                    <Check className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: 'var(--warning)' }} />
+                    <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>{t('legalProFeature5', 'Wszystkie szablony Premium')}</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <Check className="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm">{t('legalProFeature6', 'Dostęp do orzecznictwa')}</span>
+                    <Check className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: 'var(--warning)' }} />
+                    <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>{t('legalProFeature6', 'Dostęp do orzecznictwa')}</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <Check className="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm">{t('legalProFeature7', 'Priorytetowe wsparcie')}</span>
+                    <Check className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: 'var(--warning)' }} />
+                    <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>{t('legalProFeature7', 'Priorytetowe wsparcie')}</span>
                   </li>
                 </ul>
               </CardContent>
               <CardFooter>
                 <Button
-                  className="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600"
+                  className="w-full"
+                  style={{
+                    background: 'linear-gradient(to right, var(--warning), var(--error))',
+                    color: 'var(--text-inverse)'
+                  }}
                   onClick={handleLegalPro}
                 >
                   {user ? t('legalUpgrade', 'Ulepsz') : t('legalSignUp', 'Zarejestruj się')}
@@ -505,46 +756,62 @@ const Landing = () => {
             </Card>
 
             {/* Legal Business Plan */}
-            <Card className="relative border-2 border-gray-200 hover:border-gray-300 transition-colors">
-              <Badge className="absolute -top-2 right-4 bg-gray-200 text-gray-700">
+            <Card
+              className="relative border-2 transition-colors"
+              style={{
+                backgroundColor: 'var(--bg-secondary)',
+                borderColor: 'var(--border-primary)'
+              }}
+            >
+              <Badge
+                className="absolute -top-2 right-4"
+                style={{
+                  backgroundColor: 'var(--bg-tertiary)',
+                  color: 'var(--text-secondary)'
+                }}
+              >
                 {t('legalBusinessBadge', 'Dla firm')}
               </Badge>
               <CardHeader className="text-center">
                 <div className="flex items-center justify-center gap-2 mb-2">
-                  <Sparkles className="h-5 w-5 text-purple-500" />
-                  <CardTitle className="text-xl">{t('legalBusinessName', 'Legal Business')}</CardTitle>
+                  <Sparkles className="h-5 w-5" style={{ color: 'var(--info)' }} />
+                  <CardTitle className="text-xl" style={{ color: 'var(--text-primary)' }}>
+                    {t('legalBusinessName', 'Legal Business')}
+                  </CardTitle>
                 </div>
-                <CardDescription>{t('legalBusinessDesc', 'Dla kancelarii i firm')}</CardDescription>
+                <CardDescription style={{ color: 'var(--text-secondary)' }}>
+                  {t('legalBusinessDesc', 'Dla kancelarii i firm')}
+                </CardDescription>
                 <div className="mt-4">
-                  <span className="text-4xl font-bold text-gray-900">99,99</span>
-                  <span className="text-gray-500 ml-2">PLN/mies.</span>
+                  <span className="text-4xl font-bold" style={{ color: 'var(--text-primary)' }}>99,99</span>
+                  <span className="ml-2" style={{ color: 'var(--text-muted)' }}>PLN/mies.</span>
                 </div>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-3">
                   <li className="flex items-start gap-2">
-                    <Check className="h-5 w-5 text-purple-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm">{t('legalBusinessFeature1', 'Wszystko z planu Pro')}</span>
+                    <Check className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: 'var(--info)' }} />
+                    <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>{t('legalBusinessFeature1', 'Wszystko z planu Pro')}</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <Check className="h-5 w-5 text-purple-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm">{t('legalBusinessFeature2', 'Dostęp do API')}</span>
+                    <Check className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: 'var(--info)' }} />
+                    <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>{t('legalBusinessFeature2', 'Dostęp do API')}</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <Check className="h-5 w-5 text-purple-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm">{t('legalBusinessFeature3', 'Do 5 użytkowników')}</span>
+                    <Check className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: 'var(--info)' }} />
+                    <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>{t('legalBusinessFeature3', 'Do 5 użytkowników')}</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <Check className="h-5 w-5 text-purple-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm">{t('legalBusinessFeature4', 'Własne szablony')}</span>
+                    <Check className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: 'var(--info)' }} />
+                    <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>{t('legalBusinessFeature4', 'Własne szablony')}</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <Check className="h-5 w-5 text-purple-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm">{t('legalBusinessFeature5', 'Dedykowane wsparcie')}</span>
+                    <Check className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: 'var(--info)' }} />
+                    <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>{t('legalBusinessFeature5', 'Dedykowane wsparcie')}</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <Check className="h-5 w-5 text-purple-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm">{t('legalBusinessFeature6', 'Gwarancja SLA')}</span>
+                    <Check className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: 'var(--info)' }} />
+                    <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>{t('legalBusinessFeature6', 'Gwarancja SLA')}</span>
                   </li>
                 </ul>
               </CardContent>
@@ -552,6 +819,10 @@ const Landing = () => {
                 <Button
                   variant="outline"
                   className="w-full"
+                  style={{
+                    borderColor: 'var(--border-primary)',
+                    color: 'var(--text-primary)'
+                  }}
                   onClick={handleLegalPro}
                 >
                   {user ? t('legalUpgrade', 'Ulepsz') : t('legalSignUp', 'Zarejestruj się')}
@@ -563,15 +834,35 @@ const Landing = () => {
       </section>
 
       {/* Final CTA Section */}
-      <section className="py-20 px-6 bg-gradient-to-r from-brand to-brand-700">
+      <section
+        className="py-20 px-6"
+        style={{
+          background: `linear-gradient(to right, var(--accent-primary), var(--accent-hover))`
+        }}
+      >
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl font-bold text-white mb-6">
+          <h2
+            className="text-4xl font-bold mb-6"
+            style={{ color: 'var(--text-inverse)' }}
+          >
             {t('ctaTitle')}
           </h2>
-          <p className="text-xl text-brand-100 mb-10">
+          <p
+            className="text-xl mb-10"
+            style={{ color: 'var(--accent-light)' }}
+          >
             {t('ctaSubtitle')}
           </p>
-          <Button size="lg" variant="secondary" className="h-14 px-8 text-lg bg-white text-brand hover:bg-gray-100" onClick={handleGetStarted}>
+          <Button
+            size="lg"
+            variant="secondary"
+            className="h-14 px-8 text-lg"
+            style={{
+              backgroundColor: 'var(--bg-secondary)',
+              color: 'var(--accent-primary)'
+            }}
+            onClick={handleGetStarted}
+          >
             {t('ctaButton')}
             <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
@@ -579,22 +870,38 @@ const Landing = () => {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-6 bg-gray-900 text-gray-400">
+      <footer
+        className="py-12 px-6"
+        style={{ backgroundColor: 'var(--bg-primary)' }}
+      >
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-2">
               <Logo size="sm" />
-              <span className="text-xl font-bold text-white">SuperRAG</span>
+              <span
+                className="text-xl font-bold"
+                style={{ color: 'var(--text-primary)' }}
+              >
+                SuperRAG
+              </span>
             </div>
             <div className="flex items-center gap-8">
-              <a href="mailto:support@superrag.app" className="hover:text-white transition-colors">
+              <a
+                href="mailto:support@superrag.app"
+                className="transition-colors hover:opacity-80"
+                style={{ color: 'var(--text-secondary)' }}
+              >
                 {t('footerContact')}
               </a>
-              <a href="/pricing" className="hover:text-white transition-colors">
+              <a
+                href="/pricing"
+                className="transition-colors hover:opacity-80"
+                style={{ color: 'var(--text-secondary)' }}
+              >
                 {t('footerPricing')}
               </a>
             </div>
-            <p className="text-sm">
+            <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
               © 2025 SuperRAG. {t('footerRights')}
             </p>
           </div>

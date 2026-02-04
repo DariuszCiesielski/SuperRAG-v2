@@ -64,13 +64,14 @@ const NotebookHeader = ({ title, notebookId }: NotebookHeaderProps) => {
   };
 
   return (
-    <header className="bg-white border-b border-gray-200 px-3 py-2 md:px-6 md:py-4">
+    <header className="px-3 py-2 md:px-6 md:py-4" style={{ backgroundColor: 'var(--bg-secondary)', borderBottom: '1px solid var(--border-primary)' }}>
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2 md:space-x-4">
           <div className="flex items-center space-x-2">
-            <button 
+            <button
               onClick={handleIconClick}
-              className="hover:bg-gray-50 rounded transition-colors p-1"
+              className="rounded transition-colors p-1"
+              style={{ backgroundColor: 'transparent' }}
             >
               <Logo />
             </button>
@@ -80,13 +81,15 @@ const NotebookHeader = ({ title, notebookId }: NotebookHeaderProps) => {
                 onChange={(e) => setEditedTitle(e.target.value)}
                 onKeyDown={handleKeyDown}
                 onBlur={handleBlur}
-                className="text-sm md:text-lg font-medium text-gray-900 border-none shadow-none p-0 h-auto focus-visible:ring-0 min-w-[150px] md:min-w-[300px] w-auto"
+                className="text-sm md:text-lg font-medium border-none shadow-none p-0 h-auto focus-visible:ring-0 min-w-[150px] md:min-w-[300px] w-auto"
+                style={{ color: 'var(--text-primary)' }}
                 autoFocus
                 disabled={isUpdating}
               />
             ) : (
               <span
-                className="text-sm md:text-lg font-medium text-gray-900 cursor-pointer hover:bg-gray-50 rounded px-2 py-1 transition-colors truncate max-w-[150px] md:max-w-none"
+                className="text-sm md:text-lg font-medium cursor-pointer rounded px-2 py-1 transition-colors truncate max-w-[150px] md:max-w-none"
+                style={{ color: 'var(--text-primary)' }}
                 onClick={handleTitleClick}
               >
                 {title}
@@ -102,8 +105,8 @@ const NotebookHeader = ({ title, notebookId }: NotebookHeaderProps) => {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm" className="p-0">
-                  <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center cursor-pointer hover:bg-purple-600 transition-colors">
-                    <User className="h-4 w-4 text-white" />
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer transition-colors" style={{ backgroundColor: 'var(--accent-primary)' }}>
+                    <User className="h-4 w-4" style={{ color: 'var(--text-inverse)' }} />
                   </div>
                 </Button>
               </DropdownMenuTrigger>

@@ -24,19 +24,37 @@ const CitationsList = ({
   if (uniqueSources.length === 0) return null;
 
   return (
-    <div className="mt-4 pt-3 border-t border-gray-200">
-      <p className="text-xs font-semibold text-gray-500 mb-2">Źródła:</p>
+    <div
+      className="mt-4 pt-3 border-t"
+      style={{ borderColor: 'var(--border-primary)' }}
+    >
+      <p
+        className="text-xs font-semibold mb-2"
+        style={{ color: 'var(--text-muted)' }}
+      >
+        Źródła:
+      </p>
       <div className="flex flex-wrap gap-2">
         {uniqueSources.map((citation, index) => (
           <button
             key={citation.source_id}
             onClick={() => onCitationClick?.(citation)}
-            className="inline-flex items-center px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded text-xs transition-colors cursor-pointer"
+            className="inline-flex items-center px-2 py-1 rounded text-xs transition-colors cursor-pointer"
+            style={{ backgroundColor: 'var(--bg-tertiary)' }}
           >
-            <span className="w-4 h-4 bg-blue-500 text-white rounded-full text-[10px] flex items-center justify-center mr-1.5 flex-shrink-0">
+            <span
+              className="w-4 h-4 rounded-full text-[10px] flex items-center justify-center mr-1.5 flex-shrink-0"
+              style={{
+                backgroundColor: 'var(--accent-primary)',
+                color: 'var(--text-inverse)'
+              }}
+            >
               {index + 1}
             </span>
-            <span className="text-gray-700 truncate max-w-[200px]">
+            <span
+              className="truncate max-w-[200px]"
+              style={{ color: 'var(--text-secondary)' }}
+            >
               {citation.source_title}
             </span>
           </button>
@@ -123,7 +141,7 @@ const processRichMarkdown = (
 
   // Safety check for null/undefined text
   if (!text || typeof text !== 'string') {
-    return <p className="mb-4 leading-relaxed text-gray-700"></p>;
+    return <p className="mb-4 leading-relaxed" style={{ color: 'var(--text-secondary)' }}></p>;
   }
 
   // Pre-process: normalize markdown structure
@@ -161,15 +179,15 @@ const processRichMarkdown = (
       const headerText = headerMatch[2];
       const HeaderTag = `h${level}` as keyof JSX.IntrinsicElements;
       const headerClasses: { [key: number]: string } = {
-        1: 'text-xl font-bold mt-6 mb-3 text-gray-900',
-        2: 'text-lg font-bold mt-5 mb-2 text-gray-900',
-        3: 'text-base font-semibold mt-4 mb-2 text-gray-800',
-        4: 'text-sm font-semibold mt-3 mb-1 text-gray-800',
-        5: 'text-sm font-medium mt-2 mb-1 text-gray-700',
-        6: 'text-xs font-medium mt-2 mb-1 text-gray-700',
+        1: 'text-xl font-bold mt-6 mb-3',
+        2: 'text-lg font-bold mt-5 mb-2',
+        3: 'text-base font-semibold mt-4 mb-2',
+        4: 'text-sm font-semibold mt-3 mb-1',
+        5: 'text-sm font-medium mt-2 mb-1',
+        6: 'text-xs font-medium mt-2 mb-1',
       };
       elements.push(
-        <HeaderTag key={blockIndex} className={headerClasses[level]}>
+        <HeaderTag key={blockIndex} className={headerClasses[level]} style={{ color: 'var(--text-secondary)' }}>
           {processInlineFormatting(headerText)}
         </HeaderTag>
       );
@@ -181,11 +199,11 @@ const processRichMarkdown = (
     if (unorderedListMatch) {
       const listItems = trimmedBlock.split('\n').filter(line => line.trim());
       elements.push(
-        <ul key={blockIndex} className="list-disc list-outside ml-5 mb-4 space-y-1.5">
+        <ul key={blockIndex} className="list-disc list-outside ml-5 mb-4 space-y-1.5" style={{ color: 'var(--text-secondary)' }}>
           {listItems.map((item, itemIndex) => {
             const itemText = item.replace(/^[\-\*]\s+/, '').trim();
             return (
-              <li key={itemIndex} className="text-gray-700 leading-relaxed pl-1">
+              <li key={itemIndex} className="leading-relaxed pl-1" style={{ color: 'var(--text-secondary)' }}>
                 {processInlineFormatting(itemText)}
               </li>
             );
@@ -223,9 +241,9 @@ const processRichMarkdown = (
 
       if (listItems.length > 0) {
         elements.push(
-          <ol key={blockIndex} className="list-decimal list-outside ml-5 mb-4 space-y-2">
+          <ol key={blockIndex} className="list-decimal list-outside ml-5 mb-4 space-y-2" style={{ color: 'var(--text-secondary)' }}>
             {listItems.map((itemText, itemIndex) => (
-              <li key={itemIndex} className="text-gray-700 leading-relaxed pl-1">
+              <li key={itemIndex} className="leading-relaxed pl-1" style={{ color: 'var(--text-secondary)' }}>
                 {processInlineFormatting(itemText)}
               </li>
             ))}
@@ -239,7 +257,15 @@ const processRichMarkdown = (
     if (trimmedBlock.startsWith('>')) {
       const quoteText = trimmedBlock.replace(/^>\s*/gm, '').trim();
       elements.push(
-        <blockquote key={blockIndex} className="border-l-4 border-gray-300 pl-4 py-2 mb-4 italic text-gray-600 bg-gray-50 rounded-r">
+        <blockquote
+          key={blockIndex}
+          className="border-l-4 pl-4 py-2 mb-4 italic rounded-r"
+          style={{
+            borderColor: 'var(--border-primary)',
+            color: 'var(--text-secondary)',
+            backgroundColor: 'var(--bg-tertiary)'
+          }}
+        >
           {processInlineFormatting(quoteText)}
         </blockquote>
       );
@@ -252,8 +278,12 @@ const processRichMarkdown = (
       if (codeMatch) {
         const code = codeMatch[2].trim();
         elements.push(
-          <pre key={blockIndex} className="bg-gray-100 rounded-lg p-4 mb-4 overflow-x-auto">
-            <code className="text-sm font-mono text-gray-800">{code}</code>
+          <pre
+            key={blockIndex}
+            className="rounded-lg p-4 mb-4 overflow-x-auto"
+            style={{ backgroundColor: 'var(--bg-tertiary)' }}
+          >
+            <code className="text-sm font-mono" style={{ color: 'var(--text-secondary)' }}>{code}</code>
           </pre>
         );
         return;
@@ -275,7 +305,7 @@ const processRichMarkdown = (
     );
 
     elements.push(
-      <p key={blockIndex} className="mb-4 leading-relaxed text-gray-700">
+      <p key={blockIndex} className="mb-4 leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
         {paragraphContent}
         {blockCitations.map((cm, idx) => cm.citation && onCitationClick && (
           <CitationButton
@@ -292,7 +322,7 @@ const processRichMarkdown = (
 
   // If no elements were created, return the text as a simple paragraph
   if (elements.length === 0) {
-    return <p className="mb-4 leading-relaxed text-gray-700">{processInlineFormatting(text)}</p>;
+    return <p className="mb-4 leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{processInlineFormatting(text)}</p>;
   }
 
   return elements;
@@ -319,11 +349,11 @@ const processInlineFormatting = (text: string): React.ReactNode => {
     // Bold (**text** or __text__)
     if (part.match(/^\*\*(.*)\*\*$/)) {
       const content = part.replace(/^\*\*(.*)\*\*$/, '$1');
-      return <strong key={index} className="font-semibold text-gray-900">{content}</strong>;
+      return <strong key={index} className="font-semibold" style={{ color: 'var(--text-secondary)' }}>{content}</strong>;
     }
     if (part.match(/^__(.*?)__$/)) {
       const content = part.replace(/^__(.*?)__$/, '$1');
-      return <strong key={index} className="font-semibold text-gray-900">{content}</strong>;
+      return <strong key={index} className="font-semibold" style={{ color: 'var(--text-secondary)' }}>{content}</strong>;
     }
     // Italic (*text* or _text_)
     if (part.match(/^\*(.*)\*$/) && !part.match(/^\*\*/)) {
@@ -337,14 +367,29 @@ const processInlineFormatting = (text: string): React.ReactNode => {
     // Inline code (`code`)
     if (part.match(/^`([^`]+)`$/)) {
       const content = part.replace(/^`([^`]+)`$/, '$1');
-      return <code key={index} className="bg-gray-100 px-1.5 py-0.5 rounded text-sm font-mono text-pink-600">{content}</code>;
+      return (
+        <code
+          key={index}
+          className="px-1.5 py-0.5 rounded text-sm font-mono"
+          style={{ backgroundColor: 'var(--bg-tertiary)', color: 'var(--accent-hover)' }}
+        >
+          {content}
+        </code>
+      );
     }
     // Link ([text](url))
     if (part.match(/^\[(.*?)\]\((.*?)\)$/)) {
       const match = part.match(/^\[(.*?)\]\((.*?)\)$/);
       if (match) {
         return (
-          <a key={index} href={match[2]} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+          <a
+            key={index}
+            href={match[2]}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:underline"
+            style={{ color: 'var(--accent-primary)' }}
+          >
             {match[1]}
           </a>
         );

@@ -52,17 +52,20 @@ const Profile = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen" style={{ backgroundColor: 'var(--bg-primary)' }}>
         <DashboardHeader userEmail={user?.email} />
         <main className="max-w-4xl mx-auto px-6 py-8">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+          <div
+            className="animate-spin rounded-full h-8 w-8 border-b-2 mx-auto"
+            style={{ borderColor: 'var(--accent-primary)' }}
+          />
         </main>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--bg-primary)' }}>
       <DashboardHeader userEmail={user?.email} />
 
       <main className="max-w-4xl mx-auto px-6 py-8">
@@ -70,12 +73,18 @@ const Profile = () => {
           variant="ghost"
           onClick={() => navigate('/dashboard')}
           className="mb-6"
+          style={{ color: 'var(--text-secondary)' }}
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
           {t('backToDashboard')}
         </Button>
 
-        <h1 className="text-3xl font-medium text-gray-900 mb-8">{t('title')}</h1>
+        <h1
+          className="text-3xl font-medium mb-8"
+          style={{ color: 'var(--text-primary)' }}
+        >
+          {t('title')}
+        </h1>
 
         <div className="space-y-6">
           {/* Profile Information */}
@@ -87,24 +96,28 @@ const Profile = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleUpdateProfile} className="space-y-4">
+              <form onSubmit={handleUpdateProfile} className="space-y-4" autoComplete="on">
                 <div className="space-y-2">
                   <Label htmlFor="email">{t('profileInfo.email')}</Label>
                   <Input
                     id="email"
+                    name="email"
                     type="email"
+                    autoComplete="email"
                     value={profile?.email || ''}
                     disabled
                     className="bg-gray-50"
                   />
-                  <p className="text-sm text-gray-500">{t('profileInfo.emailHelper')}</p>
+                  <p className="text-sm" style={{ color: 'var(--text-muted)' }}>{t('profileInfo.emailHelper')}</p>
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="fullName">{t('profileInfo.fullName')}</Label>
                   <Input
                     id="fullName"
+                    name="fullName"
                     type="text"
+                    autoComplete="name"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     placeholder={t('profileInfo.fullNamePlaceholder')}
@@ -129,25 +142,29 @@ const Profile = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleUpdatePassword} className="space-y-4">
+              <form onSubmit={handleUpdatePassword} className="space-y-4" autoComplete="on">
                 <div className="space-y-2">
                   <Label htmlFor="newPassword">{t('changePassword.newPassword')}</Label>
                   <Input
                     id="newPassword"
+                    name="newPassword"
                     type="password"
+                    autoComplete="new-password"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
                     placeholder={t('changePassword.newPasswordPlaceholder')}
                     minLength={6}
                   />
-                  <p className="text-sm text-gray-500">{t('changePassword.minCharacters')}</p>
+                  <p className="text-sm" style={{ color: 'var(--text-muted)' }}>{t('changePassword.minCharacters')}</p>
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="confirmPassword">{t('changePassword.confirmPassword')}</Label>
                   <Input
                     id="confirmPassword"
+                    name="confirmPassword"
                     type="password"
+                    autoComplete="new-password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     placeholder={t('changePassword.confirmPasswordPlaceholder')}
@@ -156,7 +173,7 @@ const Profile = () => {
                 </div>
 
                 {newPassword && confirmPassword && newPassword !== confirmPassword && (
-                  <p className="text-sm text-red-600">{t('changePassword.mismatch')}</p>
+                  <p className="text-sm" style={{ color: 'var(--error)' }}>{t('changePassword.mismatch')}</p>
                 )}
 
                 <Button
@@ -185,14 +202,14 @@ const Profile = () => {
             </CardHeader>
             <CardContent className="space-y-2">
               <div className="flex justify-between text-sm">
-                <span className="text-gray-500">{t('accountInfo.memberSince')}</span>
-                <span className="font-medium">
+                <span style={{ color: 'var(--text-muted)' }}>{t('accountInfo.memberSince')}</span>
+                <span className="font-medium" style={{ color: 'var(--text-primary)' }}>
                   {profile?.created_at && formatShortDate(new Date(profile.created_at))}
                 </span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-gray-500">{t('accountInfo.lastUpdated')}</span>
-                <span className="font-medium">
+                <span style={{ color: 'var(--text-muted)' }}>{t('accountInfo.lastUpdated')}</span>
+                <span className="font-medium" style={{ color: 'var(--text-primary)' }}>
                   {profile?.updated_at && formatShortDate(new Date(profile.updated_at))}
                 </span>
               </div>

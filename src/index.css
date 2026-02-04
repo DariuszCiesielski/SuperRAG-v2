@@ -49,6 +49,53 @@
     --sidebar-border: 220 13% 91%;
 
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Theme System Variables - domyślne wartości (glass) */
+    --bg-primary: #0f172a;
+    --bg-secondary: rgba(255, 255, 255, 0.1);
+    --bg-tertiary: rgba(255, 255, 255, 0.05);
+    --bg-accent: rgba(255, 255, 255, 0.15);
+
+    --sidebar-bg: rgba(15, 23, 42, 0.8);
+    --sidebar-text: #e2e8f0;
+    --sidebar-hover: rgba(255, 255, 255, 0.1);
+    --sidebar-active: rgba(59, 130, 246, 0.8);
+
+    --header-bg: rgba(15, 23, 42, 0.9);
+    --header-gradient: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.8) 100%);
+    --header-text: #ffffff;
+
+    --text-primary: #ffffff;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+    --text-inverse: #0f172a;
+
+    --border-primary: rgba(255, 255, 255, 0.2);
+    --border-secondary: rgba(255, 255, 255, 0.1);
+    --border-accent: rgba(96, 165, 250, 0.6);
+
+    --accent-primary: #3b82f6;
+    --accent-hover: #60a5fa;
+    --accent-light: rgba(59, 130, 246, 0.2);
+
+    --success: #34d399;
+    --success-light: rgba(52, 211, 153, 0.2);
+    --warning: #fbbf24;
+    --warning-light: rgba(251, 191, 36, 0.2);
+    --error: #f87171;
+    --error-light: rgba(248, 113, 113, 0.2);
+    --info: #60a5fa;
+    --info-light: rgba(96, 165, 250, 0.2);
+
+    --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+    --overlay: rgba(0, 0, 0, 0.6);
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --blur: 12px;
+
+    --scrollbar-track: rgba(255, 255, 255, 0.05);
+    --scrollbar-thumb: rgba(255, 255, 255, 0.2);
+    --scrollbar-thumb-hover: rgba(255, 255, 255, 0.3);
   }
 
   .dark {
